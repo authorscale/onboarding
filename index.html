@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votre interview — AuthorScale</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Epilogue:wght@300;400;500&display=swap');
+
+:root {
+  --bg:        #0e0c0a;
+  --bg2:       #181614;
+  --bg3:       #221f1c;
+  --bg-focus:  #2a2622;
+  --border:    #332e29;
+  --border2:   #453e37;
+
+  --text:      #f0ebe3;
+  --text2:     #b8b0a4;
+  --text3:     #7a7168;
+  --text4:     #524a42;
+
+  --gold:      #e8c97a;
+  --gold2:     #c8a96e;
+  --gold-soft: rgba(232,201,122,0.12);
+
+  --err:       #d97560;
+  --warn:      #d4923a;
+  --ok:        #7ec89a;
+
+  --w: 660px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Epilogue', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+.hdr {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(14,12,10,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hdr-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--text); letter-spacing: 0.04em;
+}
+.hdr-right { display: flex; align-items: center; gap: 20px; }
+.hdr-part {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text3);
+}
+.hdr-part span { color: var(--gold); font-weight: 500; }
+.prog-track {
+  width: 120px; height: 2px;
+  background: var(--border); border-radius: 2px; overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold2), var(--gold));
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+main { padding-top: 72px; }
+
+.screen { display: none; }
+.screen.active { display: block; animation: rise .4s ease forwards; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.welcome {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 80px 40px 140px;
+}
+.eyebrow {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before {
+  content: ''; display: block; width: 32px; height: 1px; background: var(--gold2);
+}
+.welcome h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.08; font-weight: 600;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+.welcome h1 em { font-style: italic; color: var(--gold); }
+.welcome-lead {
+  font-size: 17px; color: var(--text2); line-height: 1.75;
+  max-width: 500px; margin-bottom: 48px; font-weight: 300;
+}
+.interview-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 3px; padding: 12px 20px;
+  margin-bottom: 48px;
+}
+.interview-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--err); animation: pulse 1.8s infinite;
+  box-shadow: 0 0 8px rgba(217,117,96,0.5);
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(0.85); }
+}
+.interview-badge span {
+  font-size: 13px; color: var(--text); font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.stats {
+  display: flex; gap: 40px; margin-bottom: 56px;
+  border-top: 1px solid var(--border); padding-top: 32px;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 600; color: var(--text);
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 12px; color: var(--text3); margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.btn-start {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--gold); color: var(--bg);
+  font-family: 'Epilogue', sans-serif; font-weight: 500;
+  font-size: 15px; padding: 15px 32px;
+  border: none; border-radius: 2px; cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background .2s, transform .15s;
+}
+.btn-start:hover { background: var(--gold2); transform: translateY(-1px); }
+.btn-start svg { transition: transform .2s; }
+.btn-start:hover svg { transform: translateX(4px); }
+
+.part-screen {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 64px 40px 160px;
+}
+.part-header { margin-bottom: 56px; }
+.part-num {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.part-num::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold2); }
+.part-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4.5vw, 46px);
+  line-height: 1.1; font-weight: 600;
+  color: var(--text); margin-bottom: 12px;
+}
+.part-title em { font-style: italic; color: var(--gold); }
+.part-sub {
+  font-size: 15px; color: var(--text2); font-weight: 300;
+  font-style: italic;
+}
+
+.divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 48px 0;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--text4);
+}
+
+.question { margin-bottom: 44px; }
+.q-wrap { display: flex; gap: 20px; }
+.q-idx {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; color: var(--gold);
+  min-width: 24px; padding-top: 2px;
+  font-style: italic;
+}
+.q-body { flex: 1; min-width: 0; }
+.q-text {
+  font-size: 16px; font-weight: 500; color: var(--text);
+  line-height: 1.5; margin-bottom: 6px;
+}
+.q-text.key-question {
+  background: linear-gradient(to right, var(--gold-soft) 0%, transparent 100%);
+  padding: 8px 12px; border-left: 2px solid var(--gold);
+  margin-left: -14px; margin-bottom: 8px;
+}
+.q-text.key-question::before {
+  content: 'QUESTION CLÉ';
+  display: block; font-family: 'Epilogue', sans-serif;
+  font-size: 10px; letter-spacing: 0.18em;
+  color: var(--gold); font-weight: 500; margin-bottom: 4px;
+}
+.q-hint {
+  font-size: 13px; color: var(--text3); font-weight: 300;
+  font-style: italic; margin-bottom: 14px; line-height: 1.5;
+}
+.q-hint strong { font-weight: 500; color: var(--text2); font-style: normal; }
+.q-req { color: var(--gold); margin-left: 2px; font-size: 13px; }
+.q-opt {
+  font-size: 11px; color: var(--text3); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-left: 6px;
+}
+
+.q-input, .q-textarea {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Epilogue', sans-serif;
+  font-size: 14px; font-weight: 300;
+  padding: 14px 16px;
+  border-radius: 2px;
+  resize: vertical;
+  line-height: 1.65;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.q-input::placeholder, .q-textarea::placeholder { color: var(--text4); }
+.q-input:focus, .q-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232,201,122,0.12);
+  background: var(--bg-focus);
+}
+.q-textarea { min-height: 110px; }
+.q-textarea.lg { min-height: 180px; }
+.q-input.err, .q-textarea.err { border-color: var(--err); }
+.q-errmsg { font-size: 12px; color: var(--err); margin-top: 6px; display: none; }
+.q-errmsg.on { display: block; }
+.q-warnmsg { font-size: 12px; color: var(--warn); margin-top: 6px; display: none; font-style: italic; }
+.q-warnmsg.on { display: block; }
+
+.sub-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border2);
+  border-radius: 0 2px 2px 0;
+  padding: 20px 20px 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 4px;
+}
+.sub-item label {
+  display: block; font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 6px; font-weight: 500;
+}
+
+.phrases { display: flex; flex-direction: column; gap: 10px; }
+.phrase-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 10px 14px;
+  transition: background .2s, border-color .2s;
+}
+.phrase-row:focus-within {
+  background: var(--bg-focus);
+  border-color: var(--gold);
+}
+.phrase-prefix {
+  font-size: 13px; color: var(--text2); font-style: italic;
+  white-space: nowrap; min-width: fit-content;
+}
+.phrase-input {
+  flex: 1; background: transparent; border: none;
+  color: var(--text); font-family: 'Epilogue', sans-serif;
+  font-size: 14px; font-weight: 300;
+  outline: none;
+  padding: 4px 0;
+  min-width: 0;
+}
+.phrase-input::placeholder { color: var(--text4); }
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+.choice-btn {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text2); border-radius: 2px;
+  padding: 12px 14px; cursor: pointer;
+  font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 400;
+  text-align: center;
+  transition: all .2s;
+  min-height: 50px;
+  line-height: 1.3;
+}
+.choice-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+.choice-btn.active {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+.check-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text2); border-radius: 2px;
+  padding: 10px 14px; cursor: pointer;
+  font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 400;
+  transition: all .2s;
+}
+.check-btn:hover { border-color: var(--border2); color: var(--text); }
+.check-btn.active {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.check-mark {
+  width: 14px; height: 14px;
+  border: 1px solid var(--text3);
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.check-btn.active .check-mark {
+  background: var(--gold); border-color: var(--gold);
+}
+.check-btn.active .check-mark::after {
+  content: ''; width: 6px; height: 6px; background: var(--bg);
+  border-radius: 1px;
+}
+
+.sliders-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 18px;
+  margin-top: 4px;
+}
+.slider-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 32px;
+  gap: 16px;
+  align-items: center;
+}
+.slider-label {
+  font-size: 13px; color: var(--text);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.slider-label small {
+  display: block; font-size: 11px; color: var(--text3);
+  font-weight: 300; font-style: italic; margin-top: 2px;
+}
+.slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+}
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px;
+  background: var(--gold);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--gold);
+  transition: transform .15s;
+}
+.slider-input::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.slider-input::-moz-range-thumb {
+  width: 18px; height: 18px;
+  background: var(--gold);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.slider-input.untouched::-webkit-slider-thumb {
+  background: var(--text4);
+  box-shadow: 0 0 0 1px var(--text3);
+}
+.slider-input.untouched::-moz-range-thumb {
+  background: var(--text4);
+  box-shadow: 0 0 0 1px var(--text3);
+}
+.slider-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--gold);
+  text-align: right; font-weight: 600;
+}
+.slider-value.untouched { color: var(--text4); }
+
+.sliders-warn {
+  font-size: 12px; color: var(--warn);
+  margin-top: 12px; font-style: italic;
+  display: none;
+}
+.sliders-warn.on { display: block; }
+
+.radar-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px;
+  margin-top: 20px;
+  text-align: center;
+}
+.radar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--text);
+  margin-bottom: 6px;
+}
+.radar-sub {
+  font-size: 12px; color: var(--text3);
+  font-style: italic; margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+.radar-svg {
+  width: 100%; max-width: 360px;
+  height: auto; margin: 0 auto; display: block;
+}
+.radar-legend {
+  font-size: 12px; color: var(--text3);
+  margin-top: 20px; font-style: italic;
+  line-height: 1.5; max-width: 380px;
+  margin-left: auto; margin-right: auto;
+}
+
+.nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(14,12,10,0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 18px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.btn-nav {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text2);
+  font-family: 'Epilogue', sans-serif; font-weight: 400;
+  font-size: 14px; padding: 10px 20px;
+  border: 1px solid var(--border); border-radius: 2px;
+  cursor: pointer; transition: all .2s; letter-spacing: 0.02em;
+}
+.btn-nav:hover { border-color: var(--border2); color: var(--text); background: var(--bg2); }
+.btn-nav:disabled { opacity: .3; cursor: default; pointer-events: none; }
+.btn-next {
+  background: var(--gold); color: var(--bg);
+  border-color: var(--gold);
+}
+.btn-next:hover { background: var(--gold2); color: var(--bg); border-color: var(--gold2); }
+.nav-mid {
+  font-size: 12px; color: var(--text3); letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.confirm {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 80px 40px 140px;
+  text-align: center;
+}
+.confirm-check {
+  width: 56px; height: 56px;
+  border: 1.5px solid var(--ok);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 40px;
+  box-shadow: 0 0 24px rgba(126,200,154,0.15);
+}
+.confirm-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 5vw, 50px);
+  line-height: 1.1; margin-bottom: 20px;
+  color: var(--text); font-weight: 600;
+}
+.confirm-txt {
+  font-size: 16px; color: var(--text2); font-weight: 300;
+  line-height: 1.75; max-width: 460px;
+  margin: 0 auto 48px;
+}
+.steps-block {
+  text-align: left;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px 32px;
+  max-width: 440px;
+  margin: 0 auto 40px;
+}
+.steps-block h3 {
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px;
+}
+.step-row {
+  display: flex; gap: 16px; align-items: flex-start;
+  margin-bottom: 16px;
+}
+.step-row:last-child { margin-bottom: 0; }
+.step-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; color: var(--gold); line-height: 1.3; min-width: 20px;
+}
+.step-t { font-size: 14px; color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-t strong { color: var(--text); font-weight: 500; }
+.btn-export {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold); color: var(--bg);
+  font-family: 'Epilogue', sans-serif; font-weight: 500;
+  font-size: 15px; padding: 15px 32px;
+  border: none; border-radius: 2px; cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background .2s, transform .15s;
+}
+.btn-export:hover { background: var(--gold2); transform: translateY(-1px); }
+
+::selection { background: var(--gold); color: var(--bg); }
+
+@media (max-width: 600px) {
+  .hdr { padding: 12px 20px; }
+  .prog-track { width: 80px; }
+  .welcome, .part-screen, .confirm { padding-left: 20px; padding-right: 20px; }
+  .stats { gap: 24px; }
+  .nav { padding: 14px 20px; }
+  .q-wrap { gap: 14px; }
+  .slider-row { grid-template-columns: 110px 1fr 28px; gap: 10px; }
+  .sliders-box { padding: 18px; }
+}
+
+@media (max-width: 480px) {
+  .phrase-row { flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 14px; }
+  .phrase-prefix { white-space: normal; font-size: 12px; }
+  .phrase-input { padding: 6px 0 2px; font-size: 14px; }
+  .slider-row { grid-template-columns: 1fr; gap: 6px; }
+  .slider-value { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">AuthorScale</div>
+  <div class="hdr-right">
+    <div class="hdr-part" id="hdrPart">—</div>
+    <div class="prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progBar">
+      <div class="prog-fill" id="progFill"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ SCREEN 0 : WELCOME ═══ -->
+<div class="screen active" id="s0">
+  <div class="welcome">
+    <h1>Avant les posts,<br><em>parlons de vous.</em></h1>
+    <p class="welcome-lead">
+      On écrira pour vous, mais jamais sans vous. Cette interview, c'est là que tout se joue.
+    </p>
+    <div class="interview-badge">
+      <div class="dot" aria-hidden="true"></div>
+      <span>Interview en cours d'enregistrement</span>
+    </div>
+    <div class="stats">
+      <div class="stat-item"><div class="stat-num">25</div><div class="stat-lbl">questions</div></div>
+      <div class="stat-item"><div class="stat-num">22'</div><div class="stat-lbl">durée estimée</div></div>
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">chapitres</div></div>
+    </div>
+    <button class="btn-start" onclick="go(1)" aria-label="Commencer l'interview">
+      Commencer l'interview
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 1 : QUI VOUS ÊTES (3 Q) ═══ -->
+<div class="screen" id="s1">
+  <div class="part-screen">
+    <div class="part-header">
+      <div class="part-num">Chapitre 1 / 4</div>
+      <h2 class="part-title">Racontez-moi<br><em>qui vous êtes.</em></h2>
+      <p class="part-sub">Pas le pitch LinkedIn. La vraie version.</p>
+    </div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">01</div><div class="q-body">
+        <div class="q-text">Si on vous demandait de vous présenter à un inconnu lors d'un dîner — sans le discours poli — vous diriez quoi ?<span class="q-req">*</span></div>
+        <div class="q-hint">3 phrases max. La version que vous diriez à quelqu'un que vous venez de trouver sympa, pas à un prospect.</div>
+        <textarea class="q-textarea" id="q1" placeholder="Ex : « Je suis le genre de consultant qui arrive avec des questions inconfortables. J'ai passé 8 ans en usine avant de faire du conseil, ce qui change pas mal ma lecture des situations. En gros : je vois ce que les autres ne voient pas parce qu'ils n'ont jamais mis les mains dedans. »"></textarea>
+        <div class="q-errmsg" id="err-q1">Répondez à cette question — c'est la base de tout.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">02</div><div class="q-body">
+        <div class="q-text">Quelle est la chose que vous faites mieux que 95% de vos pairs — et pourquoi vous en êtes convaincu(e) ?<span class="q-req">*</span></div>
+        <div class="q-hint">Pas de fausse modestie. Et pas de généralité non plus — « je suis à l'écoute » ne compte pas.</div>
+        <textarea class="q-textarea" id="q2" placeholder="Ex : « Je diagnostique les vrais blocages d'une équipe en 2h d'entretien là où d'autres passent 3 semaines. Je le sais parce que mes clients me le disent systématiquement, et parce que j'ai comparé mes livrables avec ceux de concurrents sur les mêmes sujets. »"></textarea>
+        <div class="q-errmsg" id="err-q2">Répondez à cette question.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">03</div><div class="q-body">
+        <div class="q-text">Ce que vos clients disent de vous que vous n'auriez jamais dit de vous-même.<span class="q-req">*</span></div>
+        <div class="q-hint">Le mot ou la phrase qui revient dans les retours, les témoignages, les recommandations. Souvent, c'est ce qui sonne le plus juste.</div>
+        <textarea class="q-textarea" id="q3" placeholder="Ex : « Ils disent que je 'démystifie' les sujets complexes. Je n'aurais jamais utilisé ce mot pour moi — je pensais juste faire mon boulot. Mais ça revient dans presque tous les témoignages. »"></textarea>
+        <div class="q-errmsg" id="err-q3">Répondez à cette question.</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 2 : COMMENT VOUS PENSEZ (7 Q) ═══ -->
+<div class="screen" id="s2">
+  <div class="part-screen">
+    <div class="part-header">
+      <div class="part-num">Chapitre 2 / 4</div>
+      <h2 class="part-title">Racontez-moi<br>comment vous<br><em>pensez.</em></h2>
+      <p class="part-sub">Vos convictions, vos lignes rouges, ce qui vous met en colère.</p>
+    </div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">04</div><div class="q-body">
+        <div class="q-text">Quelle est LA chose que tout le monde dit dans votre secteur — et qui vous énerve parce que c'est faux ?<span class="q-req">*</span></div>
+        <div class="q-hint">La croyance dominante que vous trouvez dangereuse, sur-vendue, ou tout simplement mensongère.</div>
+        <textarea class="q-textarea" id="q4" placeholder="Ex : « L'idée que 'tout le monde peut devenir entrepreneur' est dangereuse. Elle pousse des gens à tout quitter sans être préparés. C'est du marketing déguisé en inspiration. »"></textarea>
+        <div class="q-errmsg" id="err-q4">Répondez à cette question.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">05</div><div class="q-body">
+        <div class="q-text">Qu'est-ce que vous avez envie de dire sur LinkedIn que vous n'avez jamais osé dire — ou que vous avez dit en retenant vos mots ?<span class="q-req">*</span></div>
+        <div class="q-hint">Le truc un peu risqué, un peu clivant, qui vous tient à cœur mais que vous ne publiez jamais vraiment.</div>
+        <textarea class="q-textarea lg" id="q5" placeholder="Ex : « J'ai envie de dire que la plupart des formations en management sont du vent. Que les entreprises qui se disent bienveillantes sont souvent les plus toxiques. Mais je n'ose pas parce que j'ai des clients dans ces boîtes. »"></textarea>
+        <div class="q-errmsg" id="err-q5">Répondez à cette question.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">06</div><div class="q-body">
+        <div class="q-text">Montrez-moi un post LinkedIn qui vous a fait lever les yeux au ciel. Qu'est-ce qui ne va pas ?<span class="q-req">*</span></div>
+        <div class="q-hint">Lien, extrait ou description du type de post. <strong>Ce qu'on cherche : ce que vous détestez stylistiquement</strong> — c'est aussi important que ce que vous aimez.</div>
+        <div class="sub-block">
+          <div class="sub-item">
+            <label>Le post (lien ou description)</label>
+            <textarea class="q-textarea" id="q6a" placeholder="Ex : « Les posts qui commencent par 'Dans un monde qui change de plus en plus vite...' ou les '10 leçons apprises après 10 ans d'entrepreneuriat'. »" rows="3"></textarea>
+          </div>
+          <div class="sub-item">
+            <label>Ce qui vous dérange précisément</label>
+            <textarea class="q-textarea" id="q6b" placeholder="Ex : « C'est creux. Il n'y a aucune prise de position réelle. Il dit des évidences en faisant comme si c'étaient des révélations. »" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="q-errmsg" id="err-q6">Répondez à cette question — au moins le premier champ.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">07</div><div class="q-body">
+        <div class="q-text">Quelle image ne voulez-vous JAMAIS donner sur LinkedIn — même involontairement ?<span class="q-req">*</span></div>
+        <div class="q-hint">Ex : « le guru qui donne des leçons », « le commercial qui vend à tout prix », « l'expert théorique déconnecté du terrain »...</div>
+        <textarea class="q-textarea" id="q7" placeholder="Ex : « Je ne veux surtout pas passer pour quelqu'un qui vend des formations ou qui donne des leçons de vie. Et je ne veux pas être perçu comme 'l'expert IA' générique — il y en a des milliers. »"></textarea>
+        <div class="q-errmsg" id="err-q7">Répondez à cette question.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">08</div><div class="q-body">
+        <div class="q-text">Y a-t-il des sujets, des personnes ou des marques que vous refusez d'aborder sur LinkedIn — même pour les critiquer ?<span class="q-req">*</span></div>
+        <div class="q-hint">Les tabous absolus. Ce qui est hors-jeu, quelles que soient les circonstances.</div>
+        <div class="sub-block">
+          <div class="sub-item">
+            <label>Sujets hors-jeu</label>
+            <input class="q-input" id="q8a" type="text" placeholder="Ex : politique, vie personnelle, concurrents nommément...">
+          </div>
+          <div class="sub-item">
+            <label>Personnes ou marques à ne jamais citer (ni en bien ni en mal)</label>
+            <input class="q-input" id="q8b" type="text" placeholder="Ex : noms de clients, concurrents directs...">
+          </div>
+          <div class="sub-item">
+            <label>Pourquoi ces lignes rouges</label>
+            <textarea class="q-textarea" id="q8c" placeholder="Ex : « J'ai des clients dans ces secteurs. Ou simplement : ça ne me ressemble pas. »" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="q-errmsg" id="err-q8">Renseignez au moins les sujets hors-jeu ou les personnes à ne jamais citer.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">09</div><div class="q-body">
+        <div class="q-text">En quoi vous différenciez-vous vraiment de vos concurrents — ce que vous faites ou dites qu'eux ne font pas ?<span class="q-req">*</span></div>
+        <div class="q-hint">Ce qui vous rend difficilement remplaçable. Pas le storytelling marketing — la vraie différence opérationnelle.</div>
+        <textarea class="q-textarea" id="q9" placeholder="Ex : « Mes concurrents vendent des méthodes. Moi je vends un diagnostic sur-mesure. Ils montrent des slides, moi je pose des questions. Ils promettent des résultats en 90 jours, moi je refuse de promettre ce que je ne contrôle pas. »"></textarea>
+        <div class="q-errmsg" id="err-q9">Répondez à cette question.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">10</div><div class="q-body">
+        <div class="q-text">Il y a un profil LinkedIn dans votre niche que vous ne voulez SURTOUT PAS ressembler. Qui — et pourquoi ?<span class="q-opt">optionnel</span></div>
+        <div class="q-hint">Pas besoin de nommer — décrivez le style, le positionnement, la façon d'écrire qui vous fait fuir.</div>
+        <div class="sub-block">
+          <div class="sub-item">
+            <label>Le profil (ou le type de profil)</label>
+            <input class="q-input" id="q10a" type="text" placeholder="Ex : « Le coach motivation qui poste tous les matins » ou un lien direct">
+          </div>
+          <div class="sub-item">
+            <label>Ce que vous refusez absolument d'incarner</label>
+            <textarea class="q-textarea" id="q10b" placeholder="Ex : « Il fait des posts ultra-motivationnels sans fond. Pas de vraie expertise, que de la forme. Tout est calculé pour le like. »" rows="3"></textarea>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 3 : COMMENT VOUS ÉCRIVEZ (9 Q : 11-19) ═══ -->
+<div class="screen" id="s3">
+  <div class="part-screen">
+    <div class="part-header">
+      <div class="part-num">Chapitre 3 / 4</div>
+      <h2 class="part-title">Racontez-moi<br>comment vous<br><em>écrivez.</em></h2>
+      <p class="part-sub">Votre langue, vos tics, votre façon d'argumenter.</p>
+    </div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">11</div><div class="q-body">
+        <div class="q-text key-question">Expliquez-moi votre boulot comme si vous parliez à un ami proche — pas à un prospect.<span class="q-req">*</span></div>
+        <div class="q-hint">La version brute, sans le discours poli. Les vraies formulations que vous utilisez, pas celles que vous avez préparées. <strong>C'est la question la plus importante de cette interview.</strong></div>
+        <textarea class="q-textarea lg" id="q11" placeholder="Ex : « En gros je prends des boîtes qui sont en train de se planter et je leur dis ce que personne n'ose leur dire. Je passe 2 jours avec eux, je pose des questions chelou, et en général ils comprennent en 48h pourquoi ça bloque depuis 2 ans. C'est ça mon truc. »"></textarea>
+        <div class="q-errmsg" id="err-q11">C'est la question la plus importante — prenez le temps d'y répondre honnêtement.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">12</div><div class="q-body">
+        <div class="q-text">Complétez ces phrases — sans réfléchir trop longtemps.<span class="q-req">*</span></div>
+        <div class="q-hint">La première réponse qui vient est souvent la plus vraie. <strong>Au moins 3 phrases sur 5.</strong></div>
+        <div class="phrases">
+          <div class="phrase-row"><span class="phrase-prefix">Je tutoie mes lecteurs parce que...</span><input class="phrase-input" id="q12a" type="text" placeholder="..."></div>
+          <div class="phrase-row"><span class="phrase-prefix">L'humour dans mes posts, c'est...</span><input class="phrase-input" id="q12b" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
+          <div class="phrase-row"><span class="phrase-prefix">Les chiffres dans mes posts, c'est...</span><input class="phrase-input" id="q12c" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
+          <div class="phrase-row"><span class="phrase-prefix">Je raconte des histoires perso...</span><input class="phrase-input" id="q12d" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
+          <div class="phrase-row"><span class="phrase-prefix">Prendre des positions tranchées...</span><input class="phrase-input" id="q12e" type="text" placeholder="j'adore / ça me fait peur / je le fais quand..."></div>
+        </div>
+        <div class="q-errmsg" id="err-q12">Complétez au moins 3 phrases.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">13</div><div class="q-body">
+        <div class="q-text">Quand vous voulez convaincre quelqu'un, par quoi vous commencez naturellement ?<span class="q-req">*</span></div>
+        <div class="q-hint">Une seule réponse — celle qui vous correspond le plus, même si vous faites parfois autrement.</div>
+        <div class="choice-grid" id="q13-choices">
+          <div class="choice-btn" data-val="chiffre">Un chiffre ou un fait précis</div>
+          <div class="choice-btn" data-val="histoire">Une histoire ou un exemple concret</div>
+          <div class="choice-btn" data-val="affirmation">Une affirmation provocante</div>
+          <div class="choice-btn" data-val="question">Une question qui dérange</div>
+        </div>
+        <input type="hidden" id="q13" value="">
+        <div class="q-errmsg" id="err-q13">Faites un choix.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">14</div><div class="q-body">
+        <div class="q-text">Quels types de preuves vous utilisez naturellement pour appuyer vos idées ?<span class="q-req">*</span></div>
+        <div class="q-hint">Cochez tout ce qui s'applique. <strong>2 à 4 réponses idéalement.</strong></div>
+        <div class="check-grid" id="q14-choices">
+          <div class="check-btn" data-val="chiffres"><span class="check-mark"></span>Chiffres et stats</div>
+          <div class="check-btn" data-val="anecdotes"><span class="check-mark"></span>Anecdotes clients</div>
+          <div class="check-btn" data-val="experience"><span class="check-mark"></span>Mon expérience perso</div>
+          <div class="check-btn" data-val="citations"><span class="check-mark"></span>Citations d'autorités</div>
+          <div class="check-btn" data-val="etudes"><span class="check-mark"></span>Études ou recherches</div>
+          <div class="check-btn" data-val="analogies"><span class="check-mark"></span>Analogies / métaphores</div>
+        </div>
+        <input type="hidden" id="q14" value="">
+        <div class="q-errmsg" id="err-q14">Cochez au moins 1 type de preuve.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">15</div><div class="q-body">
+        <div class="q-text">Vos métaphores et comparaisons viennent plutôt de quels univers ?<span class="q-opt">optionnel</span></div>
+        <div class="q-hint">Quand vous expliquez quelque chose de complexe, vous tirez vos comparaisons d'où ? Cochez 1 à 3 univers max.</div>
+        <div class="check-grid" id="q15-choices">
+          <div class="check-btn" data-val="sport"><span class="check-mark"></span>Sport</div>
+          <div class="check-btn" data-val="cuisine"><span class="check-mark"></span>Cuisine</div>
+          <div class="check-btn" data-val="guerre"><span class="check-mark"></span>Guerre / stratégie</div>
+          <div class="check-btn" data-val="voyage"><span class="check-mark"></span>Voyage</div>
+          <div class="check-btn" data-val="science"><span class="check-mark"></span>Sciences / nature</div>
+          <div class="check-btn" data-val="art"><span class="check-mark"></span>Art / musique</div>
+          <div class="check-btn" data-val="cinema"><span class="check-mark"></span>Cinéma / séries</div>
+          <div class="check-btn" data-val="tech"><span class="check-mark"></span>Tech / ingénierie</div>
+        </div>
+        <input type="hidden" id="q15" value="">
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">16</div><div class="q-body">
+        <div class="q-text">Quand vous écrivez à votre audience, quelle posture vous adoptez le plus souvent ?<span class="q-req">*</span></div>
+        <div class="q-hint">Une seule réponse. Pas celle que vous voudriez être — celle que vous êtes vraiment.</div>
+        <div class="choice-grid" id="q16-choices">
+          <div class="choice-btn" data-val="enseignant">L'enseignant qui transmet</div>
+          <div class="choice-btn" data-val="pair">Le pair qui partage</div>
+          <div class="choice-btn" data-val="provocateur">Le provocateur qui dérange</div>
+          <div class="choice-btn" data-val="confident">Le confident qui se livre</div>
+        </div>
+        <input type="hidden" id="q16" value="">
+        <div class="q-errmsg" id="err-q16">Faites un choix.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">17</div><div class="q-body">
+        <div class="q-text">Quel format de post LinkedIn vous correspond le mieux ?<span class="q-req">*</span></div>
+        <div class="q-hint">Cochez 1 ou 2 formats que vous aimez vraiment écrire.</div>
+        <div class="check-grid" id="q17-choices">
+          <div class="check-btn" data-val="court"><span class="check-mark"></span>Post court (&lt; 150 mots)</div>
+          <div class="check-btn" data-val="long"><span class="check-mark"></span>Post long (&gt; 400 mots)</div>
+          <div class="check-btn" data-val="liste"><span class="check-mark"></span>Liste numérotée</div>
+          <div class="check-btn" data-val="story"><span class="check-mark"></span>Storytelling narratif</div>
+          <div class="check-btn" data-val="opinion"><span class="check-mark"></span>Opinion tranchée</div>
+          <div class="check-btn" data-val="cas"><span class="check-mark"></span>Cas client / retex</div>
+        </div>
+        <input type="hidden" id="q17" value="">
+        <div class="q-errmsg" id="err-q17">Cochez au moins 1 format.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">18</div><div class="q-body">
+        <div class="q-text">Les émojis dans vos posts, c'est quoi votre relation ?<span class="q-req">*</span></div>
+        <div class="q-hint">Une réponse.</div>
+        <div class="choice-grid" id="q18-choices">
+          <div class="choice-btn" data-val="jamais">Jamais — ça me sort par les yeux</div>
+          <div class="choice-btn" data-val="parfois">Parfois, pour ponctuer une idée</div>
+          <div class="choice-btn" data-val="souvent">Souvent, c'est ma signature</div>
+        </div>
+        <input type="hidden" id="q18" value="">
+        <div class="q-errmsg" id="err-q18">Faites un choix.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <!-- Q19 = rythme d'écriture (déplacée du chap 4 vers ici - BUG #3 FIX) -->
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">19</div><div class="q-body">
+        <div class="q-text">Quand vous écrivez, vous préférez : phrases courtes et hachées, ou phrases longues et construites ?<span class="q-req">*</span></div>
+        <div class="q-hint">Le rythme naturel de votre écriture.</div>
+        <div class="choice-grid" id="q19-choices">
+          <div class="choice-btn" data-val="courtes">Courtes. Hachées. Impact.</div>
+          <div class="choice-btn" data-val="alternees">Alternées — court + long pour rythmer</div>
+          <div class="choice-btn" data-val="longues">Longues, construites, denses</div>
+        </div>
+        <input type="hidden" id="q19" value="">
+        <div class="q-errmsg" id="err-q19">Faites un choix.</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 4 : SIGNATURE ÉDITORIALE (6 Q : 20-25) ═══ -->
+<div class="screen" id="s4">
+  <div class="part-screen">
+    <div class="part-header">
+      <div class="part-num">Chapitre 4 / 4</div>
+      <h2 class="part-title">Votre<br><em>signature éditoriale.</em></h2>
+      <p class="part-sub">Réglez les curseurs comme vous vous voyez écrire. Vous verrez votre voix se dessiner.</p>
+    </div>
+
+    <!-- Q20 = sliders 6 axes (était q19 en v5) -->
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">20</div><div class="q-body">
+        <div class="q-text">Sur ces 6 axes, où vous situez-vous quand vous écrivez ?<span class="q-req">*</span></div>
+        <div class="q-hint">0 = quasi absent. 10 = très présent. Ce n'est pas un test — c'est votre déclaration. L'analyse de vos textes confirmera ou nuancera. <strong>Touchez chaque curseur</strong> (même pour confirmer 5/10).</div>
+        <div class="sliders-box">
+          <div class="slider-row">
+            <div class="slider-label">Chaleur<small>proximité, sincérité</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20a" data-touched="0">
+            <div class="slider-value untouched" id="q20a-val">5</div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-label">Autorité<small>assurance, expertise</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20b" data-touched="0">
+            <div class="slider-value untouched" id="q20b-val">5</div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-label">Humour<small>autodérision, légèreté</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20c" data-touched="0">
+            <div class="slider-value untouched" id="q20c-val">5</div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-label">Vulnérabilité<small>partager doutes, échecs</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20d" data-touched="0">
+            <div class="slider-value untouched" id="q20d-val">5</div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-label">Combativité<small>prises de position</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20e" data-touched="0">
+            <div class="slider-value untouched" id="q20e-val">5</div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-label">Pédagogie<small>expliquer, décomposer</small></div>
+            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20f" data-touched="0">
+            <div class="slider-value untouched" id="q20f-val">5</div>
+          </div>
+          <div class="sliders-warn" id="warn-q20">Touchez au moins 4 curseurs sur 6 pour confirmer votre auto-évaluation.</div>
+        </div>
+
+        <div class="radar-box">
+          <div class="radar-title">La forme de votre voix éditoriale</div>
+          <div class="radar-sub">— telle que vous la déclarez —</div>
+          <svg class="radar-svg" viewBox="0 0 380 380" id="radarSvg" role="img" aria-label="Radar des 6 axes de votre voix éditoriale"></svg>
+          <div class="radar-legend">Voici la forme de votre voix éditoriale telle que vous la déclarez. Notre analyse du corpus viendra confirmer ou nuancer ce profil.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">21</div><div class="q-body">
+        <div class="q-text">Y a-t-il des mots ou des formules qui reviennent tout le temps quand vous parlez — que vos proches pourraient imiter ?<span class="q-opt">optionnel</span></div>
+        <div class="q-hint">Les tics de langage, les expressions fétiches, les connecteurs que vous surutilisez sans vous en rendre compte.</div>
+        <textarea class="q-textarea" id="q21" placeholder="Ex : « Je dis tout le temps 'concrètement', 'en pratique', 'la vraie question c'est...'. Et je n'utilise jamais le mot 'synergies' — ça me sort de mes gonds. »"></textarea>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">22</div><div class="q-body">
+        <div class="q-text">Montrez-moi 1 ou 2 posts LinkedIn que vous aimeriez avoir écrits.<span class="q-opt">optionnel</span></div>
+        <div class="q-hint"><strong>Attention : ce qui nous intéresse, c'est leur façon d'écrire — pas leur sujet.</strong> Le rythme, la structure, le ton.</div>
+        <div class="sub-block">
+          <div class="sub-item">
+            <label>Post 1 — lien ou texte</label>
+            <textarea class="q-textarea" id="q22a" placeholder="Lien ou extrait du post..." rows="3"></textarea>
+            <label style="margin-top:10px">Ce qui vous attire dans sa façon d'écrire</label>
+            <textarea class="q-textarea" id="q22a2" placeholder="Ex : « Court, dense, une seule idée par post. »" rows="2"></textarea>
+          </div>
+          <div class="sub-item">
+            <label>Post 2 — optionnel</label>
+            <textarea class="q-textarea" id="q22b" placeholder="Lien ou extrait du post..." rows="3"></textarea>
+            <label style="margin-top:10px">Ce qui vous attire dans sa façon d'écrire</label>
+            <textarea class="q-textarea" id="q22b2" placeholder="..." rows="2"></textarea>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">23</div><div class="q-body">
+        <div class="q-text key-question">Listez vos posts LinkedIn existants — liens ou textes complets. <strong>Minimum 15, idéalement 20+.</strong><span class="q-req">*</span></div>
+        <div class="q-hint">C'est la matière première de l'analyse. Plus vous en donnez, plus le résultat sera précis. Si vous n'avez pas assez de posts, complétez avec la question 24 (emails, transcriptions, commentaires longs).</div>
+        <div class="sub-block">
+          <div class="sub-item">
+            <label>Nombre de textes fournis</label>
+            <input class="q-input" id="q23count" type="number" min="0" max="500" placeholder="Ex : 22" oninput="checkCount()" style="max-width:160px">
+            <div class="q-warnmsg" id="warn-q23count">Moins de 15 textes — l'analyse sera moins précise. Pensez à compléter avec la question 24.</div>
+          </div>
+          <div class="sub-item">
+            <label>Collez vos textes ici (liens ou textes complets)</label>
+            <textarea class="q-textarea" id="q23" style="min-height:220px" rows="10"></textarea>
+          </div>
+        </div>
+        <div class="q-errmsg" id="err-q23">C'est obligatoire — collez au moins quelques textes, même si vous n'en avez pas 15.</div>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">24</div><div class="q-body">
+        <div class="q-text">Y a-t-il des textes hors LinkedIn — emails, messages longs, prises de parole, commentaires détaillés — que vous voulez ajouter au corpus ?<span class="q-opt">optionnel</span></div>
+        <div class="q-hint">Ces textes non édités révèlent souvent votre voix la plus authentique. Collez-les directement ici.</div>
+        <textarea class="q-textarea lg" id="q24" placeholder="Collez ici emails longs, commentaires, transcriptions... tout ce qui est écrit dans votre voix naturelle." rows="6"></textarea>
+      </div></div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+    <div class="question">
+      <div class="q-wrap"><div class="q-idx">25</div><div class="q-body">
+        <div class="q-text">Pour finir : racontez-nous une histoire que vous n'avez jamais publiée — un échec, un retournement, un moment de vérité — qui dit quelque chose d'essentiel sur qui vous êtes.<span class="q-opt">optionnel</span></div>
+        <div class="q-hint">Les meilleurs posts viennent souvent de là. Pas besoin de polir — racontez-la comme elle vous vient.</div>
+        <textarea class="q-textarea lg" id="q25" placeholder="Ex : « L'échec de ma première boîte. Je n'en ai jamais parlé publiquement. Voilà ce qui s'est vraiment passé... »" rows="6"></textarea>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 5 : CONFIRMATION ═══ -->
+<div class="screen" id="s5">
+  <div class="confirm">
+    <div class="confirm-check">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12l5 5 9-10" stroke="#7ec89a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h1 class="confirm-h1">Interview<br>terminée.</h1>
+    <p class="confirm-txt">Merci pour ces réponses. Maintenant une seule chose : exportez votre fichier et renvoyez-le nous. On s'occupe du reste.</p>
+    <div class="steps-block">
+      <h3>Ce qui se passe ensuite</h3>
+      <div class="step-row"><div class="step-n">1</div><div class="step-t">Cliquez sur <strong>« Exporter mes réponses »</strong> — un fichier .txt est généré.</div></div>
+      <div class="step-row"><div class="step-n">2</div><div class="step-t">Envoyez-le par email ou WhatsApp à votre consultant.</div></div>
+      <div class="step-row"><div class="step-n">3</div><div class="step-t">Sous 48h, votre Voice Profile est analysé. La production commence.</div></div>
+    </div>
+
+    <div style="max-width:440px;margin:0 auto 32px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;text-align:left;">
+      <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-family:'Epilogue',sans-serif;">Données &amp; confidentialité</div>
+      <p style="font-size:12px;color:var(--text3);line-height:1.7;font-weight:300;font-family:'Epilogue',sans-serif;">Les informations recueillies sont destinées exclusivement à <strong style="color:var(--text2);font-weight:500;">AuthorScale</strong> pour l'analyse de votre voix éditoriale. Elles ne sont jamais transmises à des tiers. Aucune donnée n'est stockée sur nos serveurs — votre fichier reste sur votre appareil jusqu'à ce que vous nous l'envoyiez volontairement.<br><br>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression. Contact : <strong style="color:var(--text2);font-weight:500;">contact@authorscale.com</strong></p>
+    </div>
+
+    <button class="btn-export" onclick="exportTxt()" aria-label="Exporter vos réponses en fichier texte">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+        <path d="M8.5 2v9M4.5 7l4 4 4-4M2.5 14h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Exporter mes réponses (.txt)
+    </button>
+  </div>
+</div>
+
+</main>
+
+<div class="nav" id="nav" style="display:none">
+  <button class="btn-nav" id="btnPrev" onclick="prev()" disabled aria-label="Chapitre précédent">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M8 2L4 6.5 8 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Précédent
+  </button>
+  <div class="nav-mid" id="navMid">Chapitre 1 / 4</div>
+  <button class="btn-nav btn-next" id="btnNext" onclick="next()" aria-label="Chapitre suivant">
+    Suivant
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M5 2l4 4.5L5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+'use strict';
+
+let cur = 0;
+const TOTAL = 4;
+
+const SLIDER_IDS = ['q20a','q20b','q20c','q20d','q20e','q20f'];
+const SLIDER_LABELS = ['Chaleur','Autorité','Humour','Vulnérabilité','Combativité','Pédagogie'];
+
+function initMultilinePlaceholders() {
+  const q23 = document.getElementById('q23');
+  if (q23) {
+    q23.placeholder = [
+      '1. https://linkedin.com/posts/...',
+      '',
+      '2. https://linkedin.com/posts/...',
+      '',
+      'Ou collez les textes directement :',
+      '',
+      '--- Texte 1 ---',
+      '...',
+      '',
+      '--- Texte 2 ---',
+      '...'
+    ].join('\n');
+  }
+}
+
+function initChoiceButtons() {
+  ['q13-choices','q16-choices','q18-choices','q19-choices'].forEach(groupId => {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    const inputId = groupId.replace('-choices','');
+    group.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(inputId).value = btn.dataset.val;
+        const errMsg = document.getElementById('err-' + inputId);
+        if (errMsg) errMsg.classList.remove('on');
+      });
+    });
+  });
+}
+
+function initCheckButtons() {
+  ['q14-choices','q15-choices','q17-choices'].forEach(groupId => {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    const inputId = groupId.replace('-choices','');
+    group.querySelectorAll('.check-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const selected = Array.from(group.querySelectorAll('.check-btn.active'))
+          .map(b => b.dataset.val);
+        document.getElementById(inputId).value = selected.join(',');
+        const errMsg = document.getElementById('err-' + inputId);
+        if (errMsg && selected.length > 0) errMsg.classList.remove('on');
+      });
+    });
+  });
+}
+
+/* ─── SLIDERS : touched flag + radar live ─── */
+function initSliders() {
+  SLIDER_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    // Marquer comme touché au premier input
+    el.addEventListener('input', () => {
+      el.dataset.touched = '1';
+      el.classList.remove('untouched');
+      const valEl = document.getElementById(id + '-val');
+      if (valEl) valEl.classList.remove('untouched');
+      updateRadar();
+      // Recheck warn
+      checkSlidersTouched();
+    });
+  });
+}
+
+function countTouchedSliders() {
+  return SLIDER_IDS.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.dataset.touched === '1';
+  }).length;
+}
+
+function checkSlidersTouched() {
+  const warn = document.getElementById('warn-q20');
+  if (!warn) return;
+  const touched = countTouchedSliders();
+  warn.classList.toggle('on', touched < 4);
+}
+
+/* ─── RADAR SVG (viewBox 380 - marges labels) ─── */
+function updateRadar() {
+  const values = SLIDER_IDS.map(id => {
+    const el = document.getElementById(id);
+    const val = parseInt(el.value, 10) || 0;
+    const valDisplay = document.getElementById(id + '-val');
+    if (valDisplay) valDisplay.textContent = val;
+    return val;
+  });
+
+  const svg = document.getElementById('radarSvg');
+  if (!svg) return;
+
+  const cx = 190, cy = 190;
+  const maxR = 115;
+  const n = 6;
+
+  let html = '';
+
+  // Grid (5 rings)
+  for (let r = 1; r <= 5; r++) {
+    const points = [];
+    for (let i = 0; i < n; i++) {
+      const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+      const x = cx + Math.cos(angle) * (maxR * r / 5);
+      const y = cy + Math.sin(angle) * (maxR * r / 5);
+      points.push(x.toFixed(1) + ',' + y.toFixed(1));
+    }
+    html += '<polygon points="' + points.join(' ') + '" fill="none" stroke="#332e29" stroke-width="0.5" />';
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const x = cx + Math.cos(angle) * maxR;
+    const y = cy + Math.sin(angle) * maxR;
+    html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="#332e29" stroke-width="0.5" />';
+  }
+
+  // Data polygon
+  const dataPoints = values.map((v, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const r = (v / 10) * maxR;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  });
+  html += '<polygon points="' + dataPoints.join(' ') + '" fill="rgba(232,201,122,0.18)" stroke="#e8c97a" stroke-width="1.5" />';
+
+  values.forEach((v, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const r = (v / 10) * maxR;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    html += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3" fill="#e8c97a" />';
+  });
+
+  // Labels (avec plus de marge pour ne pas déborder)
+  SLIDER_LABELS.forEach((lab, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const labelR = maxR + 30;
+    const x = cx + Math.cos(angle) * labelR;
+    const y = cy + Math.sin(angle) * labelR;
+    let anchor = 'middle';
+    if (Math.cos(angle) > 0.3) anchor = 'start';
+    else if (Math.cos(angle) < -0.3) anchor = 'end';
+    html += '<text x="' + x.toFixed(1) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="' + anchor + '" fill="#b8b0a4" font-size="11" font-family="Epilogue, sans-serif">' + lab + '</text>';
+  });
+
+  svg.innerHTML = html;
+}
+
+/* ─── Validation helpers ─── */
+function setErr(id, on) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('err', on);
+  const msg = document.getElementById('err-' + id);
+  if (msg) msg.classList.toggle('on', on);
+}
+function clearErr(id) { setErr(id, false); }
+function fieldFilled(id) {
+  const el = document.getElementById(id);
+  return el && el.value.trim().length > 0;
+}
+
+function attachLiveClearing() {
+  const ids = ['q1','q2','q3','q4','q5','q6a','q7','q8a','q8b','q9','q11','q23'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      if (el.value.trim().length > 0) clearErr(id);
+    });
+  });
+  ['q12a','q12b','q12c','q12d','q12e'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const filled = ['q12a','q12b','q12c','q12d','q12e'].filter(i => fieldFilled(i)).length;
+      const msg = document.getElementById('err-q12');
+      if (msg && filled >= 3) msg.classList.remove('on');
+    });
+  });
+}
+
+/* ─── Validators ─── */
+const validators = {
+  1: () => {
+    let ok = true;
+    ['q1','q2','q3'].forEach(id => {
+      const valid = fieldFilled(id);
+      setErr(id, !valid);
+      if (!valid) ok = false;
+    });
+    return ok;
+  },
+  2: () => {
+    let ok = true;
+    ['q4','q5','q7','q9'].forEach(id => {
+      const valid = fieldFilled(id);
+      setErr(id, !valid);
+      if (!valid) ok = false;
+    });
+    const q6Valid = fieldFilled('q6a');
+    setErr('q6a', !q6Valid);
+    document.getElementById('err-q6')?.classList.toggle('on', !q6Valid);
+    if (!q6Valid) ok = false;
+    const q8Valid = fieldFilled('q8a') || fieldFilled('q8b');
+    document.getElementById('err-q8')?.classList.toggle('on', !q8Valid);
+    document.getElementById('q8a')?.classList.toggle('err', !q8Valid);
+    document.getElementById('q8b')?.classList.toggle('err', !q8Valid);
+    if (!q8Valid) ok = false;
+    return ok;
+  },
+  3: () => {
+    let ok = true;
+    const q11Valid = fieldFilled('q11');
+    setErr('q11', !q11Valid);
+    if (!q11Valid) ok = false;
+    const phrases = ['q12a','q12b','q12c','q12d','q12e'];
+    const filled = phrases.filter(id => fieldFilled(id)).length;
+    document.getElementById('err-q12')?.classList.toggle('on', filled < 3);
+    if (filled < 3) ok = false;
+    // Q13, Q14, Q16, Q17, Q18, Q19 obligatoires
+    ['q13','q14','q16','q17','q18','q19'].forEach(id => {
+      const valid = fieldFilled(id);
+      document.getElementById('err-' + id)?.classList.toggle('on', !valid);
+      if (!valid) ok = false;
+    });
+    return ok;
+  },
+  4: () => {
+    let ok = true;
+    // Q20 = sliders : au moins 4 touchés (warn pas bloquant si <4, mais on alerte)
+    const touched = countTouchedSliders();
+    const warn = document.getElementById('warn-q20');
+    if (warn) warn.classList.toggle('on', touched < 4);
+    // Non bloquant — on alerte simplement (touched >= 4 recommandé mais pas requis)
+    // Q23 corpus obligatoire
+    const q23Valid = fieldFilled('q23');
+    setErr('q23', !q23Valid);
+    if (!q23Valid) ok = false;
+    return ok;
+  }
+};
+
+function checkCount() {
+  const el = document.getElementById('q23count');
+  const warn = document.getElementById('warn-q23count');
+  if (!el || !warn) return;
+  const raw = el.value.trim();
+  if (raw === '') { warn.classList.remove('on'); return; }
+  const n = parseInt(raw, 10);
+  warn.classList.toggle('on', !isNaN(n) && n > 0 && n < 15);
+}
+
+/* ─── Navigation ─── */
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('s' + n);
+  if (!target) return;
+  target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateUI(n);
+  if (n === 4) {
+    checkCount();
+    updateRadar();
+    checkSlidersTouched();
+  }
+}
+
+function updateUI(n) {
+  const nav = document.getElementById('nav');
+  const fill = document.getElementById('progFill');
+  const progBar = document.getElementById('progBar');
+  const hdrPart = document.getElementById('hdrPart');
+  const navMid = document.getElementById('navMid');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+
+  nav.style.display = (n === 0 || n === 5) ? 'none' : 'flex';
+
+  const pct = n === 0 ? 0 : n === 5 ? 100 : Math.round((n / TOTAL) * 100);
+  fill.style.width = pct + '%';
+  if (progBar) progBar.setAttribute('aria-valuenow', String(pct));
+
+  if (n > 0 && n <= TOTAL) {
+    hdrPart.innerHTML = 'Chapitre <span>' + n + '</span> / ' + TOTAL;
+    navMid.textContent = 'Chapitre ' + n + ' / ' + TOTAL;
+    btnPrev.disabled = (n === 1);
+    btnNext.innerHTML = (n === TOTAL)
+      ? 'Terminer <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 6.5h7M6 3l3.5 3.5L6 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : 'Suivant <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M5 2l4 4.5L5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  } else if (n === 5) {
+    hdrPart.innerHTML = '<span>Terminé</span>';
+  } else {
+    hdrPart.innerHTML = '—';
+  }
+}
+
+function go(n) { cur = n; showScreen(n); }
+function prev() { if (cur > 1) { cur--; showScreen(cur); } }
+function next() {
+  if (cur === 0) { cur = 1; showScreen(1); return; }
+  const validator = validators[cur];
+  if (validator && !validator()) {
+    const firstErr = document.querySelector('.err, .q-errmsg.on');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  cur++;
+  showScreen(cur);
+}
+
+/* ─── Export ─── */
+function v(id) {
+  const el = document.getElementById(id);
+  return el ? (el.value.trim() || '(non renseigné)') : '(non renseigné)';
+}
+
+function sliderVal(id) {
+  const el = document.getElementById(id);
+  if (!el) return '(non renseigné)';
+  const val = el.value;
+  const touched = el.dataset.touched === '1';
+  return touched ? val : val + ' (non touché - valeur par défaut)';
+}
+
+function exportTxt() {
+  const d = new Date();
+  const ds = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const out = `# INTERVIEW ONBOARDING — AUTHORSCALE
+# Export : ${ds}
+# Format : corpus + contexte pour Agent 1 (Voice Analyzer)
+# ══════════════════════════════════════════════════════
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPITRE 1 — QUI VOUS ÊTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+01 / Présentation naturelle (version dîner)
+${v('q1')}
+
+02 / Ce que je fais mieux que 95% de mes pairs
+${v('q2')}
+
+03 / Ce que mes clients disent de moi (que je ne dirais pas de moi-même)
+${v('q3')}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPITRE 2 — COMMENT JE PENSE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+04 / La chose que tout le monde dit dans mon secteur — et qui m'énerve parce que c'est faux
+${v('q4')}
+
+05 / Ce que j'ai envie de dire mais n'ai jamais osé
+${v('q5')}
+
+06 / Le post qui m'a fait lever les yeux au ciel
+  Post : ${v('q6a')}
+  Ce qui me dérange : ${v('q6b')}
+
+07 / L'image que je ne veux JAMAIS donner sur LinkedIn
+${v('q7')}
+
+08 / Mes tabous absolus
+  Sujets hors-jeu : ${v('q8a')}
+  Personnes / marques à ne jamais citer : ${v('q8b')}
+  Pourquoi : ${v('q8c')}
+
+09 / En quoi je me différencie vraiment de mes concurrents
+${v('q9')}
+
+10 / Le profil que je ne veux pas ressembler (optionnel)
+  Profil : ${v('q10a')}
+  Ce que je refuse d'incarner : ${v('q10b')}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPITRE 3 — COMMENT J'ÉCRIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+11 / Comment j'explique mon boulot à un ami (version non éditée) [QUESTION CLÉ]
+${v('q11')}
+
+12 / Mes phrases complétées
+  Tutoiement parce que : ${v('q12a')}
+  Humour : ${v('q12b')}
+  Chiffres : ${v('q12c')}
+  Histoires perso : ${v('q12d')}
+  Positions tranchées : ${v('q12e')}
+
+13 / Quand je veux convaincre, je commence par : ${v('q13')}
+
+14 / Types de preuves que j'utilise : ${v('q14')}
+
+15 / Univers de mes métaphores (optionnel) : ${v('q15')}
+
+16 / Posture vis-à-vis de mon audience : ${v('q16')}
+
+17 / Formats LinkedIn qui me correspondent : ${v('q17')}
+
+18 / Relation aux émojis : ${v('q18')}
+
+19 / Rythme d'écriture préféré : ${v('q19')}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPITRE 4 — MA SIGNATURE ÉDITORIALE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+20 / Ma voix sur 6 axes (auto-évaluation /10)
+  Chaleur :       ${sliderVal('q20a')}
+  Autorité :      ${sliderVal('q20b')}
+  Humour :        ${sliderVal('q20c')}
+  Vulnérabilité : ${sliderVal('q20d')}
+  Combativité :   ${sliderVal('q20e')}
+  Pédagogie :     ${sliderVal('q20f')}
+
+21 / Mes tics de langage (optionnel)
+${v('q21')}
+
+22 / Posts que j'aurais voulu écrire — pour leur écriture, pas leur sujet (optionnel)
+  Post 1 : ${v('q22a')}
+  Ce qui m'attire dans son écriture : ${v('q22a2')}
+  Post 2 : ${v('q22b')}
+  Ce qui m'attire dans son écriture : ${v('q22b2')}
+
+23 / Corpus principal (posts LinkedIn) [OBLIGATOIRE]
+  Nombre de textes fournis : ${v('q23count')}
+
+${v('q23')}
+
+24 / Corpus secondaire — textes hors LinkedIn (optionnel)
+${v('q24')}
+
+25 / Histoire personnelle non publiée (optionnel)
+${v('q25')}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIN DE L'INTERVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fichier à renvoyer à votre consultant AuthorScale.
+Ce fichier est le corpus de base pour l'analyse Voice Profile (Agent 1).
+`;
+
+  const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'interview_' + d.toISOString().split('T')[0] + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMultilinePlaceholders();
+  initChoiceButtons();
+  initCheckButtons();
+  initSliders();
+  attachLiveClearing();
+  updateRadar();
+  updateUI(0);
+});
+</script>
+</body>
+</html>
