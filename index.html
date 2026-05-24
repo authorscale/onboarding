@@ -1024,26 +1024,6 @@ main { padding-top: 72px; }
       </div></div>
     </div>
 
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">23</div><div class="q-body">
-        <div class="q-text key-question">Listez vos posts LinkedIn existants — liens ou textes complets. <strong>Minimum 15, idéalement 20+.</strong><span class="q-req">*</span></div>
-        <div class="q-hint">C'est la matière première de l'analyse. Plus vous en donnez, plus le résultat sera précis. Si vous n'avez pas assez de posts, complétez avec la question 24 (emails, transcriptions, commentaires longs).</div>
-        <div class="sub-block">
-          <div class="sub-item">
-            <label>Nombre de textes fournis</label>
-            <input class="q-input" id="q23count" type="number" min="0" max="500" placeholder="Ex : 22" oninput="checkCount()" style="max-width:160px">
-            <div class="q-warnmsg" id="warn-q23count">Moins de 15 textes — l'analyse sera moins précise. Pensez à compléter avec la question 24.</div>
-          </div>
-          <div class="sub-item">
-            <label>Collez vos textes ici (liens ou textes complets)</label>
-            <textarea class="q-textarea" id="q23" style="min-height:220px" rows="10"></textarea>
-          </div>
-        </div>
-        <div class="q-errmsg" id="err-q23">C'est obligatoire — collez au moins quelques textes, même si vous n'en avez pas 15.</div>
-      </div></div>
-    </div>
 
     <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
 
@@ -1081,7 +1061,8 @@ main { padding-top: 72px; }
       <h3>Ce qui se passe ensuite</h3>
       <div class="step-row"><div class="step-n">1</div><div class="step-t">Cliquez sur <strong>« Exporter mes réponses »</strong> — un fichier .txt est généré.</div></div>
       <div class="step-row"><div class="step-n">2</div><div class="step-t">Envoyez-le par email à <strong>arnaudchedeville@gmail.com</strong></div></div>
-      <div class="step-row"><div class="step-n">3</div><div class="step-t">Sous 48h, votre Voice Profile est analysé. La production commence.</div></div>
+      <div class="step-row"><div class="step-n">3</div><div class="step-t">Nous récupérons nous-mêmes vos posts LinkedIn — vous n'avez rien à faire.</div></div>
+      <div class="step-row"><div class="step-n">4</div><div class="step-t">Sous 48h, votre Voice Profile est analysé. La production commence.</div></div>
     </div>
 
     <div style="max-width:440px;margin:0 auto 32px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;text-align:left;">
@@ -1121,24 +1102,6 @@ const TOTAL = 4;
 const SLIDER_IDS = ['q20a','q20b','q20c','q20d','q20e','q20f'];
 const SLIDER_LABELS = ['Chaleur','Autorité','Humour','Vulnérabilité','Combativité','Pédagogie'];
 
-function initMultilinePlaceholders() {
-  const q23 = document.getElementById('q23');
-  if (q23) {
-    q23.placeholder = [
-      '1. https://linkedin.com/posts/...',
-      '',
-      '2. https://linkedin.com/posts/...',
-      '',
-      'Ou collez les textes directement :',
-      '',
-      '--- Texte 1 ---',
-      '...',
-      '',
-      '--- Texte 2 ---',
-      '...'
-    ].join('\n');
-  }
-}
 
 function initChoiceButtons() {
   ['q13-choices','q16-choices','q18-choices','q19-choices'].forEach(groupId => {
@@ -1293,7 +1256,7 @@ function fieldFilled(id) {
 }
 
 function attachLiveClearing() {
-  const ids = ['q1','q2','q3','q4','q5','q6a','q7','q8a','q8b','q9','q11','q23'];
+  const ids = ['q1','q2','q3','q4','q5','q6a','q7','q8a','q8b','q9','q11'];
   ids.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1366,22 +1329,10 @@ const validators = {
     if (warn) warn.classList.toggle('on', touched < 4);
     // Non bloquant — on alerte simplement (touched >= 4 recommandé mais pas requis)
     // Q23 corpus obligatoire
-    const q23Valid = fieldFilled('q23');
-    setErr('q23', !q23Valid);
-    if (!q23Valid) ok = false;
     return ok;
   }
 };
 
-function checkCount() {
-  const el = document.getElementById('q23count');
-  const warn = document.getElementById('warn-q23count');
-  if (!el || !warn) return;
-  const raw = el.value.trim();
-  if (raw === '') { warn.classList.remove('on'); return; }
-  const n = parseInt(raw, 10);
-  warn.classList.toggle('on', !isNaN(n) && n > 0 && n < 15);
-}
 
 /* ─── Navigation ─── */
 function showScreen(n) {
@@ -1392,7 +1343,6 @@ function showScreen(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   updateUI(n);
   if (n === 4) {
-    checkCount();
     updateRadar();
     checkSlidersTouched();
   }
@@ -1558,10 +1508,7 @@ ${v('q21')}
   Post 2 : ${v('q22b')}
   Ce qui m'attire dans son écriture : ${v('q22b2')}
 
-23 / Corpus principal (posts LinkedIn) [OBLIGATOIRE]
-  Nombre de textes fournis : ${v('q23count')}
 
-${v('q23')}
 
 24 / Corpus secondaire — textes hors LinkedIn (optionnel)
 ${v('q24')}
@@ -1589,7 +1536,6 @@ Ce fichier est le corpus de base pour l'analyse Voice Profile (Agent 1).
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initMultilinePlaceholders();
   initChoiceButtons();
   initCheckButtons();
   initSliders();
