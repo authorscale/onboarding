@@ -219,8 +219,32 @@ main{padding-top:72px}
 .confirm-footer-legal span{display:block;font-size:11px;color:var(--text4);line-height:1.8;font-weight:300}
 .confirm-footer-legal a{color:var(--text4);text-decoration:none;border-bottom:1px solid var(--border)}
 .confirm-footer-legal a:hover{color:var(--text3)}
+
+/* WHISPER ENHANCE BUTTON */
+.whisper-btn{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--gold2);color:var(--gold);border-radius:2px;padding:8px 14px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;letter-spacing:0.04em;font-weight:500;transition:all .2s;margin-top:8px}
+.whisper-btn:hover:not(:disabled){background:var(--gold-soft);border-color:var(--gold)}
+.whisper-btn:disabled{opacity:.5;cursor:default}
+.whisper-btn.loading{animation:wpulse 1.2s infinite}
+.whisper-btn.loading .wb-icon{animation:wspin 1s linear infinite}
+@keyframes wpulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes wspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.whisper-status{font-size:11px;color:var(--text3);font-style:italic;margin-top:6px;min-height:14px;letter-spacing:0.02em}
+.whisper-status.ok{color:var(--ok)}
+.whisper-status.err{color:var(--err)}
+.whisper-status.loading{color:var(--gold)}
+.whisper-zone{display:none;margin-top:4px}
+.whisper-zone.show{display:block}
+
 ::selection{background:var(--gold);color:var(--bg)}
 
+@media(max-width:480px){
+  .welcome h1{font-size:32px}
+  .chap-title{font-size:26px}
+  .pilier-row{grid-template-columns:1fr 56px}
+  .obj-grid{grid-template-columns:1fr 1fr}
+  .mode-cards{gap:10px}
+  .nav-info{display:none}
+}
 @media(max-width:600px){
   .hdr{padding:12px 20px}
   .prog-track{width:80px}
@@ -247,7 +271,7 @@ main{padding-top:72px}
 <!-- ══════════ SCREEN 0 — WELCOME ══════════ -->
 <div class="screen active" id="s0">
 <div class="welcome">
-  <div class="eyebrow">Voice Profile — Onboarding</div>
+  <div class="eyebrow">Onboarding — AuthorScale</div>
   <h1>Avant les posts,<br><em>parlons de vous.</em></h1>
   <p class="welcome-lead">
     On écrira pour vous, mais jamais sans vous. Cette interview, c'est là que tout se joue.
@@ -319,6 +343,11 @@ main{padding-top:72px}
           </div>
           <textarea class="vtranscript" id="q1-vta" placeholder="Votre transcription apparaît ici... Corrigez directement si besoin."></textarea>
           <div class="vhint">💡 Parlez comme si vous expliquiez à un ami — c'est exactement ce dont on a besoin.</div>
+          <button class="whisper-btn" id="q1-wbtn" onclick="enhanceWithWhisper('q1')" disabled>
+            <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
+            <span id="q1-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q1-wstatus"></div>
         </div>
         <div class="tzone on" id="q1-t">
           <textarea class="q-ta" id="q1-ta" placeholder="Ex : Je bosse en service client depuis 10 ans. Ma spécialité c'est rendre les gens autonomes plutôt que de leur mâcher le travail..."></textarea>
@@ -372,6 +401,11 @@ main{padding-top:72px}
           </div>
           <textarea class="vtranscript" id="q3-vta" placeholder="Votre transcription..."></textarea>
           <div class="vhint">💡 Ne vous censurez pas — c'est exactement ce niveau de franchise qu'on cherche.</div>
+          <button class="whisper-btn" id="q3-wbtn" onclick="enhanceWithWhisper('q3')" disabled>
+            <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
+            <span id="q3-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q3-wstatus"></div>
         </div>
         <div class="tzone on" id="q3-t">
           <textarea class="q-ta" id="q3-ta" placeholder="Ex : Tout le monde dit que les jeunes sont à l'aise avec la tech parce qu'ils sont nés avec un téléphone. C'est faux. Ce que j'ai jamais osé dire c'est que..."></textarea>
@@ -492,6 +526,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q6-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q6-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q6-wbtn" onclick="enhanceWithWhisper('q6')" disabled>
+            <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
+            <span id="q6-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q6-wstatus"></div>
         </div>
         <div class="tzone on" id="q6-t">
           <textarea class="q-ta" id="q6-ta" placeholder="Ex : Des responsables de service client dans des ETI. Leur douleur : ils perdent un temps fou à répondre aux mêmes questions basiques. Ce qui les fait agir : une nouvelle vague de réclamations qui dépasse l'équipe..."></textarea>
@@ -580,6 +619,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q9-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q9-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q9-wbtn" onclick="enhanceWithWhisper('q9')" disabled>
+            <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
+            <span id="q9-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q9-wstatus"></div>
         </div>
         <div class="tzone on" id="q9-t">
           <textarea class="q-ta" id="q9-ta" placeholder="Ex : Lancement d'une nouvelle offre en juillet. Conférence RH le 15 juin. Août = vacances, rien à publier. Partenariat avec X à annoncer fin septembre..."></textarea>
@@ -652,6 +696,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q11-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q11-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q11-wbtn" onclick="enhanceWithWhisper('q11')" disabled>
+            <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
+            <span id="q11-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q11-wstatus"></div>
         </div>
         <div class="tzone on" id="q11-t">
           <textarea class="q-ta" id="q11-ta" placeholder="Ex : J'ai vu quelqu'un avec moins d'expérience que moi décrocher une opportunité via LinkedIn. J'ai réalisé que j'étais invisible alors que j'avais des choses à dire..."></textarea>
@@ -670,7 +719,7 @@ main{padding-top:72px}
   <div class="chapter-header">
     <div class="chap-eyebrow">Partie 3 — 2 questions</div>
     <h2 class="chap-title">Votre<br><em>matière première</em></h2>
-    <p class="chap-sub">C'est ici que tout se joue. Plus vous fournissez de textes, plus vos posts sonneront comme vous —.</p>
+    <p class="chap-sub">C'est ici que tout se joue. Plus vous fournissez de textes, plus vos posts sonneront vraiment comme vous.</p>
   </div>
 
   <!-- Q12 -->
@@ -705,7 +754,7 @@ main{padding-top:72px}
             </ul>
           </div>
           <textarea class="q-ta xl" id="q13-ta" placeholder="Post 1&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;Post 2&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;[Continuez...]" oninput="countTexts()"></textarea>
-          <div class="corpus-counter">Textes détectés : <span id="corpus-n">0</span> <span id="corpus-warn" style="color:var(--warn);display:none"> — minimum 15 recommandé pour un Voice Profile complet</span></div>
+          <div class="corpus-counter">Textes détectés : <span id="corpus-n">0</span> <span id="corpus-warn" style="color:var(--warn);display:none"> — minimum 15 recommandé pour une analyse complète</span></div>
         </div>
         <div class="q-err" id="q13-err">Collez au moins 1 texte pour continuer.</div>
       </div>
@@ -713,8 +762,8 @@ main{padding-top:72px}
   </div>
 
   <div class="consent-block">
-    <label class="consent-label" id="consent-label">
-      <div class="consent-check" id="consent-box" onclick="toggleConsent()"></div>
+    <label class="consent-label" id="consent-label" onclick="toggleConsent()">
+      <div class="consent-check" id="consent-box"></div>
       <span>J'accepte qu'AuthorScale utilise ces informations pour traiter ma demande et me recontacter. Ces données sont strictement confidentielles et ne seront jamais transmises à des tiers.</span>
     </label>
     <div class="q-err" id="consent-err">Veuillez accepter pour continuer.</div>
@@ -786,11 +835,16 @@ function toggleConsent() {
 }
 
 // ── CONFIG ──
-const FORMSPREE = 'https://formspree.io/f/xaqkdqro';
+const FORMSPREE = 'https://formspree.io/f/mzdwaona';
+const WHISPER_ENDPOINT = 'https://authorscale-stt.vercel.app/api/transcribe';
+const WHISPER_QUESTIONS = ['q1', 'q3', 'q6', 'q9', 'q11'];
 const TOTAL_PARTS = 3;
 let current = 0;
 const recognizers = {};
 const isRec = {};
+const mediaRecorders = {};
+const audioChunks = {};
+const audioBlobs = {};
 
 // ── NAVIGATION ──
 function goTo(n) {
@@ -882,7 +936,7 @@ function toggleRec(qid) {
   isRec[qid] ? stopRec(qid) : startRec(qid);
 }
 
-function startRec(qid) {
+async function startRec(qid) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return;
   const rec = new SR();
@@ -896,17 +950,48 @@ function startRec(qid) {
   rb.classList.add('rec'); dot.classList.remove('hide');
   rt.textContent = 'En cours... (cliquez pour arrêter)';
   if (st) { st.textContent = '🔴 Parlez maintenant...'; st.className = 'vstatus act'; }
-  let final = ta.value || '';
+  let final = (ta.value && ta.value !== 'undefined') ? ta.value : '';
   rec.onresult = e => {
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
-      e.results[i].isFinal ? (final += e.results[i].transcript + ' ') : (interim = e.results[i].transcript);
+      const t = e.results[i].transcript || '';
+      e.results[i].isFinal ? (final += t + ' ') : (interim = t);
     }
     ta.value = final + interim;
   };
   rec.onerror = e => { if (st) st.textContent = 'Erreur : ' + e.error; stopRec(qid); };
   rec.onend = () => { if (isRec[qid]) rec.start(); };
   rec.start();
+
+  // ── ENREGISTREMENT AUDIO PARALLÈLE pour Whisper (questions clés uniquement) ──
+  if (WHISPER_QUESTIONS.includes(qid)) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+      const mr = new MediaRecorder(stream, { mimeType: mime });
+      audioChunks[qid] = [];
+      mr.ondataavailable = (e) => { if (e.data.size > 0) audioChunks[qid].push(e.data); };
+      mr.onstop = () => {
+        audioBlobs[qid] = new Blob(audioChunks[qid], { type: mime });
+        stream.getTracks().forEach(t => t.stop());
+        // Activer le bouton Whisper (backup manuel)
+        const wbtn = document.getElementById(qid + '-wbtn');
+        if (wbtn) wbtn.disabled = false;
+        // Déclenchement automatique Whisper si enregistrement > 10s
+        const duration = (Date.now() - (mr.recordingStartTime || Date.now())) / 1000;
+        if (duration >= 10) {
+          setWhisperStatus(qid, 'Amélioration automatique en cours...', 'loading');
+          enhanceWithWhisper(qid);
+        }
+      };
+      mediaRecorders[qid] = mr;
+      mr.recordingStartTime = Date.now();
+      mr.start();
+    } catch (err) {
+      console.error('MediaRecorder error:', err);
+      // Web Speech continue de fonctionner, juste pas de Whisper possible
+    }
+  }
 }
 
 function stopRec(qid) {
@@ -920,6 +1005,84 @@ function stopRec(qid) {
   if (dot) dot.classList.add('hide');
   if (rt) rt.textContent = 'Appuyer pour parler';
   if (st) { st.textContent = '✓ Transcription sauvegardée — corrigez si besoin.'; st.className = 'vstatus ok'; }
+
+  // ── ARRÊTER MediaRecorder si actif ──
+  if (mediaRecorders[qid] && mediaRecorders[qid].state !== 'inactive') {
+    mediaRecorders[qid].stop();
+  }
+}
+
+// ══ AMÉLIORATION TRANSCRIPTION VIA WHISPER ══
+async function enhanceWithWhisper(qid) {
+  const blob = audioBlobs[qid];
+  if (!blob) {
+    setWhisperStatus(qid, 'Aucun enregistrement disponible.', 'err');
+    return;
+  }
+
+  const wbtn = document.getElementById(qid + '-wbtn');
+  const wbtnTxt = document.getElementById(qid + '-wbtn-txt');
+  const ta = document.getElementById(qid + '-vta');
+
+  wbtn.disabled = true;
+  wbtn.classList.add('loading');
+  wbtnTxt.textContent = 'Amélioration en cours...';
+  // Status loading déjà set par appelant si auto, on s'assure ici sinon
+  const currentStatus = document.getElementById(qid + '-wstatus');
+  if (!currentStatus || !currentStatus.textContent.includes('automatique')) {
+    setWhisperStatus(qid, 'Amélioration en cours...', 'loading');
+  }
+
+  try {
+    const formData = new FormData();
+    const ext = blob.type.includes('mp4') ? 'mp4' : 'webm';
+    formData.append('file', blob, 'audio.' + ext);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    const res = await fetch(WHISPER_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || 'Erreur ' + res.status);
+    }
+
+    const data = await res.json();
+    if (data.success && data.transcription) {
+      ta.value = data.transcription;
+      setWhisperStatus(qid, '✓ Transcription améliorée automatiquement.', 'ok');
+      wbtnTxt.textContent = 'Améliorée ✓';
+    } else {
+      throw new Error('Réponse invalide.');
+    }
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      setWhisperStatus(qid, 'Délai dépassé. Réessayez.', 'err');
+    } else if (err.message && err.message.includes('Failed to fetch')) {
+      setWhisperStatus(qid, 'Connexion impossible. Vérifiez votre connexion internet.', 'err');
+    } else {
+      setWhisperStatus(qid, 'Erreur : ' + err.message, 'err');
+    }
+    wbtnTxt.textContent = 'Réessayer';
+    wbtn.disabled = false;
+  } finally {
+    wbtn.classList.remove('loading');
+    if (!wbtn.disabled) wbtn.disabled = false;
+  }
+}
+
+function setWhisperStatus(qid, msg, type) {
+  const st = document.getElementById(qid + '-wstatus');
+  if (!st) return;
+  st.textContent = msg;
+  st.className = 'whisper-status ' + (type || '');
 }
 
 // ── OBJECTIF ──
@@ -1006,7 +1169,12 @@ function validate() {
     if (!document.getElementById('q13-ta').value.trim()) { showErr('q13-err'); ok = false; }
     if (!consentOk) { showErr('consent-err'); ok = false; }
   }
-  if (!ok) window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!ok) {
+    const firstErr = document.querySelector('.q-err.on');
+    if (firstErr) {
+      firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
   return ok;
 }
 
@@ -1037,7 +1205,7 @@ async function submit() {
     '10_victoires':       getVal('q10'),
     '11_declencheur':     getVal('q11'),
     '12_linkedin_url':    document.getElementById('q12-ta').value.trim(),
-    '13_corpus':          document.getElementById('q13-ta').value.substring(0, 4000) + (document.getElementById('q13-ta').value.length > 4000 ? '... [tronqué — corpus complet dans le .txt]' : '')
+    '13_corpus':          document.getElementById('q13-ta').value.substring(0, 9500) + (document.getElementById('q13-ta').value.length > 9500 ? '...[corpus tronqué à 9500 chars — demander le fichier complet au client]' : '')
   };
 
   try {
