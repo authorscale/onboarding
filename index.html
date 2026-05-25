@@ -94,6 +94,9 @@ main{padding-top:72px}
 .q-label{font-size:16px;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:5px}
 .q-req{color:var(--gold);margin-left:2px;font-size:13px}
 .q-hint{font-size:13px;color:var(--text3);font-weight:300;font-style:italic;line-height:1.55;margin-bottom:16px}
+.sub-q{margin-bottom:18px}
+.sub-q:last-child{margin-bottom:0}
+.sub-q-label{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:500;color:var(--text2);line-height:1.5;margin-bottom:8px;letter-spacing:0.01em}
 
 
 /* MODE TOGGLE */
@@ -122,6 +125,8 @@ main{padding-top:72px}
 .vtranscript:focus{outline:none;border-color:var(--mic);box-shadow:0 0 0 3px var(--mic-soft)}
 .vtranscript.lg{min-height:150px}
 .vhint{font-size:11px;color:var(--text4);margin-top:6px;font-style:italic}
+.vhint-10s{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;opacity:0.7;letter-spacing:0.01em}
+.vhint-10s::before{content:"ⓘ ";color:var(--gold);font-style:normal;opacity:0.8}
 .vfallback{background:rgba(212,146,58,0.08);border:1px solid rgba(212,146,58,0.25);border-radius:2px;padding:10px 14px;margin-bottom:10px;font-size:13px;color:var(--warn);font-style:italic;display:none}
 .vfallback.show{display:block}
 
@@ -378,6 +383,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q1-st">Prêt — appuyez sur le micro et parlez naturellement</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q1-vta" placeholder="Votre transcription apparaît ici... Corrigez directement si besoin."></textarea>
           <div class="vhint">💡 Parlez comme si vous expliquiez à un ami — c'est exactement ce dont on a besoin.</div>
           <button class="whisper-btn" id="q1-wbtn" onclick="enhanceWithWhisper('q1')" disabled>
@@ -401,10 +407,27 @@ main{padding-top:72px}
     <div class="q-row">
       <div class="q-num">02</div>
       <div class="q-body">
-        <div class="q-label">Complétez : "Je suis le/la [rôle] qui aide [qui] à [résultat] sans [frustration habituelle du secteur]."<span class="q-req">*</span></div>
-        <div class="q-hint">Exemple : "Je suis la consultante RH qui aide les PME à recruter sans passer par des cabinets hors de prix."</div>
-        <input class="q-input" id="q2-ta" placeholder="Je suis le/la... qui aide... à... sans...">
-        <div class="q-err" id="q2-err">Cette question est obligatoire.</div>
+        <div class="q-label">Votre positionnement, en 3 phrases simples<span class="q-req">*</span></div>
+        <div class="q-hint">Trois questions courtes pour cerner ce que vous faites et pour qui. Une phrase suffit pour chacune.</div>
+
+        <div class="sub-q">
+          <div class="sub-q-label">a. À qui vous adressez-vous principalement ?</div>
+          <input class="q-input" id="q2a-ta" placeholder="Ex : Les fondateurs de PME tech en B2B SaaS">
+          <div class="q-err" id="q2a-err">Cette sous-question est obligatoire.</div>
+        </div>
+
+        <div class="sub-q">
+          <div class="sub-q-label">b. Quel problème concret vous aidez à résoudre ?</div>
+          <input class="q-input" id="q2b-ta" placeholder="Ex : Trouver des leads qualifiés sans budget pub">
+          <div class="q-err" id="q2b-err">Cette sous-question est obligatoire.</div>
+        </div>
+
+        <div class="sub-q">
+          <div class="sub-q-label">c. Qu'est-ce qui vous distingue des autres dans votre secteur ?</div>
+          <input class="q-input" id="q2c-ta" placeholder="Ex : J'ai bossé 10 ans en growth chez 3 scale-ups avant de me lancer">
+          <div class="q-err" id="q2c-err">Cette sous-question est obligatoire.</div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -436,6 +459,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q3-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q3-vta" placeholder="Votre transcription..."></textarea>
           <div class="vhint">💡 Ne vous censurez pas — c'est exactement ce niveau de franchise qu'on cherche.</div>
           <button class="whisper-btn" id="q3-wbtn" onclick="enhanceWithWhisper('q3')" disabled>
@@ -479,6 +503,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q4-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q4-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q4-wbtn" onclick="enhanceWithWhisper('q4')" disabled>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
@@ -521,6 +546,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q5-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q5-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q5-wbtn" onclick="enhanceWithWhisper('q5')" disabled>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
@@ -572,6 +598,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q6-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q6-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q6-wbtn" onclick="enhanceWithWhisper('q6')" disabled>
             <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
@@ -665,6 +692,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q9-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q9-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q9-wbtn" onclick="enhanceWithWhisper('q9')" disabled>
             <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
@@ -706,6 +734,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q10-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q10-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q10-wbtn" onclick="enhanceWithWhisper('q10')" disabled>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
@@ -747,6 +776,7 @@ main{padding-top:72px}
             </button>
             <div class="vstatus" id="q11-st">Prêt</div>
           </div>
+          <div class="vhint-10s">Astuce : parlez au moins 10 secondes pour activer l'amélioration automatique de la transcription.</div>
           <textarea class="vtranscript" id="q11-vta" placeholder="Votre transcription..."></textarea>
           <button class="whisper-btn" id="q11-wbtn" onclick="enhanceWithWhisper('q11')" disabled>
             <svg class="wb-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3.6-7.2L21 8M21 3v5h-5"/></svg>
@@ -1222,7 +1252,9 @@ function validate() {
   clearErrs(); let ok = true;
   if (current === 1) {
     if (!getVal('q1')) { showErr('q1-err'); ok = false; }
-    if (!document.getElementById('q2-ta').value.trim()) { showErr('q2-err'); ok = false; }
+    if (!document.getElementById('q2a-ta').value.trim()) { showErr('q2a-err'); ok = false; }
+    if (!document.getElementById('q2b-ta').value.trim()) { showErr('q2b-err'); ok = false; }
+    if (!document.getElementById('q2c-ta').value.trim()) { showErr('q2c-err'); ok = false; }
     if (!getVal('q3')) { showErr('q3-err'); ok = false; }
     if (!getVal('q4')) { showErr('q4-err'); ok = false; }
   }
@@ -1276,7 +1308,9 @@ async function submit() {
     '00_email':           email,
     '00_entreprise':      entreprise,
     '01_presentation':    getVal('q1'),
-    '02_positionnement':  document.getElementById('q2-ta').value.trim(),
+    '02_positionnement':  'a. Audience : ' + document.getElementById('q2a-ta').value.trim() +
+                          '\nb. Problème résolu : ' + document.getElementById('q2b-ta').value.trim() +
+                          '\nc. Ce qui me distingue : ' + document.getElementById('q2c-ta').value.trim(),
     '03_convictions':     getVal('q3'),
     '04_tabous':          getVal('q4'),
     '05_anti_profil':     getVal('q5'),
