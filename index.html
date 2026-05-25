@@ -160,6 +160,19 @@ main{padding-top:72px}
 .obj-btn:hover{border-color:var(--border2);color:var(--text)}
 .obj-btn.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:500}
 .obj-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.identity-block{margin:30px 0;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:4px}
+.identity-block h3{font-family:'Spectral',serif;font-size:18px;font-weight:400;color:var(--text);margin:0 0 6px}
+.identity-block p{font-size:13px;color:var(--text3);margin:0 0 18px;font-style:italic}
+.identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.identity-field{display:flex;flex-direction:column;gap:4px}
+.identity-field.full{grid-column:1/-1}
+.identity-field label{font-size:12px;color:var(--text3);font-weight:400}
+.identity-field label .req{color:var(--gold);margin-left:2px}
+.identity-field input{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;padding:10px 12px;border-radius:2px;transition:border-color .2s}
+.identity-field input:focus{outline:none;border-color:var(--mic);box-shadow:0 0 0 3px var(--mic-soft)}
+.identity-err{display:none;color:#c97a7a;font-size:12px;margin-top:8px}
+.identity-err.on{display:block}
+@media(max-width:600px){.identity-grid{grid-template-columns:1fr}}
 
 /* CORPUS */
 .corpus-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:20px}
@@ -300,7 +313,31 @@ main{padding-top:72px}
     <div><div class="stat-num">25'</div><div class="stat-lbl">à l'écrit</div></div>
   </div>
 
-  <button class="btn-start" onclick="goTo(1)">
+  <div class="identity-block">
+    <h3>Avant de commencer</h3>
+    <p>Pour qu'on sache qui vous êtes et qu'on puisse revenir vers vous.</p>
+    <div class="identity-grid">
+      <div class="identity-field">
+        <label>Prénom <span class="req">*</span></label>
+        <input type="text" id="id-prenom" placeholder="Jean" autocomplete="given-name">
+      </div>
+      <div class="identity-field">
+        <label>Nom <span class="req">*</span></label>
+        <input type="text" id="id-nom" placeholder="Dupont" autocomplete="family-name">
+      </div>
+      <div class="identity-field full">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="id-email" placeholder="jean.dupont@entreprise.com" autocomplete="email">
+      </div>
+      <div class="identity-field full">
+        <label>Entreprise / activité <span class="req">*</span></label>
+        <input type="text" id="id-entreprise" placeholder="Acme Corp — Conseil RH">
+      </div>
+    </div>
+    <div class="identity-err" id="id-err">Merci de compléter les 4 champs avec un email valide.</div>
+  </div>
+
+  <button class="btn-start" onclick="startForm()">
     Commencer
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
@@ -443,6 +480,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q4-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q4-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q4-wbtn" onclick="enhanceWithWhisper('q4')" disabled>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <span id="q4-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q4-wstatus"></div>
         </div>
         <div class="tzone on" id="q4-t">
           <textarea class="q-ta" id="q4-ta" placeholder="Sujets : la religion, la politique, tout ce qui touche à mon employeur actuel...&#10;Personnes/marques : [noms]...&#10;Mots que je déteste : synergies, disrupter, agilité..."></textarea>
@@ -480,6 +522,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q5-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q5-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q5-wbtn" onclick="enhanceWithWhisper('q5')" disabled>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <span id="q5-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q5-wstatus"></div>
         </div>
         <div class="tzone on" id="q5-t">
           <textarea class="q-ta" id="q5-ta" placeholder="Ex : Le donneur de leçons qui étale sa science pour écraser les autres. Les posts inspirationnels vides. Le prosélytisme professionnel..."></textarea>
@@ -660,6 +707,11 @@ main{padding-top:72px}
             <div class="vstatus" id="q10-st">Prêt</div>
           </div>
           <textarea class="vtranscript" id="q10-vta" placeholder="Votre transcription..."></textarea>
+          <button class="whisper-btn" id="q10-wbtn" onclick="enhanceWithWhisper('q10')" disabled>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <span id="q10-wbtn-txt">Améliorer manuellement</span>
+          </button>
+          <div class="whisper-status" id="q10-wstatus"></div>
         </div>
         <div class="tzone on" id="q10-t">
           <textarea class="q-ta" id="q10-ta" placeholder="Ex : Client X a réduit ses réclamations de 40% en 2 mois. Témoignage de Y reçu la semaine dernière. Promotion obtenue après avoir restructuré le service..."></textarea>
@@ -837,9 +889,27 @@ function toggleConsent() {
 // ── CONFIG ──
 const FORMSPREE = 'https://formspree.io/f/mzdwaona';
 const WHISPER_ENDPOINT = 'https://authorscale-stt.vercel.app/api/transcribe';
-const WHISPER_QUESTIONS = ['q1', 'q3', 'q6', 'q9', 'q11'];
+const CORPUS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzOk-h7yFB9LTmZoQmqYvYqtY7wXBEMjTxv-e2ryViGLysXZ1-ByH2c__vcoNhjx0E/exec';
+const WHISPER_QUESTIONS = ['q1', 'q3', 'q4', 'q5', 'q6', 'q9', 'q10', 'q11'];
 const TOTAL_PARTS = 3;
 let current = 0;
+
+// ── VALIDATION IDENTITÉ + DÉMARRAGE ──
+function startForm() {
+  const prenom = document.getElementById('id-prenom').value.trim();
+  const nom = document.getElementById('id-nom').value.trim();
+  const email = document.getElementById('id-email').value.trim();
+  const entreprise = document.getElementById('id-entreprise').value.trim();
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const err = document.getElementById('id-err');
+  if (!prenom || !nom || !email || !entreprise || !emailValid) {
+    err.classList.add('on');
+    err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  err.classList.remove('on');
+  goTo(1);
+}
 const recognizers = {};
 const isRec = {};
 const mediaRecorders = {};
@@ -1192,7 +1262,19 @@ function getPiliers() {
 
 // ── SUBMIT ──
 async function submit() {
+  const prenom = document.getElementById('id-prenom').value.trim();
+  const nom = document.getElementById('id-nom').value.trim();
+  const email = document.getElementById('id-email').value.trim();
+  const entreprise = document.getElementById('id-entreprise').value.trim();
+  const corpusText = document.getElementById('q13-ta').value.trim();
+
   const payload = {
+    '_subject':           'Nouvel onboarding — ' + prenom + ' ' + nom + ' (' + entreprise + ')',
+    '_replyto':           email,
+    '00_prenom':          prenom,
+    '00_nom':             nom,
+    '00_email':           email,
+    '00_entreprise':      entreprise,
     '01_presentation':    getVal('q1'),
     '02_positionnement':  document.getElementById('q2-ta').value.trim(),
     '03_convictions':     getVal('q3'),
@@ -1205,15 +1287,31 @@ async function submit() {
     '10_victoires':       getVal('q10'),
     '11_declencheur':     getVal('q11'),
     '12_linkedin_url':    document.getElementById('q12-ta').value.trim(),
-    '13_corpus':          document.getElementById('q13-ta').value.substring(0, 9500) + (document.getElementById('q13-ta').value.length > 9500 ? '...[corpus tronqué à 9500 chars — demander le fichier complet au client]' : '')
+    '13_corpus':          '📄 Corpus complet stocké dans Google Sheet (' + corpusText.length + ' caractères, ~' + Math.round(corpusText.length/5) + ' mots) — Voir Sheet "AuthorScale — Corpus clients"'
   };
 
+  // ── ENVOI PARALLÈLE : Formspree (résumé) + Google Sheet (corpus complet) ──
+  const formspreeReq = fetch(FORMSPREE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(e => { /* silent fail */ });
+
+  const corpusReq = fetch(CORPUS_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      prenom: prenom,
+      nom: nom,
+      email: email,
+      entreprise: entreprise,
+      corpus: corpusText
+    })
+  }).catch(e => { /* silent fail */ });
+
   try {
-    await fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    await Promise.all([formspreeReq, corpusReq]);
   } catch(e) { /* silent fail */ }
 
   goTo(4);
