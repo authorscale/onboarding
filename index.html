@@ -14,564 +14,221 @@
   --bg-focus:  #2a2622;
   --border:    #332e29;
   --border2:   #453e37;
-
   --text:      #f0ebe3;
   --text2:     #b8b0a4;
   --text3:     #7a7168;
   --text4:     #524a42;
-
   --gold:      #e8c97a;
   --gold2:     #c8a96e;
   --gold-soft: rgba(232,201,122,0.12);
-
   --err:       #d97560;
   --warn:      #d4923a;
   --ok:        #7ec89a;
-
+  --mic:       #c97a7a;
+  --mic-soft:  rgba(201,122,122,0.12);
   --w: 660px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Epilogue',sans-serif;font-size:16px;line-height:1.65;min-height:100vh;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;mix-blend-mode:overlay}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Epilogue', sans-serif;
-  font-size: 16px;
-  line-height: 1.65;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(14,12,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 40px;display:flex;align-items:center;justify-content:space-between}
+.hdr-brand{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:0.04em}
+.hdr-right{display:flex;align-items:center;gap:20px}
+.hdr-step{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3)}
+.hdr-step span{color:var(--gold);font-weight:500}
+.prog-track{width:120px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
 
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: overlay;
-}
+main{padding-top:72px}
+.screen{display:none}
+.screen.active{display:block;animation:rise .4s ease forwards}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-.hdr {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(14,12,10,0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 40px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.hdr-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px; font-weight: 600;
-  color: var(--text); letter-spacing: 0.04em;
-}
-.hdr-right { display: flex; align-items: center; gap: 20px; }
-.hdr-part {
-  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text3);
-}
-.hdr-part span { color: var(--gold); font-weight: 500; }
-.prog-track {
-  width: 120px; height: 2px;
-  background: var(--border); border-radius: 2px; overflow: hidden;
-}
-.prog-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold2), var(--gold));
-  border-radius: 2px;
-  transition: width 0.5s cubic-bezier(.4,0,.2,1);
-  width: 0%;
-}
+/* WELCOME */
+.welcome{max-width:var(--w);margin:0 auto;padding:80px 40px 140px}
+.eyebrow{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold2)}
+.welcome h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,64px);line-height:1.08;font-weight:600;margin-bottom:28px}
+.welcome h1 em{font-style:italic;color:var(--gold)}
+.welcome-lead{font-size:17px;color:var(--text2);line-height:1.75;max-width:500px;margin-bottom:40px;font-weight:300}
 
-main { padding-top: 72px; }
+.mode-cards{display:flex;gap:16px;margin-bottom:40px}
+.mode-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.mode-card-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;margin-top:1px}
+.mode-card-icon.mic{background:var(--mic-soft);border:1px solid rgba(201,122,122,0.3)}
+.mode-card-icon.kb{background:var(--gold-soft);border:1px solid rgba(232,201,122,0.3)}
+.mode-card-body{font-size:13px;color:var(--text2);line-height:1.55;font-weight:300}
+.mode-card-body strong{display:block;color:var(--text);font-weight:500;margin-bottom:3px;font-size:13px}
 
-.screen { display: none; }
-.screen.active { display: block; animation: rise .4s ease forwards; }
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+.stats{display:flex;gap:40px;padding:28px 0;border-top:1px solid var(--border);margin-bottom:40px}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;line-height:1}
+.stat-lbl{font-size:12px;color:var(--text3);margin-top:4px;letter-spacing:0.04em}
 
-.welcome {
-  max-width: var(--w);
-  margin: 0 auto;
-  padding: 80px 40px 140px;
-}
-.eyebrow {
-  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 28px;
-  display: flex; align-items: center; gap: 12px;
-}
-.eyebrow::before {
-  content: ''; display: block; width: 32px; height: 1px; background: var(--gold2);
-}
-.welcome h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 6vw, 64px);
-  line-height: 1.08; font-weight: 600;
-  color: var(--text);
-  margin-bottom: 32px;
-}
-.welcome h1 em { font-style: italic; color: var(--gold); }
-.welcome-lead {
-  font-size: 17px; color: var(--text2); line-height: 1.75;
-  max-width: 500px; margin-bottom: 48px; font-weight: 300;
-}
-.interview-badge {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 3px; padding: 12px 20px;
-  margin-bottom: 48px;
-}
-.interview-badge .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--err); animation: pulse 1.8s infinite;
-  box-shadow: 0 0 8px rgba(217,117,96,0.5);
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .5; transform: scale(0.85); }
-}
-.interview-badge span {
-  font-size: 13px; color: var(--text); font-weight: 500;
-  letter-spacing: 0.02em;
-}
-.stats {
-  display: flex; gap: 40px; margin-bottom: 56px;
-  border-top: 1px solid var(--border); padding-top: 32px;
-}
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px; font-weight: 600; color: var(--text);
-  line-height: 1;
-}
-.stat-lbl {
-  font-size: 12px; color: var(--text3); margin-top: 4px;
-  letter-spacing: 0.04em;
-}
-.btn-start {
-  display: inline-flex; align-items: center; gap: 12px;
-  background: var(--gold); color: var(--bg);
-  font-family: 'Epilogue', sans-serif; font-weight: 500;
-  font-size: 15px; padding: 15px 32px;
-  border: none; border-radius: 2px; cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: background .2s, transform .15s;
-}
-.btn-start:hover { background: var(--gold2); transform: translateY(-1px); }
-.btn-start svg { transition: transform .2s; }
-.btn-start:hover svg { transform: translateX(4px); }
+.btn-start{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--bg);font-family:'Epilogue',sans-serif;font-weight:500;font-size:15px;padding:15px 32px;border:none;border-radius:2px;cursor:pointer;letter-spacing:0.04em;transition:background .2s,transform .15s}
+.btn-start:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-start svg{transition:transform .2s}
+.btn-start:hover svg{transform:translateX(4px)}
 
-.part-screen {
-  max-width: var(--w);
-  margin: 0 auto;
-  padding: 64px 40px 160px;
-}
-.part-header { margin-bottom: 56px; }
-.part-num {
-  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 16px;
-  display: flex; align-items: center; gap: 10px;
-}
-.part-num::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold2); }
-.part-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 4.5vw, 46px);
-  line-height: 1.1; font-weight: 600;
-  color: var(--text); margin-bottom: 12px;
-}
-.part-title em { font-style: italic; color: var(--gold); }
-.part-sub {
-  font-size: 15px; color: var(--text2); font-weight: 300;
-  font-style: italic;
-}
+/* CHAPTER */
+.chapter{max-width:var(--w);margin:0 auto;padding:64px 40px 160px}
+.chapter-header{margin-bottom:52px}
+.chap-eyebrow{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.chap-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold2)}
+.chap-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4.5vw,44px);line-height:1.1;font-weight:600;margin-bottom:10px}
+.chap-title em{font-style:italic;color:var(--gold)}
+.chap-sub{font-size:14px;color:var(--text3);font-weight:300;font-style:italic;line-height:1.6;max-width:460px}
 
-.divider {
-  display: flex; align-items: center; gap: 16px;
-  margin: 48px 0;
-}
-.divider-line { flex: 1; height: 1px; background: var(--border); }
-.divider-mark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px; color: var(--text4);
-}
+.divider{display:flex;align-items:center;gap:16px;margin:44px 0}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-mark{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text4)}
 
-.question { margin-bottom: 44px; }
-.q-wrap { display: flex; gap: 20px; }
-.q-idx {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px; color: var(--gold);
-  min-width: 24px; padding-top: 2px;
-  font-style: italic;
-}
-.q-body { flex: 1; min-width: 0; }
-.q-text {
-  font-size: 16px; font-weight: 500; color: var(--text);
-  line-height: 1.5; margin-bottom: 6px;
-}
-.q-text.key-question {
-  background: linear-gradient(to right, var(--gold-soft) 0%, transparent 100%);
-  padding: 8px 12px; border-left: 2px solid var(--gold);
-  margin-left: -14px; margin-bottom: 8px;
-}
-.q-text.key-question::before {
-  content: 'QUESTION CLÉ';
-  display: block; font-family: 'Epilogue', sans-serif;
-  font-size: 10px; letter-spacing: 0.18em;
-  color: var(--gold); font-weight: 500; margin-bottom: 4px;
-}
-.q-hint {
-  font-size: 13px; color: var(--text3); font-weight: 300;
-  font-style: italic; margin-bottom: 14px; line-height: 1.5;
-}
-.q-hint strong { font-weight: 500; color: var(--text2); font-style: normal; }
-.q-req { color: var(--gold); margin-left: 2px; font-size: 13px; }
-.q-opt {
-  font-size: 11px; color: var(--text3); letter-spacing: 0.08em;
-  text-transform: uppercase; margin-left: 6px;
-}
+/* QUESTION */
+.question{margin-bottom:0}
+.q-row{display:flex;gap:20px}
+.q-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold);min-width:22px;padding-top:3px;font-style:italic;flex-shrink:0}
+.q-body{flex:1;min-width:0}
+.q-label{font-size:16px;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:5px}
+.q-req{color:var(--gold);margin-left:2px;font-size:13px}
+.q-hint{font-size:13px;color:var(--text3);font-weight:300;font-style:italic;line-height:1.55;margin-bottom:16px}
 
-.q-input, .q-textarea {
-  width: 100%;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: 'Epilogue', sans-serif;
-  font-size: 14px; font-weight: 300;
-  padding: 14px 16px;
-  border-radius: 2px;
-  resize: vertical;
-  line-height: 1.65;
-  transition: border-color .2s, box-shadow .2s, background .2s;
-}
-.q-input::placeholder, .q-textarea::placeholder { color: var(--text4); }
-.q-input:focus, .q-textarea:focus {
-  outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(232,201,122,0.12);
-  background: var(--bg-focus);
-}
-.q-textarea { min-height: 110px; }
-.q-textarea.lg { min-height: 180px; }
-.q-input.err, .q-textarea.err { border-color: var(--err); }
-.q-errmsg { font-size: 12px; color: var(--err); margin-top: 6px; display: none; }
-.q-errmsg.on { display: block; }
-.q-warnmsg { font-size: 12px; color: var(--warn); margin-top: 6px; display: none; font-style: italic; }
-.q-warnmsg.on { display: block; }
 
-.sub-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--border2);
-  border-radius: 0 2px 2px 0;
-  padding: 20px 20px 16px;
-  display: flex; flex-direction: column; gap: 14px;
-  margin-top: 4px;
-}
-.sub-item label {
-  display: block; font-size: 11px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--text3);
-  margin-bottom: 6px; font-weight: 500;
-}
+/* MODE TOGGLE */
+.mode-toggle{display:flex;gap:8px;margin-bottom:14px}
+.mbtn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);border-radius:2px;padding:7px 14px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;letter-spacing:0.04em;font-weight:400;transition:all .2s}
+.mbtn:hover{border-color:var(--border2);color:var(--text2)}
+.mbtn.m-mic{background:var(--mic-soft);border-color:rgba(201,122,122,0.5);color:var(--mic);font-weight:500}
+.mbtn.m-kb{background:var(--gold-soft);border-color:rgba(232,201,122,0.4);color:var(--gold);font-weight:500}
 
-.phrases { display: flex; flex-direction: column; gap: 10px; }
-.phrase-row {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 10px 14px;
-  transition: background .2s, border-color .2s;
-}
-.phrase-row:focus-within {
-  background: var(--bg-focus);
-  border-color: var(--gold);
-}
-.phrase-prefix {
-  font-size: 13px; color: var(--text2); font-style: italic;
-  white-space: nowrap; min-width: fit-content;
-}
-.phrase-input {
-  flex: 1; background: transparent; border: none;
-  color: var(--text); font-family: 'Epilogue', sans-serif;
-  font-size: 14px; font-weight: 300;
-  outline: none;
-  padding: 4px 0;
-  min-width: 0;
-}
-.phrase-input::placeholder { color: var(--text4); }
+/* VOICE ZONE */
+.vzone{display:none}
+.vzone.on{display:block}
+.vcontrols{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:16px 18px;margin-bottom:10px}
+.vrec-btn{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:1.5px solid var(--border2);border-radius:2px;padding:10px 16px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text2);transition:all .2s;margin-bottom:10px;letter-spacing:0.02em}
+.vrec-btn:hover{border-color:var(--mic);color:var(--text)}
+.vrec-btn.rec{border-color:var(--mic);color:var(--mic);background:var(--mic-soft);animation:rpulse 1.5s infinite}
+@keyframes rpulse{0%,100%{box-shadow:0 0 0 0 rgba(201,122,122,0.3)}50%{box-shadow:0 0 0 6px rgba(201,122,122,0)}}
+.rdot{width:8px;height:8px;border-radius:50%;background:var(--mic);flex-shrink:0;animation:pulse 1s infinite}
+.rdot.hide{display:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.vstatus{font-size:12px;color:var(--text3);font-style:italic;min-height:16px}
+.vstatus.act{color:var(--mic)}
+.vstatus.ok{color:var(--ok)}
+.vtranscript{width:100%;background:var(--bg);border:1px solid var(--border);border-left:2px solid rgba(201,122,122,0.3);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;font-weight:300;padding:13px 15px;border-radius:0 2px 2px 0;resize:vertical;line-height:1.65;min-height:100px;transition:border-color .2s}
+.vtranscript::placeholder{color:var(--text4)}
+.vtranscript:focus{outline:none;border-color:var(--mic);box-shadow:0 0 0 3px var(--mic-soft)}
+.vtranscript.lg{min-height:150px}
+.vhint{font-size:11px;color:var(--text4);margin-top:6px;font-style:italic}
+.vfallback{background:rgba(212,146,58,0.08);border:1px solid rgba(212,146,58,0.25);border-radius:2px;padding:10px 14px;margin-bottom:10px;font-size:13px;color:var(--warn);font-style:italic;display:none}
+.vfallback.show{display:block}
 
-.choice-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 8px;
-}
-.choice-btn {
-  display: flex; align-items: center; justify-content: center;
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--text2); border-radius: 2px;
-  padding: 12px 14px; cursor: pointer;
-  font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 400;
-  text-align: center;
-  transition: all .2s;
-  min-height: 50px;
-  line-height: 1.3;
-}
-.choice-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
-.choice-btn.active {
-  background: var(--gold-soft);
-  border-color: var(--gold);
-  color: var(--gold);
-  font-weight: 500;
-}
+/* TEXT ZONE */
+.tzone{display:none}
+.tzone.on{display:block}
+.q-ta{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;font-weight:300;padding:13px 15px;border-radius:2px;resize:vertical;line-height:1.65;min-height:110px;transition:border-color .2s,box-shadow .2s,background .2s}
+.q-ta::placeholder{color:var(--text4)}
+.q-ta:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);background:var(--bg-focus)}
+.q-ta.lg{min-height:160px}
+.q-ta.xl{min-height:220px}
+.q-input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;font-weight:300;padding:12px 15px;border-radius:2px;transition:border-color .2s,box-shadow .2s,background .2s}
+.q-input::placeholder{color:var(--text4)}
+.q-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);background:var(--bg-focus)}
 
-.check-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 8px;
-}
-.check-btn {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--text2); border-radius: 2px;
-  padding: 10px 14px; cursor: pointer;
-  font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 400;
-  transition: all .2s;
-}
-.check-btn:hover { border-color: var(--border2); color: var(--text); }
-.check-btn.active {
-  background: var(--gold-soft);
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.check-mark {
-  width: 14px; height: 14px;
-  border: 1px solid var(--text3);
-  border-radius: 2px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.check-btn.active .check-mark {
-  background: var(--gold); border-color: var(--gold);
-}
-.check-btn.active .check-mark::after {
-  content: ''; width: 6px; height: 6px; background: var(--bg);
-  border-radius: 1px;
-}
+/* PILIERS */
+.piliers-block{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.pilier-row{display:grid;grid-template-columns:1fr 80px;gap:10px;align-items:center}
+.pilier-name{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;font-weight:300;padding:10px 14px;border-radius:2px;transition:border-color .2s,background .2s}
+.pilier-name::placeholder{color:var(--text4)}
+.pilier-name:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);background:var(--bg-focus)}
+.pilier-pct{background:var(--bg2);border:1px solid var(--border);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;padding:10px 12px;border-radius:2px;text-align:center;width:100%;transition:border-color .2s}
+.pilier-pct::placeholder{color:var(--text4);font-family:'Epilogue',sans-serif;font-size:13px;font-weight:300}
+.pilier-pct:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.pilier-total{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:6px;font-size:12px;color:var(--text3);font-style:italic}
+.pilier-total-num{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600}
+.pilier-total-num.ok{color:var(--ok)}
+.pilier-total-num.warn{color:var(--warn)}
+.pilier-total-num.err{color:var(--err)}
+.pilier-add{display:flex;align-items:center;gap:6px;background:transparent;border:1px dashed var(--border2);color:var(--text3);border-radius:2px;padding:8px 14px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:12px;letter-spacing:0.04em;transition:all .2s;margin-top:4px;width:fit-content}
+.pilier-add:hover{border-color:var(--gold);color:var(--gold)}
 
-.sliders-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 24px;
-  display: flex; flex-direction: column; gap: 18px;
-  margin-top: 4px;
-}
-.slider-row {
-  display: grid;
-  grid-template-columns: 140px 1fr 32px;
-  gap: 16px;
-  align-items: center;
-}
-.slider-label {
-  font-size: 13px; color: var(--text);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-.slider-label small {
-  display: block; font-size: 11px; color: var(--text3);
-  font-weight: 300; font-style: italic; margin-top: 2px;
-}
-.slider-input {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  outline: none;
-}
-.slider-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px; height: 18px;
-  background: var(--gold);
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--gold);
-  transition: transform .15s;
-}
-.slider-input::-webkit-slider-thumb:hover { transform: scale(1.15); }
-.slider-input::-moz-range-thumb {
-  width: 18px; height: 18px;
-  background: var(--gold);
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--gold);
-}
-.slider-input.untouched::-webkit-slider-thumb {
-  background: var(--text4);
-  box-shadow: 0 0 0 1px var(--text3);
-}
-.slider-input.untouched::-moz-range-thumb {
-  background: var(--text4);
-  box-shadow: 0 0 0 1px var(--text3);
-}
-.slider-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px; color: var(--gold);
-  text-align: right; font-weight: 600;
-}
-.slider-value.untouched { color: var(--text4); }
+/* OBJECTIF TOGGLE */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:4px}
+.obj-btn{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:2px;padding:12px 14px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:13px;transition:all .2s;line-height:1.3}
+.obj-btn:hover{border-color:var(--border2);color:var(--text)}
+.obj-btn.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:500}
+.obj-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-.sliders-warn {
-  font-size: 12px; color: var(--warn);
-  margin-top: 12px; font-style: italic;
-  display: none;
-}
-.sliders-warn.on { display: block; }
+/* CORPUS */
+.corpus-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:20px}
+.corpus-intro{font-size:13px;color:var(--text2);font-weight:300;line-height:1.7;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.corpus-intro strong{color:var(--text);font-weight:500}
+.corpus-intro ul{padding-left:16px;margin-top:6px}
+.corpus-intro li{margin-bottom:3px}
+.corpus-counter{font-size:12px;color:var(--text3);margin-top:8px;font-style:italic}
+.corpus-counter span{color:var(--gold);font-weight:500}
 
-.radar-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 28px;
-  margin-top: 20px;
-  text-align: center;
-}
-.radar-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; font-weight: 600; color: var(--text);
-  margin-bottom: 6px;
-}
-.radar-sub {
-  font-size: 12px; color: var(--text3);
-  font-style: italic; margin-bottom: 24px;
-  letter-spacing: 0.02em;
-}
-.radar-svg {
-  width: 100%; max-width: 360px;
-  height: auto; margin: 0 auto; display: block;
-}
-.radar-legend {
-  font-size: 12px; color: var(--text3);
-  margin-top: 20px; font-style: italic;
-  line-height: 1.5; max-width: 380px;
-  margin-left: auto; margin-right: auto;
-}
+/* ERROR */
+.q-err{font-size:12px;color:var(--err);margin-top:6px;display:none}
+.q-err.on{display:block}
 
-.nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(14,12,10,0.96);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-  padding: 18px 40px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.btn-nav {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: var(--text2);
-  font-family: 'Epilogue', sans-serif; font-weight: 400;
-  font-size: 14px; padding: 10px 20px;
-  border: 1px solid var(--border); border-radius: 2px;
-  cursor: pointer; transition: all .2s; letter-spacing: 0.02em;
-}
-.btn-nav:hover { border-color: var(--border2); color: var(--text); background: var(--bg2); }
-.btn-nav:disabled { opacity: .3; cursor: default; pointer-events: none; }
-.btn-next {
-  background: var(--gold); color: var(--bg);
-  border-color: var(--gold);
-}
-.btn-next:hover { background: var(--gold2); color: var(--bg); border-color: var(--gold2); }
-.nav-mid {
-  font-size: 12px; color: var(--text3); letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(14,12,10,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:18px 40px;display:flex;justify-content:space-between;align-items:center}
+.bnav{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text2);font-family:'Epilogue',sans-serif;font-weight:400;font-size:14px;padding:10px 20px;border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .2s}
+.bnav:hover{border-color:var(--border2);color:var(--text);background:var(--bg2)}
+.bnav:disabled{opacity:.3;cursor:default;pointer-events:none}
+.bnav.next{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.bnav.next:hover{background:var(--gold2);border-color:var(--gold2)}
+.nav-info{font-size:12px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;text-align:center}
+.nav-info small{display:block;font-size:11px;color:var(--text4);margin-top:2px;letter-spacing:0.04em}
 
-.confirm {
-  max-width: var(--w);
-  margin: 0 auto;
-  padding: 80px 40px 140px;
-  text-align: center;
-}
-.confirm-check {
-  width: 56px; height: 56px;
-  border: 1.5px solid var(--ok);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 40px;
-  box-shadow: 0 0 24px rgba(126,200,154,0.15);
-}
-.confirm-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(30px, 5vw, 50px);
-  line-height: 1.1; margin-bottom: 20px;
-  color: var(--text); font-weight: 600;
-}
-.confirm-txt {
-  font-size: 16px; color: var(--text2); font-weight: 300;
-  line-height: 1.75; max-width: 460px;
-  margin: 0 auto 48px;
-}
-.steps-block {
-  text-align: left;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 28px 32px;
-  max-width: 440px;
-  margin: 0 auto 40px;
-}
-.steps-block h3 {
-  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 24px;
-}
-.step-row {
-  display: flex; gap: 16px; align-items: flex-start;
-  margin-bottom: 16px;
-}
-.step-row:last-child { margin-bottom: 0; }
-.step-n {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; color: var(--gold); line-height: 1.3; min-width: 20px;
-}
-.step-t { font-size: 14px; color: var(--text2); line-height: 1.5; font-weight: 300; }
-.step-t strong { color: var(--text); font-weight: 500; }
-.btn-export {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--gold); color: var(--bg);
-  font-family: 'Epilogue', sans-serif; font-weight: 500;
-  font-size: 15px; padding: 15px 32px;
-  border: none; border-radius: 2px; cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: background .2s, transform .15s;
-}
-.btn-export:hover { background: var(--gold2); transform: translateY(-1px); }
+/* CONFIRM */
+.confirm{max-width:var(--w);margin:0 auto;padding:80px 40px 140px;text-align:center}
+.confirm-icon{width:56px;height:56px;border:1.5px solid var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 40px;box-shadow:0 0 24px rgba(126,200,154,0.15)}
+.confirm-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);line-height:1.1;margin-bottom:20px;font-weight:600}
+.confirm-h1 em{font-style:italic;color:var(--gold)}
+.confirm-txt{font-size:16px;color:var(--text2);font-weight:300;line-height:1.75;max-width:440px;margin:0 auto 48px}
+.confirm-next{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:24px 28px;max-width:400px;margin:0 auto;text-align:left}
+.confirm-next h3{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.cnext-row{display:flex;gap:14px;margin-bottom:14px}
+.cnext-row:last-child{margin-bottom:0}
+.cnext-n{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);line-height:1.3;min-width:18px}
+.cnext-t{font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;padding-top:2px}
+.cnext-t strong{color:var(--text);font-weight:500}
 
-::selection { background: var(--gold); color: var(--bg); }
+.confirm-legal{font-size:11px;color:var(--text4);margin-top:28px;font-weight:300;letter-spacing:0.02em}
+.confirm-legal a{color:var(--text3);text-decoration:none;border-bottom:1px solid var(--border)}
+.confirm-legal a:hover{color:var(--text2)}
+.consent-block{max-width:var(--w);margin:32px auto 0;padding:0 40px}
+.consent-label{display:flex;align-items:flex-start;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:16px 18px;cursor:pointer;transition:border-color .2s}
+.consent-label:hover{border-color:var(--border2)}
+.consent-label.checked{border-color:var(--gold);background:var(--gold-soft)}
+.consent-check{width:18px;height:18px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.consent-label.checked .consent-check{background:var(--gold);border-color:var(--gold)}
+.consent-label.checked .consent-check::after{content:'';width:8px;height:8px;background:var(--bg);border-radius:1px}
+.consent-label span{font-size:13px;color:var(--text2);line-height:1.6;font-weight:300}
+.confirm-footer{max-width:460px;margin:48px auto 0;padding-top:32px;border-top:1px solid var(--border);text-align:center}
+.confirm-footer-contact{margin-bottom:28px}
+.confirm-footer-contact span{display:block;font-size:12px;color:var(--text4);margin-bottom:4px}
+.confirm-footer-contact a{font-size:12px;color:var(--text3);text-decoration:none;font-weight:300;letter-spacing:0.02em}
+.confirm-footer-contact a:hover{color:var(--text2)}
+.confirm-footer-legal{padding-top:24px;border-top:1px solid var(--border)}
+.confirm-footer-legal strong{display:block;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+.confirm-footer-legal span{display:block;font-size:11px;color:var(--text4);line-height:1.8;font-weight:300}
+.confirm-footer-legal a{color:var(--text4);text-decoration:none;border-bottom:1px solid var(--border)}
+.confirm-footer-legal a:hover{color:var(--text3)}
+::selection{background:var(--gold);color:var(--bg)}
 
-@media (max-width: 600px) {
-  .hdr { padding: 12px 20px; }
-  .prog-track { width: 80px; }
-  .welcome, .part-screen, .confirm { padding-left: 20px; padding-right: 20px; }
-  .stats { gap: 24px; }
-  .nav { padding: 14px 20px; }
-  .q-wrap { gap: 14px; }
-  .slider-row { grid-template-columns: 110px 1fr 28px; gap: 10px; }
-  .sliders-box { padding: 18px; }
-}
-
-@media (max-width: 480px) {
-  .phrase-row { flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 14px; }
-  .phrase-prefix { white-space: normal; font-size: 12px; }
-  .phrase-input { padding: 6px 0 2px; font-size: 14px; }
-  .slider-row { grid-template-columns: 1fr; gap: 6px; }
-  .slider-value { text-align: left; }
+@media(max-width:600px){
+  .hdr{padding:12px 20px}
+  .prog-track{width:80px}
+  .welcome,.chapter,.confirm{padding-left:20px;padding-right:20px}
+  .stats{gap:24px}
+  .nav{padding:14px 20px}
+  .mode-cards{flex-direction:column;gap:12px}
+  .pilier-row{grid-template-columns:1fr 64px}
 }
 </style>
 </head>
@@ -580,969 +237,821 @@ main { padding-top: 72px; }
 <header class="hdr">
   <div class="hdr-brand">AuthorScale</div>
   <div class="hdr-right">
-    <div class="hdr-part" id="hdrPart">—</div>
-    <div class="prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progBar">
-      <div class="prog-fill" id="progFill"></div>
-    </div>
+    <div class="hdr-step" id="hdrStep">—</div>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
   </div>
 </header>
 
 <main>
 
-<!-- ═══ SCREEN 0 : WELCOME ═══ -->
+<!-- ══════════ SCREEN 0 — WELCOME ══════════ -->
 <div class="screen active" id="s0">
-  <div class="welcome">
-    <h1>Avant les posts,<br><em>parlons de vous.</em></h1>
-    <p class="welcome-lead">
-      On écrira pour vous, mais jamais sans vous. Cette interview, c'est là que tout se joue.
-    </p>
-    <div class="interview-badge">
-      <div class="dot" aria-hidden="true"></div>
-      <span>Interview en cours d'enregistrement</span>
+<div class="welcome">
+  <div class="eyebrow">Voice Profile — Onboarding</div>
+  <h1>Avant les posts,<br><em>parlons de vous.</em></h1>
+  <p class="welcome-lead">
+    On écrira pour vous, mais jamais sans vous. Cette interview, c'est là que tout se joue.
+  </p>
+
+  <div class="mode-cards">
+    <div class="mode-card">
+      <div class="mode-card-icon mic">🎤</div>
+      <div class="mode-card-body">
+        <strong>Répondre à l'oral</strong>
+        Cliquez sur le micro et parlez. Votre réponse est transcrite automatiquement. Idéal pour les questions ouvertes — la parole naturelle est le meilleur corpus.
+      </div>
     </div>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-num">25</div><div class="stat-lbl">questions</div></div>
-      <div class="stat-item"><div class="stat-num">22'</div><div class="stat-lbl">durée estimée</div></div>
-      <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">chapitres</div></div>
+    <div class="mode-card">
+      <div class="mode-card-icon kb">⌨️</div>
+      <div class="mode-card-body">
+        <strong>Répondre à l'écrit</strong>
+        Tapez directement. Pour chaque question vous choisissez librement — changez de mode à tout moment.
+      </div>
     </div>
-    <button class="btn-start" onclick="go(1)" aria-label="Commencer l'interview">
-      Commencer l'interview
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
   </div>
+
+  <div class="stats">
+    <div><div class="stat-num">13</div><div class="stat-lbl">questions</div></div>
+    <div><div class="stat-num">15'</div><div class="stat-lbl">à l'oral</div></div>
+    <div><div class="stat-num">25'</div><div class="stat-lbl">à l'écrit</div></div>
+  </div>
+
+  <button class="btn-start" onclick="goTo(1)">
+    Commencer
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
 </div>
 
-<!-- ═══ SCREEN 1 : QUI VOUS ÊTES (3 Q) ═══ -->
+<!-- ══════════ SCREEN 1 — CE QU'AGENT 1 NE PEUT PAS LIRE ══════════ -->
 <div class="screen" id="s1">
-  <div class="part-screen">
-    <div class="part-header">
-      <div class="part-num">Chapitre 1 / 4</div>
-      <h2 class="part-title">Racontez-moi<br><em>qui vous êtes.</em></h2>
-      <p class="part-sub">Pas le pitch LinkedIn. La vraie version.</p>
-    </div>
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chap-eyebrow">Partie 1 — 5 questions</div>
+    <h2 class="chap-title">Ce que votre<br><em>voix ne dit pas</em></h2>
+    <p class="chap-sub">Ce chapitre capture ce qu'aucun outil ne peut lire dans vos textes — vos lignes rouges, votre positionnement réel, ce que vous refusez d'incarner.</p>
+  </div>
 
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">01</div><div class="q-body">
-        <div class="q-text">Un inconnu vous demande qui vous êtes lors d'un dîner — sans le discours poli. Que diriez-vous ?<span class="q-req">*</span></div>
-        <div class="q-hint">3 phrases max. La version que vous diriez à quelqu'un que vous venez de trouver sympa, pas à un prospect.</div>
-        <textarea class="q-textarea" id="q1" placeholder="Ex : « Je suis le genre de consultant qui arrive avec des questions inconfortables. J'ai passé 8 ans en usine avant de faire du conseil, ce qui change pas mal ma lecture des situations. En gros : je vois ce que les autres ne voient pas parce qu'ils n'ont jamais mis les mains dedans. »"></textarea>
-        <div class="q-errmsg" id="err-q1">Répondez à cette question — c'est la base de tout.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">02</div><div class="q-body">
-        <div class="q-text">Quelle est la chose que vous faites mieux que 95% de vos pairs — et pourquoi vous en êtes convaincu(e) ?<span class="q-req">*</span></div>
-        <div class="q-hint">Pas de fausse modestie. Et pas de généralité non plus — « je suis à l'écoute » ne compte pas.</div>
-        <textarea class="q-textarea" id="q2" placeholder="Ex : « Je diagnostique les vrais blocages d'une équipe en 2h d'entretien là où d'autres passent 3 semaines. Je le sais parce que mes clients me le disent systématiquement, et parce que j'ai comparé mes livrables avec ceux de concurrents sur les mêmes sujets. »"></textarea>
-        <div class="q-errmsg" id="err-q2">Répondez à cette question.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">03</div><div class="q-body">
-        <div class="q-text">Ce que vos clients disent de vous que vous n'auriez jamais dit de vous-même.<span class="q-req">*</span></div>
-        <div class="q-hint">Le mot ou la phrase qui revient dans les retours, les témoignages, les recommandations. Souvent, c'est ce qui sonne le plus juste.</div>
-        <textarea class="q-textarea" id="q3" placeholder="Ex : « Ils disent que je 'démystifie' les sujets complexes. Je n'aurais jamais utilisé ce mot pour moi — je pensais juste faire mon boulot. Mais ça revient dans presque tous les témoignages. »"></textarea>
-        <div class="q-errmsg" id="err-q3">Répondez à cette question.</div>
-      </div></div>
+  <!-- Q1 -->
+  <div class="question" id="q1">
+    <div class="q-row">
+      <div class="q-num">01</div>
+      <div class="q-body">
+        <div class="q-label">Présentez-vous comme vous le feriez à un inconnu sympa — version naturelle, pas version CV.<span class="q-req">*</span></div>
+        <div class="q-hint">Qui vous êtes, ce que vous faites, ce qui vous rend différent·e. Sans filtre.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q1-mb" onclick="setMode('q1','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q1-kb" onclick="setMode('q1','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q1-v">
+          <div class="vfallback" id="q1-fb">⚠️ Reconnaissance vocale non disponible sur ce navigateur. Utilisez Chrome ou Edge, ou répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q1-rb" onclick="toggleRec('q1')">
+              <div class="rdot hide" id="q1-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q1-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q1-st">Prêt — appuyez sur le micro et parlez naturellement</div>
+          </div>
+          <textarea class="vtranscript" id="q1-vta" placeholder="Votre transcription apparaît ici... Corrigez directement si besoin."></textarea>
+          <div class="vhint">💡 Parlez comme si vous expliquiez à un ami — c'est exactement ce dont on a besoin.</div>
+        </div>
+        <div class="tzone on" id="q1-t">
+          <textarea class="q-ta" id="q1-ta" placeholder="Ex : Je bosse en service client depuis 10 ans. Ma spécialité c'est rendre les gens autonomes plutôt que de leur mâcher le travail..."></textarea>
+        </div>
+        <div class="q-err" id="q1-err">Cette question est obligatoire.</div>
+      </div>
     </div>
   </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q2 -->
+  <div class="question" id="q2">
+    <div class="q-row">
+      <div class="q-num">02</div>
+      <div class="q-body">
+        <div class="q-label">Complétez : "Je suis le/la [rôle] qui aide [qui] à [résultat] sans [frustration habituelle du secteur]."<span class="q-req">*</span></div>
+        <div class="q-hint">Exemple : "Je suis la consultante RH qui aide les PME à recruter sans passer par des cabinets hors de prix."</div>
+        <input class="q-input" id="q2-ta" placeholder="Je suis le/la... qui aide... à... sans...">
+        <div class="q-err" id="q2-err">Cette question est obligatoire.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q3 -->
+  <div class="question" id="q3">
+    <div class="q-row">
+      <div class="q-num">03</div>
+      <div class="q-body">
+        <div class="q-label">Quelle est la croyance dominante dans votre secteur que vous trouvez fausse — et qu'est-ce que vous avez envie de dire mais n'avez jamais osé ?<span class="q-req">*</span></div>
+        <div class="q-hint">Le cliché pro qui vous énerve. Le post qui démange. Ce que vous pensez vraiment mais que vous retenez sur LinkedIn.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q3-mb" onclick="setMode('q3','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q3-kb" onclick="setMode('q3','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q3-v">
+          <div class="vfallback" id="q3-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q3-rb" onclick="toggleRec('q3')">
+              <div class="rdot hide" id="q3-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q3-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q3-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q3-vta" placeholder="Votre transcription..."></textarea>
+          <div class="vhint">💡 Ne vous censurez pas — c'est exactement ce niveau de franchise qu'on cherche.</div>
+        </div>
+        <div class="tzone on" id="q3-t">
+          <textarea class="q-ta" id="q3-ta" placeholder="Ex : Tout le monde dit que les jeunes sont à l'aise avec la tech parce qu'ils sont nés avec un téléphone. C'est faux. Ce que j'ai jamais osé dire c'est que..."></textarea>
+        </div>
+        <div class="q-err" id="q3-err">Cette question est obligatoire.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q4 -->
+  <div class="question" id="q4">
+    <div class="q-row">
+      <div class="q-num">04</div>
+      <div class="q-body">
+        <div class="q-label">Vos tabous absolus : sujets hors-jeu, personnes ou marques à ne jamais citer, mots que vous détestez.<span class="q-req">*</span></div>
+        <div class="q-hint">Tout ce qui est absent de vos textes par choix — et non par oubli. Ce qu'on ne doit jamais écrire en votre nom.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q4-mb" onclick="setMode('q4','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q4-kb" onclick="setMode('q4','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q4-v">
+          <div class="vfallback" id="q4-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q4-rb" onclick="toggleRec('q4')">
+              <div class="rdot hide" id="q4-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q4-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q4-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q4-vta" placeholder="Votre transcription..."></textarea>
+        </div>
+        <div class="tzone on" id="q4-t">
+          <textarea class="q-ta" id="q4-ta" placeholder="Sujets : la religion, la politique, tout ce qui touche à mon employeur actuel...&#10;Personnes/marques : [noms]...&#10;Mots que je déteste : synergies, disrupter, agilité..."></textarea>
+        </div>
+        <div class="q-err" id="q4-err">Cette question est obligatoire.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q5 -->
+  <div class="question" id="q5">
+    <div class="q-row">
+      <div class="q-num">05</div>
+      <div class="q-body">
+        <div class="q-label">Quelle image refusez-vous absolument de donner sur LinkedIn — et quel profil ne voulez-vous jamais ressembler ?</div>
+        <div class="q-hint">L'anti-profil. Ce que vous refusez d'incarner, même si c'est ce qui "fonctionne" pour d'autres.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q5-mb" onclick="setMode('q5','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q5-kb" onclick="setMode('q5','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q5-v">
+          <div class="vfallback" id="q5-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q5-rb" onclick="toggleRec('q5')">
+              <div class="rdot hide" id="q5-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q5-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q5-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q5-vta" placeholder="Votre transcription..."></textarea>
+        </div>
+        <div class="tzone on" id="q5-t">
+          <textarea class="q-ta" id="q5-ta" placeholder="Ex : Le donneur de leçons qui étale sa science pour écraser les autres. Les posts inspirationnels vides. Le prosélytisme professionnel..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 
-<!-- ═══ SCREEN 2 : COMMENT VOUS PENSEZ (7 Q) ═══ -->
+<!-- ══════════ SCREEN 2 — CE QU'AGENT 2 NE PEUT PAS DEVINER ══════════ -->
 <div class="screen" id="s2">
-  <div class="part-screen">
-    <div class="part-header">
-      <div class="part-num">Chapitre 2 / 4</div>
-      <h2 class="part-title">Racontez-moi<br>comment vous<br><em>pensez.</em></h2>
-      <p class="part-sub">Vos convictions, vos lignes rouges, ce qui vous met en colère.</p>
-    </div>
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chap-eyebrow">Partie 2 — 6 questions</div>
+    <h2 class="chap-title">Ce que votre<br><em>stratégie exige</em></h2>
+    <p class="chap-sub">Audience, objectifs, piliers, actualité. Ce chapitre construit le plan de contenu — aucun outil ne peut le deviner à votre place.</p>
+  </div>
 
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">04</div><div class="q-body">
-        <div class="q-text">Quelle est LA chose que tout le monde dit dans votre secteur — et qui vous énerve parce que c'est faux ?<span class="q-req">*</span></div>
-        <div class="q-hint">La croyance dominante que vous trouvez dangereuse, sur-vendue, ou tout simplement mensongère.</div>
-        <textarea class="q-textarea" id="q4" placeholder="Ex : « L'idée que 'tout le monde peut devenir entrepreneur' est dangereuse. Elle pousse des gens à tout quitter sans être préparés. C'est du marketing déguisé en inspiration. »"></textarea>
-        <div class="q-errmsg" id="err-q4">Répondez à cette question.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">05</div><div class="q-body">
-        <div class="q-text">Qu'est-ce que vous avez envie de dire sur LinkedIn que vous n'avez jamais osé dire — ou que vous avez dit en retenant vos mots ?<span class="q-req">*</span></div>
-        <div class="q-hint">Le truc un peu risqué, un peu clivant, qui vous tient à cœur mais que vous ne publiez jamais vraiment.</div>
-        <textarea class="q-textarea lg" id="q5" placeholder="Ex : « J'ai envie de dire que la plupart des formations en management sont du vent. Que les entreprises qui se disent bienveillantes sont souvent les plus toxiques. Mais je n'ose pas parce que j'ai des clients dans ces boîtes. »"></textarea>
-        <div class="q-errmsg" id="err-q5">Répondez à cette question.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">06</div><div class="q-body">
-        <div class="q-text">Montrez-moi un post LinkedIn qui vous a fait lever les yeux au ciel. Qu'est-ce qui ne va pas ?<span class="q-req">*</span></div>
-        <div class="q-hint">Lien, extrait ou description du type de post. <strong>Ce qu'on cherche : ce que vous détestez stylistiquement</strong> — c'est aussi important que ce que vous aimez.</div>
-        <div class="sub-block">
-          <div class="sub-item">
-            <label>Le post (lien ou description)</label>
-            <textarea class="q-textarea" id="q6a" placeholder="Ex : « Les posts qui commencent par 'Dans un monde qui change de plus en plus vite...' ou les '10 leçons apprises après 10 ans d'entrepreneuriat'. »" rows="3"></textarea>
-          </div>
-          <div class="sub-item">
-            <label>Ce qui vous dérange précisément</label>
-            <textarea class="q-textarea" id="q6b" placeholder="Ex : « C'est creux. Il n'y a aucune prise de position réelle. Il dit des évidences en faisant comme si c'étaient des révélations. »" rows="3"></textarea>
-          </div>
+  <!-- Q6 -->
+  <div class="question" id="q6">
+    <div class="q-row">
+      <div class="q-num">06</div>
+      <div class="q-body">
+        <div class="q-label">Décrivez votre lecteur idéal : qui il est, ce qui l'empêche de dormir, ce qui le pousse à agir.<span class="q-req">*</span></div>
+        <div class="q-hint">Poste, secteur, taille d'entreprise si applicable. Sa douleur concrète. L'événement déclencheur qui le pousse à chercher une solution.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q6-mb" onclick="setMode('q6','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q6-kb" onclick="setMode('q6','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
         </div>
-        <div class="q-errmsg" id="err-q6">Répondez à cette question — au moins le premier champ.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">07</div><div class="q-body">
-        <div class="q-text">Quelle image ne voulez-vous JAMAIS donner sur LinkedIn — même involontairement ?<span class="q-req">*</span></div>
-        <div class="q-hint">Ex : « le guru qui donne des leçons », « le commercial qui vend à tout prix », « l'expert théorique déconnecté du terrain »...</div>
-        <textarea class="q-textarea" id="q7" placeholder="Ex : « Je ne veux surtout pas passer pour quelqu'un qui vend des formations ou qui donne des leçons de vie. Et je ne veux pas être perçu comme 'l'expert IA' générique — il y en a des milliers. »"></textarea>
-        <div class="q-errmsg" id="err-q7">Répondez à cette question.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">08</div><div class="q-body">
-        <div class="q-text">Y a-t-il des sujets, des personnes ou des marques que vous refusez d'aborder sur LinkedIn — même pour les critiquer ?<span class="q-req">*</span></div>
-        <div class="q-hint">Les tabous absolus. Ce qui est hors-jeu, quelles que soient les circonstances.</div>
-        <div class="sub-block">
-          <div class="sub-item">
-            <label>Sujets hors-jeu</label>
-            <input class="q-input" id="q8a" type="text" placeholder="Ex : politique, vie personnelle, concurrents nommément...">
+        <div class="vzone" id="q6-v">
+          <div class="vfallback" id="q6-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q6-rb" onclick="toggleRec('q6')">
+              <div class="rdot hide" id="q6-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q6-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q6-st">Prêt</div>
           </div>
-          <div class="sub-item">
-            <label>Personnes ou marques à ne jamais citer (ni en bien ni en mal)</label>
-            <input class="q-input" id="q8b" type="text" placeholder="Ex : noms de clients, concurrents directs...">
-          </div>
-          <div class="sub-item">
-            <label>Pourquoi ces lignes rouges</label>
-            <textarea class="q-textarea" id="q8c" placeholder="Ex : « J'ai des clients dans ces secteurs. Ou simplement : ça ne me ressemble pas. »" rows="2"></textarea>
-          </div>
+          <textarea class="vtranscript" id="q6-vta" placeholder="Votre transcription..."></textarea>
         </div>
-        <div class="q-errmsg" id="err-q8">Renseignez au moins les sujets hors-jeu ou les personnes à ne jamais citer.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">09</div><div class="q-body">
-        <div class="q-text">En quoi vous différenciez-vous vraiment de vos concurrents — ce que vous faites ou dites qu'eux ne font pas ?<span class="q-req">*</span></div>
-        <div class="q-hint">Ce qui vous rend difficilement remplaçable. Pas le storytelling marketing — la vraie différence opérationnelle.</div>
-        <textarea class="q-textarea" id="q9" placeholder="Ex : « Mes concurrents vendent des méthodes. Moi je vends un diagnostic sur-mesure. Ils montrent des slides, moi je pose des questions. Ils promettent des résultats en 90 jours, moi je refuse de promettre ce que je ne contrôle pas. »"></textarea>
-        <div class="q-errmsg" id="err-q9">Répondez à cette question.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">10</div><div class="q-body">
-        <div class="q-text">Y a-t-il un profil LinkedIn dans votre niche à qui vous ne voulez surtout pas ressembler ?<span class="q-opt">optionnel</span></div>
-        <div class="q-hint">Pas besoin de nommer — décrivez le style, le positionnement, la façon d'écrire qui vous fait fuir.</div>
-        <div class="sub-block">
-          <div class="sub-item">
-            <label>Le profil (ou le type de profil)</label>
-            <input class="q-input" id="q10a" type="text" placeholder="Ex : « Le coach motivation qui poste tous les matins » ou un lien direct">
-          </div>
-          <div class="sub-item">
-            <label>Ce que vous refusez absolument d'incarner</label>
-            <textarea class="q-textarea" id="q10b" placeholder="Ex : « Il fait des posts ultra-motivationnels sans fond. Pas de vraie expertise, que de la forme. Tout est calculé pour le like. »" rows="3"></textarea>
-          </div>
+        <div class="tzone on" id="q6-t">
+          <textarea class="q-ta" id="q6-ta" placeholder="Ex : Des responsables de service client dans des ETI. Leur douleur : ils perdent un temps fou à répondre aux mêmes questions basiques. Ce qui les fait agir : une nouvelle vague de réclamations qui dépasse l'équipe..."></textarea>
         </div>
-      </div></div>
+        <div class="q-err" id="q6-err">Cette question est obligatoire.</div>
+      </div>
     </div>
   </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q7 — OBJECTIF -->
+  <div class="question" id="q7">
+    <div class="q-row">
+      <div class="q-num">07</div>
+      <div class="q-body">
+        <div class="q-label">Quel est votre objectif principal sur LinkedIn — et comment vous saurez que ça marche ?<span class="q-req">*</span></div>
+        <div class="q-hint">Choisissez l'objectif prioritaire ci-dessous, puis précisez votre indicateur de succès personnel.</div>
+        <div class="obj-grid" id="obj-grid">
+          <button class="obj-btn" onclick="selectObj(this,'Génération de leads entrants')"><div class="obj-dot"></div>Leads entrants</button>
+          <button class="obj-btn" onclick="selectObj(this,'Notoriété & positionnement expert')"><div class="obj-dot"></div>Notoriété / expertise</button>
+          <button class="obj-btn" onclick="selectObj(this,'Recrutement')"><div class="obj-dot"></div>Recrutement</button>
+          <button class="obj-btn" onclick="selectObj(this,'Partenariats / co-traitance')"><div class="obj-dot"></div>Partenariats</button>
+          <button class="obj-btn" onclick="selectObj(this,'Autre')"><div class="obj-dot"></div>Autre</button>
+        </div>
+        <input class="q-input" id="q7-kpi" style="margin-top:12px" placeholder="Pour moi ça marche si... (ex : des DMs entrants, des appels de découverte, une invitation à parler...)">
+        <input type="hidden" id="q7-obj" value="">
+        <div class="q-err" id="q7-err">Choisissez un objectif.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q8 — PILIERS -->
+  <div class="question" id="q8">
+    <div class="q-row">
+      <div class="q-num">08</div>
+      <div class="q-body">
+        <div class="q-label">Sur quels sujets pourriez-vous parler 2h sans préparation ? Listez-les et répartissez-les en %.<span class="q-req">*</span></div>
+        <div class="q-hint">3 à 5 sujets. La répartition doit faire 100%. Pas besoin d'être exact — c'est votre intuition qui compte.</div>
+        <div class="piliers-block" id="piliers-block">
+          <div class="pilier-row"><input class="pilier-name" placeholder="Ex : Expérience client" oninput="calcPct()"><input class="pilier-pct" type="number" min="0" max="100" placeholder="%" oninput="calcPct()"></div>
+          <div class="pilier-row"><input class="pilier-name" placeholder="Ex : Autonomie & selfcare" oninput="calcPct()"><input class="pilier-pct" type="number" min="0" max="100" placeholder="%" oninput="calcPct()"></div>
+          <div class="pilier-row"><input class="pilier-name" placeholder="Ex : Management de l'information" oninput="calcPct()"><input class="pilier-pct" type="number" min="0" max="100" placeholder="%" oninput="calcPct()"></div>
+        </div>
+        <div class="pilier-total">
+          <span>Total :</span>
+          <span class="pilier-total-num" id="pct-total">0</span>
+          <span>/ 100%</span>
+        </div>
+        <button class="pilier-add" onclick="addPilier()">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Ajouter un sujet
+        </button>
+        <div class="q-err" id="q8-err">Renseignez au moins 3 sujets. Le total doit faire 100%.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q9 -->
+  <div class="question" id="q9">
+    <div class="q-row">
+      <div class="q-num">09</div>
+      <div class="q-body">
+        <div class="q-label">Quels événements importants avez-vous dans les 3 prochains mois ?</div>
+        <div class="q-hint">Lancement d'offre, prise de parole, conférence, partenariat à annoncer. Aussi : les périodes à éviter (vacances, rush).</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q9-mb" onclick="setMode('q9','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q9-kb" onclick="setMode('q9','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q9-v">
+          <div class="vfallback" id="q9-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q9-rb" onclick="toggleRec('q9')">
+              <div class="rdot hide" id="q9-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q9-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q9-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q9-vta" placeholder="Votre transcription..."></textarea>
+        </div>
+        <div class="tzone on" id="q9-t">
+          <textarea class="q-ta" id="q9-ta" placeholder="Ex : Lancement d'une nouvelle offre en juillet. Conférence RH le 15 juin. Août = vacances, rien à publier. Partenariat avec X à annoncer fin septembre..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q10 -->
+  <div class="question" id="q10">
+    <div class="q-row">
+      <div class="q-num">10</div>
+      <div class="q-body">
+        <div class="q-label">Quelles sont vos victoires récentes — résultats obtenus, retours clients, milestones ?</div>
+        <div class="q-hint">Ce qui s'est passé de concret ces 3 derniers mois et dont vous pourriez vous vanter (même modestement).</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q10-mb" onclick="setMode('q10','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q10-kb" onclick="setMode('q10','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q10-v">
+          <div class="vfallback" id="q10-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q10-rb" onclick="toggleRec('q10')">
+              <div class="rdot hide" id="q10-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q10-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q10-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q10-vta" placeholder="Votre transcription..."></textarea>
+        </div>
+        <div class="tzone on" id="q10-t">
+          <textarea class="q-ta" id="q10-ta" placeholder="Ex : Client X a réduit ses réclamations de 40% en 2 mois. Témoignage de Y reçu la semaine dernière. Promotion obtenue après avoir restructuré le service..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q11 -->
+  <div class="question" id="q11">
+    <div class="q-row">
+      <div class="q-num">11</div>
+      <div class="q-body">
+        <div class="q-label">Pourquoi LinkedIn maintenant — quel est le vrai déclencheur ?<span class="q-req">*</span></div>
+        <div class="q-hint">Pas la version "communication". Le vrai déclencheur — ce qui s'est passé ou ce que vous avez réalisé qui vous a fait franchir le pas.</div>
+        <div class="mode-toggle">
+          <button class="mbtn" id="q11-mb" onclick="setMode('q11','mic')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>Oral
+          </button>
+          <button class="mbtn m-kb" id="q11-kb" onclick="setMode('q11','kb')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>Écrit
+          </button>
+        </div>
+        <div class="vzone" id="q11-v">
+          <div class="vfallback" id="q11-fb">⚠️ Reconnaissance vocale non disponible. Répondez à l'écrit.</div>
+          <div class="vcontrols">
+            <button class="vrec-btn" id="q11-rb" onclick="toggleRec('q11')">
+              <div class="rdot hide" id="q11-dot"></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 01-14 0M12 19v3M8 22h8"/></svg>
+              <span id="q11-rt">Appuyer pour parler</span>
+            </button>
+            <div class="vstatus" id="q11-st">Prêt</div>
+          </div>
+          <textarea class="vtranscript" id="q11-vta" placeholder="Votre transcription..."></textarea>
+        </div>
+        <div class="tzone on" id="q11-t">
+          <textarea class="q-ta" id="q11-ta" placeholder="Ex : J'ai vu quelqu'un avec moins d'expérience que moi décrocher une opportunité via LinkedIn. J'ai réalisé que j'étais invisible alors que j'avais des choses à dire..."></textarea>
+        </div>
+        <div class="q-err" id="q11-err">Cette question est obligatoire.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 
-<!-- ═══ SCREEN 3 : COMMENT VOUS ÉCRIVEZ (9 Q : 11-19) ═══ -->
+<!-- ══════════ SCREEN 3 — CORPUS ══════════ -->
 <div class="screen" id="s3">
-  <div class="part-screen">
-    <div class="part-header">
-      <div class="part-num">Chapitre 3 / 4</div>
-      <h2 class="part-title">Racontez-moi<br>comment vous<br><em>écrivez.</em></h2>
-      <p class="part-sub">Votre langue, vos tics, votre façon d'argumenter.</p>
-    </div>
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chap-eyebrow">Partie 3 — 2 questions</div>
+    <h2 class="chap-title">Votre<br><em>matière première</em></h2>
+    <p class="chap-sub">C'est ici que tout se joue. Plus vous fournissez de textes, plus vos posts sonneront comme vous —.</p>
+  </div>
 
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">11</div><div class="q-body">
-        <div class="q-text key-question">Si un ami vous demande ce que vous faites concrètement dans votre journée, vous lui dites quoi ?<span class="q-req">*</span></div>
-        <div class="q-hint">Pas votre identité — votre métier au quotidien. Les tâches, les situations, les mots que vous utilisez vraiment. <strong>C'est la question la plus importante de cette interview.</strong></div>
-        <textarea class="q-textarea lg" id="q11" placeholder="Ex : « En gros je prends des boîtes qui sont en train de se planter et je leur dis ce que personne n'ose leur dire. Je passe 2 jours avec eux, je pose des questions chelou, et en général ils comprennent en 48h pourquoi ça bloque depuis 2 ans. C'est ça mon truc. »"></textarea>
-        <div class="q-errmsg" id="err-q11">C'est la question la plus importante — prenez le temps d'y répondre honnêtement.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">12</div><div class="q-body">
-        <div class="q-text">Complétez ces phrases — sans réfléchir trop longtemps.<span class="q-req">*</span></div>
-        <div class="q-hint">La première réponse qui vient est souvent la plus vraie. <strong>Au moins 3 phrases sur 5.</strong></div>
-        <div class="phrases">
-          <div class="phrase-row"><span class="phrase-prefix">Je tutoie mes lecteurs parce que...</span><input class="phrase-input" id="q12a" type="text" placeholder="..."></div>
-          <div class="phrase-row"><span class="phrase-prefix">L'humour dans mes posts, c'est...</span><input class="phrase-input" id="q12b" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
-          <div class="phrase-row"><span class="phrase-prefix">Les chiffres dans mes posts, c'est...</span><input class="phrase-input" id="q12c" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
-          <div class="phrase-row"><span class="phrase-prefix">Je raconte des histoires perso...</span><input class="phrase-input" id="q12d" type="text" placeholder="souvent / parfois / jamais, parce que..."></div>
-          <div class="phrase-row"><span class="phrase-prefix">Prendre des positions tranchées...</span><input class="phrase-input" id="q12e" type="text" placeholder="j'adore / ça me fait peur / je le fais quand..."></div>
-        </div>
-        <div class="q-errmsg" id="err-q12">Complétez au moins 3 phrases.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">13</div><div class="q-body">
-        <div class="q-text">Quand vous voulez convaincre quelqu'un, par quoi vous commencez naturellement ?<span class="q-req">*</span></div>
-        <div class="q-hint">Une seule réponse — celle qui vous correspond le plus, même si vous faites parfois autrement.</div>
-        <div class="choice-grid" id="q13-choices">
-          <div class="choice-btn" data-val="chiffre">Un chiffre ou un fait précis</div>
-          <div class="choice-btn" data-val="histoire">Une histoire ou un exemple concret</div>
-          <div class="choice-btn" data-val="affirmation">Une affirmation provocante</div>
-          <div class="choice-btn" data-val="question">Une question qui dérange</div>
-        </div>
-        <input type="hidden" id="q13" value="">
-        <div class="q-errmsg" id="err-q13">Faites un choix.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">14</div><div class="q-body">
-        <div class="q-text">Quels types de preuves vous utilisez naturellement pour appuyer vos idées ?<span class="q-req">*</span></div>
-        <div class="q-hint">Cochez tout ce qui s'applique. <strong>2 à 4 réponses idéalement.</strong></div>
-        <div class="check-grid" id="q14-choices">
-          <div class="check-btn" data-val="chiffres"><span class="check-mark"></span>Chiffres et stats</div>
-          <div class="check-btn" data-val="anecdotes"><span class="check-mark"></span>Anecdotes clients</div>
-          <div class="check-btn" data-val="experience"><span class="check-mark"></span>Mon expérience perso</div>
-          <div class="check-btn" data-val="citations"><span class="check-mark"></span>Citations d'autorités</div>
-          <div class="check-btn" data-val="etudes"><span class="check-mark"></span>Études ou recherches</div>
-          <div class="check-btn" data-val="analogies"><span class="check-mark"></span>Analogies / métaphores</div>
-        </div>
-        <input type="hidden" id="q14" value="">
-        <div class="q-errmsg" id="err-q14">Cochez au moins 1 type de preuve.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">15</div><div class="q-body">
-        <div class="q-text">Vos métaphores et comparaisons viennent plutôt de quels univers ?<span class="q-opt">optionnel</span></div>
-        <div class="q-hint">Quand vous expliquez quelque chose de complexe, vous tirez vos comparaisons d'où ? Cochez 1 à 3 univers max.</div>
-        <div class="check-grid" id="q15-choices">
-          <div class="check-btn" data-val="sport"><span class="check-mark"></span>Sport</div>
-          <div class="check-btn" data-val="cuisine"><span class="check-mark"></span>Cuisine</div>
-          <div class="check-btn" data-val="guerre"><span class="check-mark"></span>Guerre / stratégie</div>
-          <div class="check-btn" data-val="voyage"><span class="check-mark"></span>Voyage</div>
-          <div class="check-btn" data-val="science"><span class="check-mark"></span>Sciences / nature</div>
-          <div class="check-btn" data-val="art"><span class="check-mark"></span>Art / musique</div>
-          <div class="check-btn" data-val="cinema"><span class="check-mark"></span>Cinéma / séries</div>
-          <div class="check-btn" data-val="tech"><span class="check-mark"></span>Tech / ingénierie</div>
-        </div>
-        <input type="hidden" id="q15" value="">
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">16</div><div class="q-body">
-        <div class="q-text">Quand vous écrivez à votre audience, quelle posture vous adoptez le plus souvent ?<span class="q-req">*</span></div>
-        <div class="q-hint">Une seule réponse. Pas celle que vous voudriez être — celle que vous êtes vraiment.</div>
-        <div class="choice-grid" id="q16-choices">
-          <div class="choice-btn" data-val="enseignant">L'enseignant qui transmet</div>
-          <div class="choice-btn" data-val="pair">Le pair qui partage</div>
-          <div class="choice-btn" data-val="provocateur">Le provocateur qui dérange</div>
-          <div class="choice-btn" data-val="confident">Le confident qui se livre</div>
-        </div>
-        <input type="hidden" id="q16" value="">
-        <div class="q-errmsg" id="err-q16">Faites un choix.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">17</div><div class="q-body">
-        <div class="q-text">Quel format de post LinkedIn vous correspond le mieux ?<span class="q-req">*</span></div>
-        <div class="q-hint">Cochez 1 ou 2 formats que vous aimez vraiment écrire.</div>
-        <div class="check-grid" id="q17-choices">
-          <div class="check-btn" data-val="court"><span class="check-mark"></span>Post court (&lt; 150 mots)</div>
-          <div class="check-btn" data-val="long"><span class="check-mark"></span>Post long (&gt; 400 mots)</div>
-          <div class="check-btn" data-val="liste"><span class="check-mark"></span>Liste numérotée</div>
-          <div class="check-btn" data-val="story"><span class="check-mark"></span>Storytelling narratif</div>
-          <div class="check-btn" data-val="opinion"><span class="check-mark"></span>Opinion tranchée</div>
-          <div class="check-btn" data-val="cas"><span class="check-mark"></span>Cas client / retex</div>
-        </div>
-        <input type="hidden" id="q17" value="">
-        <div class="q-errmsg" id="err-q17">Cochez au moins 1 format.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">18</div><div class="q-body">
-        <div class="q-text">Les émojis dans vos posts, c'est quoi votre relation ?<span class="q-req">*</span></div>
-        <div class="q-hint">Une réponse.</div>
-        <div class="choice-grid" id="q18-choices">
-          <div class="choice-btn" data-val="jamais">Jamais — ça me sort par les yeux</div>
-          <div class="choice-btn" data-val="parfois">Parfois, pour ponctuer une idée</div>
-          <div class="choice-btn" data-val="souvent">Souvent, c'est ma signature</div>
-        </div>
-        <input type="hidden" id="q18" value="">
-        <div class="q-errmsg" id="err-q18">Faites un choix.</div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <!-- Q19 = rythme d'écriture (déplacée du chap 4 vers ici - BUG #3 FIX) -->
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">19</div><div class="q-body">
-        <div class="q-text">Quand vous écrivez, vous préférez : phrases courtes et hachées, ou phrases longues et construites ?<span class="q-req">*</span></div>
-        <div class="q-hint">Le rythme naturel de votre écriture.</div>
-        <div class="choice-grid" id="q19-choices">
-          <div class="choice-btn" data-val="courtes">Courtes. Hachées. Impact.</div>
-          <div class="choice-btn" data-val="alternees">Alternées — court + long pour rythmer</div>
-          <div class="choice-btn" data-val="longues">Longues, construites, denses</div>
-        </div>
-        <input type="hidden" id="q19" value="">
-        <div class="q-errmsg" id="err-q19">Faites un choix.</div>
-      </div></div>
+  <!-- Q12 -->
+  <div class="question" id="q12">
+    <div class="q-row">
+      <div class="q-num">12</div>
+      <div class="q-body">
+        <div class="q-label">URL de votre profil LinkedIn</div>
+        <div class="q-hint">linkedin.com/in/votre-nom — pour référence et éventuel scraping de vos posts.</div>
+        <input class="q-input" id="q12-ta" placeholder="https://linkedin.com/in/...">
+      </div>
     </div>
   </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
+
+  <!-- Q13 -->
+  <div class="question" id="q13">
+    <div class="q-row">
+      <div class="q-num">13</div>
+      <div class="q-body">
+        <div class="q-label">Collez ici vos textes existants — posts LinkedIn, emails longs, prises de parole transcrites.<span class="q-req">*</span></div>
+        <div class="q-hint">Minimum 15 textes pour une analyse complète. Séparez chaque texte par <strong>---</strong> sur une ligne seule.</div>
+        <div class="corpus-box">
+          <div class="corpus-intro">
+            <strong>Quoi coller ici :</strong>
+            <ul>
+              <li>Vos posts LinkedIn (texte brut, 1 par bloc)</li>
+              <li>Des emails professionnels longs (3+ paragraphes)</li>
+              <li>Des transcriptions de prises de parole, interviews</li>
+              <li>Des commentaires longs laissés sur d'autres posts</li>
+            </ul>
+          </div>
+          <textarea class="q-ta xl" id="q13-ta" placeholder="Post 1&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;Post 2&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;[Continuez...]" oninput="countTexts()"></textarea>
+          <div class="corpus-counter">Textes détectés : <span id="corpus-n">0</span> <span id="corpus-warn" style="color:var(--warn);display:none"> — minimum 15 recommandé pour un Voice Profile complet</span></div>
+        </div>
+        <div class="q-err" id="q13-err">Collez au moins 1 texte pour continuer.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="consent-block">
+    <label class="consent-label" id="consent-label">
+      <div class="consent-check" id="consent-box" onclick="toggleConsent()"></div>
+      <span>J'accepte qu'AuthorScale utilise ces informations pour traiter ma demande et me recontacter. Ces données sont strictement confidentielles et ne seront jamais transmises à des tiers.</span>
+    </label>
+    <div class="q-err" id="consent-err">Veuillez accepter pour continuer.</div>
+  </div>
+
+</div>
 </div>
 
-<!-- ═══ SCREEN 4 : SIGNATURE ÉDITORIALE (6 Q : 20-25) ═══ -->
+<!-- ══════════ SCREEN 4 — CONFIRM ══════════ -->
 <div class="screen" id="s4">
-  <div class="part-screen">
-    <div class="part-header">
-      <div class="part-num">Chapitre 4 / 4</div>
-      <h2 class="part-title">Votre<br><em>signature éditoriale.</em></h2>
-      <p class="part-sub">Réglez les curseurs comme vous vous voyez écrire. Vous verrez votre voix se dessiner.</p>
+<div class="confirm">
+  <div class="confirm-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ec89a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h1 class="confirm-h1">Interview<br><em>envoyée.</em></h1>
+  <p class="confirm-txt">Votre consultant AuthorScale reçoit vos réponses maintenant. La suite dans les 5 jours ouvrés.</p>
+
+  <div class="confirm-next">
+    <h3>Ce qui se passe ensuite</h3>
+    <div class="cnext-row"><div class="cnext-n">1</div><div class="cnext-t"><strong>J+2</strong> — Nous analysons votre voix et rédigeons votre profil éditorial. Vous le recevez pour validation.</div></div>
+    <div class="cnext-row"><div class="cnext-n">2</div><div class="cnext-t"><strong>J+5</strong> — Votre stratégie éditoriale du premier mois vous est envoyée par email. Sujets, angles, calendrier — vous validez avant le démarrage.</div></div>
+    <div class="cnext-row"><div class="cnext-n">3</div><div class="cnext-t"><strong>Chaque semaine</strong> — Vos posts de la semaine arrivent tout rédigés. Vous relisez, vous publiez — rien d'autre.</div></div>
+    
+    <div class="cnext-row"><div class="cnext-n">4</div><div class="cnext-t"><strong>Fin de mois</strong> — Vous recevez un bilan complet : posts publiés, performances, axes d'amélioration.</div></div>
+  </div>
+
+  <div class="confirm-footer">
+    <div class="confirm-footer-contact">
+      <span>Une question ?</span>
+      <a href="mailto:AuthorScale33@gmail.com">AuthorScale33@gmail.com</a>
     </div>
-
-    <!-- Q20 = sliders 6 axes (était q19 en v5) -->
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">20</div><div class="q-body">
-        <div class="q-text">Sur ces 6 axes, où vous situez-vous quand vous écrivez ?<span class="q-req">*</span></div>
-        <div class="q-hint">0 = quasi absent. 10 = très présent. Ce n'est pas un test — c'est votre déclaration. L'analyse de vos textes confirmera ou nuancera. <strong>Touchez chaque curseur</strong> (même pour confirmer 5/10).</div>
-        <div class="sliders-box">
-          <div class="slider-row">
-            <div class="slider-label">Chaleur<small>proximité, sincérité</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20a" data-touched="0">
-            <div class="slider-value untouched" id="q20a-val">5</div>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label">Autorité<small>assurance, expertise</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20b" data-touched="0">
-            <div class="slider-value untouched" id="q20b-val">5</div>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label">Humour<small>autodérision, légèreté</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20c" data-touched="0">
-            <div class="slider-value untouched" id="q20c-val">5</div>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label">Vulnérabilité<small>partager doutes, échecs</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20d" data-touched="0">
-            <div class="slider-value untouched" id="q20d-val">5</div>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label">Combativité<small>prises de position</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20e" data-touched="0">
-            <div class="slider-value untouched" id="q20e-val">5</div>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label">Pédagogie<small>expliquer, décomposer</small></div>
-            <input type="range" min="0" max="10" value="5" step="1" class="slider-input untouched" id="q20f" data-touched="0">
-            <div class="slider-value untouched" id="q20f-val">5</div>
-          </div>
-          <div class="sliders-warn" id="warn-q20">Touchez au moins 4 curseurs sur 6 pour confirmer votre auto-évaluation.</div>
-        </div>
-
-        <div class="radar-box">
-          <div class="radar-title">La forme de votre voix éditoriale</div>
-          <div class="radar-sub">— telle que vous la déclarez —</div>
-          <svg class="radar-svg" viewBox="0 0 380 380" id="radarSvg" role="img" aria-label="Radar des 6 axes de votre voix éditoriale"></svg>
-          <div class="radar-legend">Voici la forme de votre voix éditoriale telle que vous la déclarez. Notre analyse du corpus viendra confirmer ou nuancer ce profil.</div>
-        </div>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">21</div><div class="q-body">
-        <div class="q-text">Y a-t-il des mots ou des formules qui reviennent tout le temps quand vous parlez — que vos proches pourraient imiter ?<span class="q-opt">optionnel</span></div>
-        <div class="q-hint">Les tics de langage, les expressions fétiches, les connecteurs que vous surutilisez sans vous en rendre compte.</div>
-        <textarea class="q-textarea" id="q21" placeholder="Ex : « Je dis tout le temps 'concrètement', 'en pratique', 'la vraie question c'est...'. Et je n'utilise jamais le mot 'synergies' — ça me sort de mes gonds. »"></textarea>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">22</div><div class="q-body">
-        <div class="q-text">Montrez-moi 1 ou 2 posts LinkedIn que vous aimeriez avoir écrits.<span class="q-opt">optionnel</span></div>
-        <div class="q-hint"><strong>Attention : ce qui nous intéresse, c'est leur façon d'écrire — pas leur sujet.</strong> Le rythme, la structure, le ton.</div>
-        <div class="sub-block">
-          <div class="sub-item">
-            <label>Post 1 — lien ou texte</label>
-            <textarea class="q-textarea" id="q22a" placeholder="Lien ou extrait du post..." rows="3"></textarea>
-            <label style="margin-top:10px">Ce qui vous attire dans sa façon d'écrire</label>
-            <textarea class="q-textarea" id="q22a2" placeholder="Ex : « Court, dense, une seule idée par post. »" rows="2"></textarea>
-          </div>
-          <div class="sub-item">
-            <label>Post 2 — optionnel</label>
-            <textarea class="q-textarea" id="q22b" placeholder="Lien ou extrait du post..." rows="3"></textarea>
-            <label style="margin-top:10px">Ce qui vous attire dans sa façon d'écrire</label>
-            <textarea class="q-textarea" id="q22b2" placeholder="..." rows="2"></textarea>
-          </div>
-        </div>
-      </div></div>
-    </div>
-
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">24</div><div class="q-body">
-        <div class="q-text">Avez-vous des textes écrits en dehors de LinkedIn que vous souhaitez nous soumettre pour enrichir l'analyse ?<span class="q-opt">optionnel</span></div>
-        <div class="q-hint">Ex : emails professionnels longs, messages WhatsApp détaillés, transcriptions de prises de parole, commentaires LinkedIn. Ces textes non édités révèlent souvent votre voix la plus naturelle.</div>
-        <textarea class="q-textarea lg" id="q24" placeholder="Collez ici emails longs, commentaires, transcriptions... tout ce qui est écrit dans votre voix naturelle." rows="6"></textarea>
-      </div></div>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
-
-    <div class="question">
-      <div class="q-wrap"><div class="q-idx">25</div><div class="q-body">
-        <div class="q-text">Pour finir : racontez-nous une histoire que vous n'avez jamais publiée — un échec, un retournement, un moment de vérité — qui dit quelque chose d'essentiel sur qui vous êtes.<span class="q-opt">optionnel</span></div>
-        <div class="q-hint">Les meilleurs posts viennent souvent de là. Pas besoin de polir — racontez-la comme elle vous vient.</div>
-        <textarea class="q-textarea lg" id="q25" placeholder="Ex : « L'échec de ma première boîte. Je n'en ai jamais parlé publiquement. Voilà ce qui s'est vraiment passé... »" rows="6"></textarea>
-      </div></div>
+    <div class="confirm-footer-legal">
+      <strong>AUTHORSCALE</strong>
+      <span>RCS 810658658</span>
+      <span>Vos données sont collectées uniquement pour traiter votre demande.</span>
+      <span>Elles sont conservées 12 mois maximum et ne sont jamais transmises à des tiers.</span>
+      <span>Pour toute demande d'accès ou de suppression : <a href="mailto:AuthorScale33@gmail.com">AuthorScale33@gmail.com</a></span>
     </div>
   </div>
 </div>
-
-<!-- ═══ SCREEN 5 : CONFIRMATION ═══ -->
-<div class="screen" id="s5">
-  <div class="confirm">
-    <div class="confirm-check">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M5 12l5 5 9-10" stroke="#7ec89a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <h1 class="confirm-h1">Interview<br>terminée.</h1>
-    <p class="confirm-txt">Merci pour ces réponses. Maintenant une seule chose : exportez votre fichier et renvoyez-le nous. On s'occupe du reste.</p>
-    <div class="steps-block">
-      <h3>Ce qui se passe ensuite</h3>
-      <div class="step-row"><div class="step-n">1</div><div class="step-t">Cliquez sur <strong>« Exporter mes réponses »</strong> — un fichier .txt est généré.</div></div>
-      <div class="step-row"><div class="step-n">2</div><div class="step-t">Envoyez-le par email à <strong>arnaudchedeville@gmail.com</strong></div></div>
-      <div class="step-row"><div class="step-n">3</div><div class="step-t">Nous récupérons nous-mêmes vos posts LinkedIn — vous n'avez rien à faire.</div></div>
-      <div class="step-row"><div class="step-n">4</div><div class="step-t">Sous 48h, votre Voice Profile est analysé. La production commence.</div></div>
-    </div>
-
-    <div style="max-width:440px;margin:0 auto 32px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;text-align:left;">
-      <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-family:'Epilogue',sans-serif;">Données &amp; confidentialité</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.7;font-weight:300;font-family:'Epilogue',sans-serif;">Les informations recueillies sont destinées exclusivement à <strong style="color:var(--text2);font-weight:500;">AuthorScale</strong> pour l'analyse de votre voix éditoriale. Elles ne sont jamais transmises à des tiers. Aucune donnée n'est stockée sur nos serveurs — votre fichier reste sur votre appareil jusqu'à ce que vous nous l'envoyiez volontairement.<br><br>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression. Contact : <strong style="color:var(--text2);font-weight:500;">arnaudchedeville@gmail.com</strong></p>
-    </div>
-
-    <button class="btn-export" onclick="exportTxt()" aria-label="Exporter vos réponses en fichier texte">
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-        <path d="M8.5 2v9M4.5 7l4 4 4-4M2.5 14h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Exporter mes réponses (.txt)
-    </button>
-  </div>
 </div>
 
 </main>
 
-<div class="nav" id="nav" style="display:none">
-  <button class="btn-nav" id="btnPrev" onclick="prev()" disabled aria-label="Chapitre précédent">
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M8 2L4 6.5 8 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Précédent
+<!-- NAV -->
+<nav class="nav" id="mainNav" style="display:none">
+  <button class="bnav" id="btnPrev" onclick="prev()" disabled>
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retour
   </button>
-  <div class="nav-mid" id="navMid">Chapitre 1 / 4</div>
-  <button class="btn-nav btn-next" id="btnNext" onclick="next()" aria-label="Chapitre suivant">
-    Suivant
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M5 2l4 4.5L5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="nav-info" id="navInfo">
+    <div>Partie 1 / 3</div>
+    <small id="navSub"></small>
+  </div>
+  <button class="bnav next" id="btnNext" onclick="next()">
+    Continuer
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
-</div>
+</nav>
 
 <script>
-'use strict';
-
-let cur = 0;
-const TOTAL = 4;
-
-const SLIDER_IDS = ['q20a','q20b','q20c','q20d','q20e','q20f'];
-const SLIDER_LABELS = ['Chaleur','Autorité','Humour','Vulnérabilité','Combativité','Pédagogie'];
-
-
-function initChoiceButtons() {
-  ['q13-choices','q16-choices','q18-choices','q19-choices'].forEach(groupId => {
-    const group = document.getElementById(groupId);
-    if (!group) return;
-    const inputId = groupId.replace('-choices','');
-    group.querySelectorAll('.choice-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(inputId).value = btn.dataset.val;
-        const errMsg = document.getElementById('err-' + inputId);
-        if (errMsg) errMsg.classList.remove('on');
-      });
-    });
-  });
+// ── CONSENT ──
+let consentOk = false;
+function toggleConsent() {
+  consentOk = !consentOk;
+  const label = document.getElementById('consent-label');
+  const box = document.getElementById('consent-box');
+  label.className = 'consent-label' + (consentOk ? ' checked' : '');
 }
 
-function initCheckButtons() {
-  ['q14-choices','q15-choices','q17-choices'].forEach(groupId => {
-    const group = document.getElementById(groupId);
-    if (!group) return;
-    const inputId = groupId.replace('-choices','');
-    group.querySelectorAll('.check-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.classList.toggle('active');
-        const selected = Array.from(group.querySelectorAll('.check-btn.active'))
-          .map(b => b.dataset.val);
-        document.getElementById(inputId).value = selected.join(',');
-        const errMsg = document.getElementById('err-' + inputId);
-        if (errMsg && selected.length > 0) errMsg.classList.remove('on');
-      });
-    });
-  });
+// ── CONFIG ──
+const FORMSPREE = 'https://formspree.io/f/xaqkdqro';
+const TOTAL_PARTS = 3;
+let current = 0;
+const recognizers = {};
+const isRec = {};
+
+// ── NAVIGATION ──
+function goTo(n) {
+  document.getElementById('s' + current).classList.remove('active');
+  current = n;
+  document.getElementById('s' + current).classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelector('.hdr').style.display = current === 4 ? 'none' : '';
+  updateNav();
 }
 
-/* ─── SLIDERS : touched flag + radar live ─── */
-function initSliders() {
-  SLIDER_IDS.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    // Marquer comme touché au premier input
-    el.addEventListener('input', () => {
-      el.dataset.touched = '1';
-      el.classList.remove('untouched');
-      const valEl = document.getElementById(id + '-val');
-      if (valEl) valEl.classList.remove('untouched');
-      updateRadar();
-      // Recheck warn
-      checkSlidersTouched();
-    });
-  });
-}
-
-function countTouchedSliders() {
-  return SLIDER_IDS.filter(id => {
-    const el = document.getElementById(id);
-    return el && el.dataset.touched === '1';
-  }).length;
-}
-
-function checkSlidersTouched() {
-  const warn = document.getElementById('warn-q20');
-  if (!warn) return;
-  const touched = countTouchedSliders();
-  warn.classList.toggle('on', touched < 4);
-}
-
-/* ─── RADAR SVG (viewBox 380 - marges labels) ─── */
-function updateRadar() {
-  const values = SLIDER_IDS.map(id => {
-    const el = document.getElementById(id);
-    const val = parseInt(el.value, 10) || 0;
-    const valDisplay = document.getElementById(id + '-val');
-    if (valDisplay) valDisplay.textContent = val;
-    return val;
-  });
-
-  const svg = document.getElementById('radarSvg');
-  if (!svg) return;
-
-  const cx = 190, cy = 190;
-  const maxR = 115;
-  const n = 6;
-
-  let html = '';
-
-  // Grid (5 rings)
-  for (let r = 1; r <= 5; r++) {
-    const points = [];
-    for (let i = 0; i < n; i++) {
-      const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-      const x = cx + Math.cos(angle) * (maxR * r / 5);
-      const y = cy + Math.sin(angle) * (maxR * r / 5);
-      points.push(x.toFixed(1) + ',' + y.toFixed(1));
-    }
-    html += '<polygon points="' + points.join(' ') + '" fill="none" stroke="#332e29" stroke-width="0.5" />';
-  }
-
-  // Axes
-  for (let i = 0; i < n; i++) {
-    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const x = cx + Math.cos(angle) * maxR;
-    const y = cy + Math.sin(angle) * maxR;
-    html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="#332e29" stroke-width="0.5" />';
-  }
-
-  // Data polygon
-  const dataPoints = values.map((v, i) => {
-    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const r = (v / 10) * maxR;
-    const x = cx + Math.cos(angle) * r;
-    const y = cy + Math.sin(angle) * r;
-    return x.toFixed(1) + ',' + y.toFixed(1);
-  });
-  html += '<polygon points="' + dataPoints.join(' ') + '" fill="rgba(232,201,122,0.18)" stroke="#e8c97a" stroke-width="1.5" />';
-
-  values.forEach((v, i) => {
-    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const r = (v / 10) * maxR;
-    const x = cx + Math.cos(angle) * r;
-    const y = cy + Math.sin(angle) * r;
-    html += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3" fill="#e8c97a" />';
-  });
-
-  // Labels (avec plus de marge pour ne pas déborder)
-  SLIDER_LABELS.forEach((lab, i) => {
-    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const labelR = maxR + 30;
-    const x = cx + Math.cos(angle) * labelR;
-    const y = cy + Math.sin(angle) * labelR;
-    let anchor = 'middle';
-    if (Math.cos(angle) > 0.3) anchor = 'start';
-    else if (Math.cos(angle) < -0.3) anchor = 'end';
-    html += '<text x="' + x.toFixed(1) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="' + anchor + '" fill="#b8b0a4" font-size="11" font-family="Epilogue, sans-serif">' + lab + '</text>';
-  });
-
-  svg.innerHTML = html;
-}
-
-/* ─── Validation helpers ─── */
-function setErr(id, on) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('err', on);
-  const msg = document.getElementById('err-' + id);
-  if (msg) msg.classList.toggle('on', on);
-}
-function clearErr(id) { setErr(id, false); }
-function fieldFilled(id) {
-  const el = document.getElementById(id);
-  return el && el.value.trim().length > 0;
-}
-
-function attachLiveClearing() {
-  const ids = ['q1','q2','q3','q4','q5','q6a','q7','q8a','q8b','q9','q11'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('input', () => {
-      if (el.value.trim().length > 0) clearErr(id);
-    });
-  });
-  ['q12a','q12b','q12c','q12d','q12e'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('input', () => {
-      const filled = ['q12a','q12b','q12c','q12d','q12e'].filter(i => fieldFilled(i)).length;
-      const msg = document.getElementById('err-q12');
-      if (msg && filled >= 3) msg.classList.remove('on');
-    });
-  });
-}
-
-/* ─── Validators ─── */
-const validators = {
-  1: () => {
-    let ok = true;
-    ['q1','q2','q3'].forEach(id => {
-      const valid = fieldFilled(id);
-      setErr(id, !valid);
-      if (!valid) ok = false;
-    });
-    return ok;
-  },
-  2: () => {
-    let ok = true;
-    ['q4','q5','q7','q9'].forEach(id => {
-      const valid = fieldFilled(id);
-      setErr(id, !valid);
-      if (!valid) ok = false;
-    });
-    const q6Valid = fieldFilled('q6a');
-    setErr('q6a', !q6Valid);
-    document.getElementById('err-q6')?.classList.toggle('on', !q6Valid);
-    if (!q6Valid) ok = false;
-    const q8Valid = fieldFilled('q8a') || fieldFilled('q8b');
-    document.getElementById('err-q8')?.classList.toggle('on', !q8Valid);
-    document.getElementById('q8a')?.classList.toggle('err', !q8Valid);
-    document.getElementById('q8b')?.classList.toggle('err', !q8Valid);
-    if (!q8Valid) ok = false;
-    return ok;
-  },
-  3: () => {
-    let ok = true;
-    const q11Valid = fieldFilled('q11');
-    setErr('q11', !q11Valid);
-    if (!q11Valid) ok = false;
-    const phrases = ['q12a','q12b','q12c','q12d','q12e'];
-    const filled = phrases.filter(id => fieldFilled(id)).length;
-    document.getElementById('err-q12')?.classList.toggle('on', filled < 3);
-    if (filled < 3) ok = false;
-    // Q13, Q14, Q16, Q17, Q18, Q19 obligatoires
-    ['q13','q14','q16','q17','q18','q19'].forEach(id => {
-      const valid = fieldFilled(id);
-      document.getElementById('err-' + id)?.classList.toggle('on', !valid);
-      if (!valid) ok = false;
-    });
-    return ok;
-  },
-  4: () => {
-    let ok = true;
-    // Q20 = sliders : au moins 4 touchés (warn pas bloquant si <4, mais on alerte)
-    const touched = countTouchedSliders();
-    const warn = document.getElementById('warn-q20');
-    if (warn) warn.classList.toggle('on', touched < 4);
-    // Non bloquant — on alerte simplement (touched >= 4 recommandé mais pas requis)
-    // Q23 corpus obligatoire
-    return ok;
-  }
-};
-
-
-/* ─── Navigation ─── */
-function showScreen(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById('s' + n);
-  if (!target) return;
-  target.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  updateUI(n);
-  if (n === 4) {
-    updateRadar();
-    checkSlidersTouched();
-  }
-}
-
-function updateUI(n) {
-  const nav = document.getElementById('nav');
-  const fill = document.getElementById('progFill');
-  const progBar = document.getElementById('progBar');
-  const hdrPart = document.getElementById('hdrPart');
-  const navMid = document.getElementById('navMid');
-  const btnPrev = document.getElementById('btnPrev');
-  const btnNext = document.getElementById('btnNext');
-
-  nav.style.display = (n === 0 || n === 5) ? 'none' : 'flex';
-
-  const pct = n === 0 ? 0 : n === 5 ? 100 : Math.round((n / TOTAL) * 100);
-  fill.style.width = pct + '%';
-  if (progBar) progBar.setAttribute('aria-valuenow', String(pct));
-
-  if (n > 0 && n <= TOTAL) {
-    hdrPart.innerHTML = 'Chapitre <span>' + n + '</span> / ' + TOTAL;
-    navMid.textContent = 'Chapitre ' + n + ' / ' + TOTAL;
-    btnPrev.disabled = (n === 1);
-    btnNext.innerHTML = (n === TOTAL)
-      ? 'Terminer <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 6.5h7M6 3l3.5 3.5L6 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      : 'Suivant <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M5 2l4 4.5L5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  } else if (n === 5) {
-    hdrPart.innerHTML = '<span>Terminé</span>';
-  } else {
-    hdrPart.innerHTML = '—';
-  }
-}
-
-function go(n) { cur = n; showScreen(n); }
-function prev() { if (cur > 1) { cur--; showScreen(cur); } }
 function next() {
-  if (cur === 0) { cur = 1; showScreen(1); return; }
-  const validator = validators[cur];
-  if (validator && !validator()) {
-    const firstErr = document.querySelector('.err, .q-errmsg.on');
-    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
+  if (!validate()) return;
+  if (current === TOTAL_PARTS) { submit(); return; }
+  goTo(current + 1);
+}
+
+function prev() {
+  if (current <= 1) { goTo(0); return; }
+  goTo(current - 1);
+}
+
+function updateNav() {
+  const nav = document.getElementById('mainNav');
+  const prev = document.getElementById('btnPrev');
+  const next = document.getElementById('btnNext');
+  const info = document.getElementById('navInfo');
+  const sub  = document.getElementById('navSub');
+  const fill = document.getElementById('progFill');
+  const step = document.getElementById('hdrStep');
+
+  if (current === 0 || current === 4) { nav.style.display = 'none'; return; }
+  nav.style.display = 'flex';
+
+  prev.disabled = (current === 1);
+
+  const labels = ['','Ce que votre voix ne dit pas','Ce que votre stratégie exige','Votre matière première'];
+  const qcounts = ['','5 questions','6 questions','2 questions'];
+
+  info.children[0].textContent = 'Partie ' + current + ' / ' + TOTAL_PARTS;
+  sub.textContent = labels[current];
+
+  if (current === TOTAL_PARTS) {
+    next.innerHTML = 'Envoyer <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  } else {
+    next.innerHTML = 'Continuer <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
-  cur++;
-  showScreen(cur);
+
+  const pct = ((current - 1) / TOTAL_PARTS) * 100;
+  fill.style.width = pct + '%';
+  step.innerHTML = 'Partie <span>' + current + '</span> / ' + TOTAL_PARTS;
 }
 
-/* ─── Export ─── */
-function v(id) {
-  const el = document.getElementById(id);
-  return el ? (el.value.trim() || '(non renseigné)') : '(non renseigné)';
+// ── MODE TOGGLE ──
+document.querySelectorAll('.vzone').forEach(z => z.style.display = 'none');
+document.querySelectorAll('.tzone').forEach(z => { z.style.display = 'block'; z.classList.add('on'); });
+
+function setMode(qid, mode) {
+  const mb = document.getElementById(qid + '-mb');
+  const kb = document.getElementById(qid + '-kb');
+  const v  = document.getElementById(qid + '-v');
+  const t  = document.getElementById(qid + '-t');
+  mb.className = 'mbtn'; kb.className = 'mbtn';
+  if (mode === 'mic') {
+    mb.className = 'mbtn m-mic';
+    if (v) v.style.display = 'block';
+    if (t) t.style.display = 'none';
+    checkSpeech(qid);
+  } else {
+    kb.className = 'mbtn m-kb';
+    if (v) v.style.display = 'none';
+    if (t) t.style.display = 'block';
+    if (isRec[qid]) stopRec(qid);
+  }
 }
 
-function sliderVal(id) {
-  const el = document.getElementById(id);
-  if (!el) return '(non renseigné)';
-  const val = el.value;
-  const touched = el.dataset.touched === '1';
-  return touched ? val : val + ' (non touché - valeur par défaut)';
+// ── SPEECH ──
+function checkSpeech(qid) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    const fb = document.getElementById(qid + '-fb');
+    if (fb) fb.classList.add('show');
+    const vc = document.querySelector('#' + qid + '-v .vcontrols');
+    if (vc) vc.style.display = 'none';
+  }
 }
 
-function exportTxt() {
-  const d = new Date();
-  const ds = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-  const out = `# INTERVIEW ONBOARDING — AUTHORSCALE
-# Export : ${ds}
-# Format : corpus + contexte pour Agent 1 (Voice Analyzer)
-# ══════════════════════════════════════════════════════
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CHAPITRE 1 — QUI VOUS ÊTES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-01 / Présentation naturelle (version dîner)
-${v('q1')}
-
-02 / Ce que je fais mieux que 95% de mes pairs
-${v('q2')}
-
-03 / Ce que mes clients disent de moi (que je ne dirais pas de moi-même)
-${v('q3')}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CHAPITRE 2 — COMMENT JE PENSE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-04 / La chose que tout le monde dit dans mon secteur — et qui m'énerve parce que c'est faux
-${v('q4')}
-
-05 / Ce que j'ai envie de dire mais n'ai jamais osé
-${v('q5')}
-
-06 / Le post qui m'a fait lever les yeux au ciel
-  Post : ${v('q6a')}
-  Ce qui me dérange : ${v('q6b')}
-
-07 / L'image que je ne veux JAMAIS donner sur LinkedIn
-${v('q7')}
-
-08 / Mes tabous absolus
-  Sujets hors-jeu : ${v('q8a')}
-  Personnes / marques à ne jamais citer : ${v('q8b')}
-  Pourquoi : ${v('q8c')}
-
-09 / En quoi je me différencie vraiment de mes concurrents
-${v('q9')}
-
-10 / Le profil que je ne veux pas ressembler (optionnel)
-  Profil : ${v('q10a')}
-  Ce que je refuse d'incarner : ${v('q10b')}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CHAPITRE 3 — COMMENT J'ÉCRIS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-11 / Comment j'explique mon boulot à un ami (version non éditée) [QUESTION CLÉ]
-${v('q11')}
-
-12 / Mes phrases complétées
-  Tutoiement parce que : ${v('q12a')}
-  Humour : ${v('q12b')}
-  Chiffres : ${v('q12c')}
-  Histoires perso : ${v('q12d')}
-  Positions tranchées : ${v('q12e')}
-
-13 / Quand je veux convaincre, je commence par : ${v('q13')}
-
-14 / Types de preuves que j'utilise : ${v('q14')}
-
-15 / Univers de mes métaphores (optionnel) : ${v('q15')}
-
-16 / Posture vis-à-vis de mon audience : ${v('q16')}
-
-17 / Formats LinkedIn qui me correspondent : ${v('q17')}
-
-18 / Relation aux émojis : ${v('q18')}
-
-19 / Rythme d'écriture préféré : ${v('q19')}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CHAPITRE 4 — MA SIGNATURE ÉDITORIALE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-20 / Ma voix sur 6 axes (auto-évaluation /10)
-  Chaleur :       ${sliderVal('q20a')}
-  Autorité :      ${sliderVal('q20b')}
-  Humour :        ${sliderVal('q20c')}
-  Vulnérabilité : ${sliderVal('q20d')}
-  Combativité :   ${sliderVal('q20e')}
-  Pédagogie :     ${sliderVal('q20f')}
-
-21 / Mes tics de langage (optionnel)
-${v('q21')}
-
-22 / Posts que j'aurais voulu écrire — pour leur écriture, pas leur sujet (optionnel)
-  Post 1 : ${v('q22a')}
-  Ce qui m'attire dans son écriture : ${v('q22a2')}
-  Post 2 : ${v('q22b')}
-  Ce qui m'attire dans son écriture : ${v('q22b2')}
-
-
-
-24 / Corpus secondaire — textes hors LinkedIn (optionnel)
-${v('q24')}
-
-25 / Histoire personnelle non publiée (optionnel)
-${v('q25')}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FIN DE L'INTERVIEW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Fichier à renvoyer à votre consultant AuthorScale.
-Ce fichier est le corpus de base pour l'analyse Voice Profile (Agent 1).
-`;
-
-  const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'interview_' + d.toISOString().split('T')[0] + '.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function toggleRec(qid) {
+  isRec[qid] ? stopRec(qid) : startRec(qid);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initChoiceButtons();
-  initCheckButtons();
-  initSliders();
-  attachLiveClearing();
-  updateRadar();
-  updateUI(0);
-});
+function startRec(qid) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  const rec = new SR();
+  rec.lang = 'fr-FR'; rec.continuous = true; rec.interimResults = true;
+  recognizers[qid] = rec; isRec[qid] = true;
+  const rb = document.getElementById(qid + '-rb');
+  const dot = document.getElementById(qid + '-dot');
+  const rt = document.getElementById(qid + '-rt');
+  const st = document.getElementById(qid + '-st');
+  const ta = document.getElementById(qid + '-vta');
+  rb.classList.add('rec'); dot.classList.remove('hide');
+  rt.textContent = 'En cours... (cliquez pour arrêter)';
+  if (st) { st.textContent = '🔴 Parlez maintenant...'; st.className = 'vstatus act'; }
+  let final = ta.value || '';
+  rec.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      e.results[i].isFinal ? (final += e.results[i].transcript + ' ') : (interim = e.results[i].transcript);
+    }
+    ta.value = final + interim;
+  };
+  rec.onerror = e => { if (st) st.textContent = 'Erreur : ' + e.error; stopRec(qid); };
+  rec.onend = () => { if (isRec[qid]) rec.start(); };
+  rec.start();
+}
+
+function stopRec(qid) {
+  if (recognizers[qid]) { recognizers[qid].onend = null; recognizers[qid].stop(); delete recognizers[qid]; }
+  isRec[qid] = false;
+  const rb = document.getElementById(qid + '-rb');
+  const dot = document.getElementById(qid + '-dot');
+  const rt = document.getElementById(qid + '-rt');
+  const st = document.getElementById(qid + '-st');
+  if (rb) rb.classList.remove('rec');
+  if (dot) dot.classList.add('hide');
+  if (rt) rt.textContent = 'Appuyer pour parler';
+  if (st) { st.textContent = '✓ Transcription sauvegardée — corrigez si besoin.'; st.className = 'vstatus ok'; }
+}
+
+// ── OBJECTIF ──
+function selectObj(btn, val) {
+  document.querySelectorAll('.obj-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('q7-obj').value = val;
+}
+
+// ── PILIERS ──
+function addPilier() {
+  const block = document.getElementById('piliers-block');
+  if (block.children.length >= 5) return;
+  const row = document.createElement('div');
+  row.className = 'pilier-row';
+  row.innerHTML = '<input class="pilier-name" placeholder="Sujet ' + (block.children.length + 1) + '" oninput="calcPct()"><input class="pilier-pct" type="number" min="0" max="100" placeholder="%" oninput="calcPct()">';
+  block.appendChild(row);
+}
+
+function calcPct() {
+  const pcts = document.querySelectorAll('.pilier-pct');
+  let total = 0;
+  pcts.forEach(p => {
+    let v = parseInt(p.value) || 0;
+    if (v > 100) { v = 100; p.value = 100; }
+    total += v;
+  });
+  if (total > 100) {
+    // réduire le dernier champ modifié pour ne pas dépasser 100
+    const all = [...document.querySelectorAll('.pilier-pct')];
+    let running = 0;
+    all.forEach(p => {
+      const v = parseInt(p.value) || 0;
+      if (running + v > 100) { p.value = Math.max(0, 100 - running); running = 100; }
+      else { running += v; }
+    });
+    total = 100;
+  }
+  const el = document.getElementById('pct-total');
+  el.textContent = total;
+  el.className = 'pilier-total-num ' + (total === 100 ? 'ok' : 'warn');
+}
+
+// ── CORPUS COUNT ──
+function countTexts() {
+  const ta = document.getElementById('q13-ta');
+  if (!ta || !ta.value.trim()) { document.getElementById('corpus-n').textContent = '0'; return; }
+  const seps = (ta.value.match(/^---\s*$/gm) || []).length;
+  const count = ta.value.trim() ? seps + 1 : 0;
+  document.getElementById('corpus-n').textContent = count;
+  document.getElementById('corpus-warn').style.display = count < 15 && count > 0 ? 'inline' : 'none';
+}
+
+// ── GET ANSWER ──
+function getVal(qid) {
+  const v = document.getElementById(qid + '-v');
+  const isVoice = v && v.style.display !== 'none';
+  if (isVoice) { const ta = document.getElementById(qid + '-vta'); return ta ? ta.value.trim() : ''; }
+  const ta = document.getElementById(qid + '-ta'); return ta ? ta.value.trim() : '';
+}
+
+// ── VALIDATION ──
+function clearErrs() { document.querySelectorAll('.q-err').forEach(e => e.classList.remove('on')); }
+function showErr(id) { const el = document.getElementById(id); if (el) el.classList.add('on'); }
+
+function validate() {
+  clearErrs(); let ok = true;
+  if (current === 1) {
+    if (!getVal('q1')) { showErr('q1-err'); ok = false; }
+    if (!document.getElementById('q2-ta').value.trim()) { showErr('q2-err'); ok = false; }
+    if (!getVal('q3')) { showErr('q3-err'); ok = false; }
+    if (!getVal('q4')) { showErr('q4-err'); ok = false; }
+  }
+  if (current === 2) {
+    if (!getVal('q6')) { showErr('q6-err'); ok = false; }
+    if (!document.getElementById('q7-obj').value) { showErr('q7-err'); ok = false; }
+    // piliers : au moins 3 noms renseignés
+    const names = [...document.querySelectorAll('.pilier-name')].filter(i => i.value.trim());
+    const total = parseInt(document.getElementById('pct-total').textContent) || 0;
+    if (names.length < 3 || total !== 100) { showErr('q8-err'); ok = false; }
+    if (!getVal('q11')) { showErr('q11-err'); ok = false; }
+  }
+  if (current === 3) {
+    if (!document.getElementById('q13-ta').value.trim()) { showErr('q13-err'); ok = false; }
+    if (!consentOk) { showErr('consent-err'); ok = false; }
+  }
+  if (!ok) window.scrollTo({ top: 0, behavior: 'smooth' });
+  return ok;
+}
+
+// ── PILIERS DATA ──
+function getPiliers() {
+  const rows = document.querySelectorAll('.pilier-row');
+  const out = [];
+  rows.forEach(r => {
+    const n = r.querySelector('.pilier-name').value.trim();
+    const p = r.querySelector('.pilier-pct').value.trim();
+    if (n) out.push(n + (p ? ' (' + p + '%)' : ''));
+  });
+  return out.join(' | ');
+}
+
+// ── SUBMIT ──
+async function submit() {
+  const payload = {
+    '01_presentation':    getVal('q1'),
+    '02_positionnement':  document.getElementById('q2-ta').value.trim(),
+    '03_convictions':     getVal('q3'),
+    '04_tabous':          getVal('q4'),
+    '05_anti_profil':     getVal('q5'),
+    '06_audience_ICP':    getVal('q6'),
+    '07_objectif':        document.getElementById('q7-obj').value + ' — ' + (document.getElementById('q7-kpi').value.trim() || 'KPI non précisé'),
+    '08_piliers':         getPiliers(),
+    '09_evenements':      getVal('q9'),
+    '10_victoires':       getVal('q10'),
+    '11_declencheur':     getVal('q11'),
+    '12_linkedin_url':    document.getElementById('q12-ta').value.trim(),
+    '13_corpus':          document.getElementById('q13-ta').value.substring(0, 4000) + (document.getElementById('q13-ta').value.length > 4000 ? '... [tronqué — corpus complet dans le .txt]' : '')
+  };
+
+  try {
+    await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) { /* silent fail */ }
+
+  goTo(4);
+}
+
+updateNav();
 </script>
 </body>
 </html>
