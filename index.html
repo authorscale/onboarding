@@ -50,7 +50,7 @@ main{padding-top:72px}
 
 /* WELCOME */
 .welcome{max-width:var(--w);margin:0 auto;padding:80px 40px 140px}
-.eyebrow{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.eyebrow{font-size:11px;letter-spacing:0.18em;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:12px}
 .eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold2)}
 .welcome h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,64px);line-height:1.08;font-weight:600;margin-bottom:28px}
 .welcome h1 em{font-style:italic;color:var(--gold)}
@@ -185,8 +185,11 @@ main{padding-top:72px}
 .corpus-intro strong{color:var(--text);font-weight:500}
 .corpus-intro ul{padding-left:16px;margin-top:6px}
 .corpus-intro li{margin-bottom:3px}
-.corpus-counter{font-size:12px;color:var(--text3);margin-top:8px;font-style:italic}
+.corpus-counter{font-size:12px;color:var(--text3);margin-top:8px;font-style:italic;padding:6px 10px;border-radius:2px;background:var(--bg2);border:1px solid var(--border);transition:border-color .2s,color .2s}
 .corpus-counter span{color:var(--gold);font-weight:500}
+.corpus-counter.err{border-color:var(--err) !important;color:var(--err) !important}
+.corpus-counter.warn{border-color:var(--warn) !important;color:var(--warn) !important}
+.corpus-counter.ok{border-color:var(--ok) !important;color:var(--ok) !important}
 
 /* ERROR */
 .q-err{font-size:12px;color:var(--err);margin-top:6px;display:none}
@@ -346,6 +349,12 @@ main{padding-top:72px}
     Commencer
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
+
+  <div style="margin-top:28px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:2px;font-size:13px;color:var(--text2);line-height:1.65">
+    <strong style="color:var(--gold);display:block;margin-bottom:6px">⚠️ Préparez vos textes avant de démarrer</strong>
+    La dernière question vous demande de coller <strong style="color:var(--text)">minimum 20 textes</strong> que vous avez écrits (posts LinkedIn, emails longs, prises de parole). Sans ce corpus, l'analyse de voix ne peut pas être réalisée et le formulaire sera bloqué.<br><br>
+    <span style="color:var(--text3)">Rassemblez vos textes maintenant → copiez-les dans un bloc-notes → revenez ici.</span>
+  </div>
 </div>
 </div>
 
@@ -395,7 +404,7 @@ main{padding-top:72px}
         <div class="tzone on" id="q1-t">
           <textarea class="q-ta" id="q1-ta" placeholder="Ex : Je bosse en service client depuis 10 ans. Ma spécialité c'est rendre les gens autonomes plutôt que de leur mâcher le travail..."></textarea>
         </div>
-        <div class="q-err" id="q1-err">Cette question est obligatoire.</div>
+        <div class="q-err" id="q1-err">Réponse trop courte — développez votre présentation (minimum 200 caractères).</div>
       </div>
     </div>
   </div>
@@ -413,19 +422,19 @@ main{padding-top:72px}
         <div class="sub-q">
           <div class="sub-q-label">a. À qui vous adressez-vous principalement ?</div>
           <input class="q-input" id="q2a-ta" placeholder="Ex : Les fondateurs de PME tech en B2B SaaS">
-          <div class="q-err" id="q2a-err">Cette sous-question est obligatoire.</div>
+          <div class="q-err" id="q2a-err">Réponse trop courte — décrivez votre audience en détail (minimum 100 caractères).</div>
         </div>
 
         <div class="sub-q">
           <div class="sub-q-label">b. Quel problème concret vous aidez à résoudre ?</div>
           <input class="q-input" id="q2b-ta" placeholder="Ex : Trouver des leads qualifiés sans budget pub">
-          <div class="q-err" id="q2b-err">Cette sous-question est obligatoire.</div>
+          <div class="q-err" id="q2b-err">Réponse trop courte — expliquez le problème que vous résolvez (minimum 100 caractères).</div>
         </div>
 
         <div class="sub-q">
           <div class="sub-q-label">c. Qu'est-ce qui vous distingue des autres dans votre secteur ?</div>
           <input class="q-input" id="q2c-ta" placeholder="Ex : J'ai bossé 10 ans en growth chez 3 scale-ups avant de me lancer">
-          <div class="q-err" id="q2c-err">Cette sous-question est obligatoire.</div>
+          <div class="q-err" id="q2c-err">Réponse trop courte — précisez ce qui vous distingue vraiment (minimum 100 caractères).</div>
         </div>
 
       </div>
@@ -818,13 +827,19 @@ main{padding-top:72px}
 
   <div class="divider"><div class="divider-line"></div><div class="divider-mark">—</div><div class="divider-line"></div></div>
 
+  <!-- RAPPEL AVANT Q13 -->
+  <div style="margin-bottom:32px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold2);border-radius:2px;font-size:13px;color:var(--text2);line-height:1.65">
+    <strong style="color:var(--text);display:block;margin-bottom:4px">Dernière étape — la plus importante</strong>
+    Collez ici <strong style="color:var(--gold)">minimum 20 textes</strong> séparés par <code style="background:var(--bg3);padding:1px 5px;border-radius:2px;font-size:12px">---</code> sur une ligne seule. En dessous de 20, la soumission est bloquée.
+  </div>
+
   <!-- Q13 -->
   <div class="question" id="q13">
     <div class="q-row">
       <div class="q-num">13</div>
       <div class="q-body">
         <div class="q-label">Collez ici vos textes existants — posts LinkedIn, emails longs, prises de parole transcrites.<span class="q-req">*</span></div>
-        <div class="q-hint">Minimum 15 textes pour une analyse complète. Séparez chaque texte par <strong>---</strong> sur une ligne seule.</div>
+        <div class="q-hint">Minimum <strong>20 textes</strong> pour une analyse complète. Séparez chaque texte par <strong>---</strong> sur une ligne seule.</div>
         <div class="corpus-box">
           <div class="corpus-intro">
             <strong>Quoi coller ici :</strong>
@@ -834,11 +849,12 @@ main{padding-top:72px}
               <li>Des transcriptions de prises de parole, interviews</li>
               <li>Des commentaires longs laissés sur d'autres posts</li>
             </ul>
+            <div style="margin-top:10px;font-size:12px;color:var(--text3)">Chaque bloc numéroté = 1 texte. Remplacez le texte grisé par votre contenu. Le compteur se met à jour automatiquement.</div>
           </div>
-          <textarea class="q-ta xl" id="q13-ta" placeholder="Post 1&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;Post 2&#10;[Collez votre texte ici]&#10;&#10;---&#10;&#10;[Continuez...]" oninput="countTexts()"></textarea>
-          <div class="corpus-counter">Textes détectés : <span id="corpus-n">0</span> <span id="corpus-warn" style="color:var(--warn);display:none"> — minimum 15 recommandé pour une analyse complète</span></div>
+          <textarea class="q-ta xl" id="q13-ta" oninput="countTexts()"></textarea>
+          <div class="corpus-counter" id="corpus-counter">Textes détectés : <span id="corpus-n">0</span> <span id="corpus-warn" style="display:none"></span></div>
         </div>
-        <div class="q-err" id="q13-err">Collez au moins 1 texte pour continuer.</div>
+        <div class="q-err" id="q13-err">Minimum 20 textes requis pour l'analyse de voix. Séparez chaque texte par --- sur une ligne seule.</div>
       </div>
     </div>
   </div>
@@ -875,14 +891,14 @@ main{padding-top:72px}
   <div class="confirm-footer">
     <div class="confirm-footer-contact">
       <span>Une question ?</span>
-      <a href="mailto:AuthorScale33@gmail.com">AuthorScale33@gmail.com</a>
+      <a href="mailto:contact@authorscale.fr">contact@authorscale.fr</a>
     </div>
     <div class="confirm-footer-legal">
-      <strong>AUTHORSCALE</strong>
+      <strong>AuthorScale</strong>
       <span>RCS 810658658</span>
       <span>Vos données sont collectées uniquement pour traiter votre demande.</span>
       <span>Elles sont conservées 12 mois maximum et ne sont jamais transmises à des tiers.</span>
-      <span>Pour toute demande d'accès ou de suppression : <a href="mailto:AuthorScale33@gmail.com">AuthorScale33@gmail.com</a></span>
+      <span>Pour toute demande d'accès ou de suppression : <a href="mailto:contact@authorscale.fr">contact@authorscale.fr</a></span>
     </div>
   </div>
 </div>
@@ -924,6 +940,9 @@ const WHISPER_QUESTIONS = ['q1', 'q3', 'q4', 'q5', 'q6', 'q9', 'q10', 'q11'];
 const TOTAL_PARTS = 3;
 let current = 0;
 
+// ── TOKEN ONBOARDING (lu depuis ?token= dans l'URL) ──
+const ONBOARDING_TOKEN = new URLSearchParams(window.location.search).get('token') || '';
+
 // ── VALIDATION IDENTITÉ + DÉMARRAGE ──
 function startForm() {
   const prenom = document.getElementById('id-prenom').value.trim();
@@ -953,6 +972,7 @@ function goTo(n) {
   document.getElementById('s' + current).classList.add('active');
   window.scrollTo(0, 0);
   document.querySelector('.hdr').style.display = current === 4 ? 'none' : '';
+  if (current === 3) initCorpus();
   updateNav();
 }
 
@@ -1143,6 +1163,7 @@ async function enhanceWithWhisper(qid) {
 
     const res = await fetch(WHISPER_ENDPOINT, {
       method: 'POST',
+      headers: ONBOARDING_TOKEN ? { 'x-onboarding-token': ONBOARDING_TOKEN } : {},
       body: formData,
       signal: controller.signal
     });
@@ -1226,14 +1247,59 @@ function calcPct() {
   el.className = 'pilier-total-num ' + (total === 100 ? 'ok' : 'warn');
 }
 
-// ── CORPUS COUNT ──
+// ── PRÉ-REMPLISSAGE Q13 — 20 blocs ──
+function initCorpus() {
+  const ta = document.getElementById('q13-ta');
+  if (!ta || ta.value.trim()) return;
+  const blocs = [];
+  for (let i = 1; i <= 20; i++) {
+    blocs.push('Texte ' + i + '\n[Collez votre texte ici — remplacez cette ligne]');
+  }
+  ta.value = blocs.join('\n\n---\n\n');
+  countTexts();
+}
+
+// ── CORPUS COUNT — seuil 20 bloquant ──
 function countTexts() {
   const ta = document.getElementById('q13-ta');
-  if (!ta || !ta.value.trim()) { document.getElementById('corpus-n').textContent = '0'; return; }
-  const seps = (ta.value.match(/^---\s*$/gm) || []).length;
-  const count = ta.value.trim() ? seps + 1 : 0;
-  document.getElementById('corpus-n').textContent = count;
-  document.getElementById('corpus-warn').style.display = count < 15 && count > 0 ? 'inline' : 'none';
+  const counterEl = document.getElementById('corpus-n');
+  const warnEl = document.getElementById('corpus-warn');
+  const counterBox = document.getElementById('corpus-counter');
+
+  if (!ta) return;
+
+  // Découper par --- et compter les blocs qui ont du vrai contenu (pas juste le placeholder)
+  const blocs = ta.value.split(/\n---\n/);
+  let count = 0;
+  blocs.forEach(bloc => {
+    const clean = bloc.trim()
+      .replace(/^Texte \d+$/m, '')
+      .replace(/\[Collez votre texte ici.*?\]/g, '')
+      .trim();
+    if (clean.length > 20) count++;
+  });
+
+  counterEl.textContent = count;
+
+  if (count === 0) {
+    warnEl.style.display = 'none';
+    if (counterBox) counterBox.className = 'corpus-counter';
+  } else if (count < 20) {
+    warnEl.style.display = 'inline';
+    warnEl.style.color = 'var(--err)';
+    warnEl.textContent = ' — ' + (20 - count) + ' texte(s) manquant(s) pour atteindre le minimum (20)';
+    if (counterBox) counterBox.className = 'corpus-counter err';
+  } else if (count < 30) {
+    warnEl.style.display = 'inline';
+    warnEl.style.color = 'var(--warn)';
+    warnEl.textContent = ' — Bon niveau. 30+ textes = analyse optimale.';
+    if (counterBox) counterBox.className = 'corpus-counter warn';
+  } else {
+    warnEl.style.display = 'inline';
+    warnEl.style.color = 'var(--ok)';
+    warnEl.textContent = ' — Excellent corpus ✓';
+    if (counterBox) counterBox.className = 'corpus-counter ok';
+  }
 }
 
 // ── GET ANSWER ──
@@ -1245,37 +1311,65 @@ function getVal(qid) {
 }
 
 // ── VALIDATION ──
-function clearErrs() { document.querySelectorAll('.q-err').forEach(e => e.classList.remove('on')); }
-function showErr(id) { const el = document.getElementById(id); if (el) el.classList.add('on'); }
+clearErrs = function() { document.querySelectorAll('.q-err').forEach(e => e.classList.remove('on')); }
+showErr = function(id) { const el = document.getElementById(id); if (el) el.classList.add('on'); }
 
 function validate() {
   clearErrs(); let ok = true;
+
   if (current === 1) {
-    if (!getVal('q1')) { showErr('q1-err'); ok = false; }
-    if (!document.getElementById('q2a-ta').value.trim()) { showErr('q2a-err'); ok = false; }
-    if (!document.getElementById('q2b-ta').value.trim()) { showErr('q2b-err'); ok = false; }
-    if (!document.getElementById('q2c-ta').value.trim()) { showErr('q2c-err'); ok = false; }
-    if (!getVal('q3')) { showErr('q3-err'); ok = false; }
-    if (!getVal('q4')) { showErr('q4-err'); ok = false; }
+    const q1 = getVal('q1');
+    if (!q1 || q1.length < 200) { showErr('q1-err'); ok = false; }
+    const q2a = document.getElementById('q2a-ta').value.trim();
+    const q2b = document.getElementById('q2b-ta').value.trim();
+    const q2c = document.getElementById('q2c-ta').value.trim();
+    if (!q2a || q2a.length < 100) { showErr('q2a-err'); ok = false; }
+    if (!q2b || q2b.length < 100) { showErr('q2b-err'); ok = false; }
+    if (!q2c || q2c.length < 100) { showErr('q2c-err'); ok = false; }
+    const q3 = getVal('q3');
+    if (!q3 || q3.length < 100) { showErr('q3-err'); ok = false; }
+    const q4 = getVal('q4');
+    if (!q4 || q4.length < 100) { showErr('q4-err'); ok = false; }
   }
   if (current === 2) {
-    if (!getVal('q6')) { showErr('q6-err'); ok = false; }
+    const q6 = getVal('q6');
+    if (!q6 || q6.length < 50) { showErr('q6-err'); ok = false; }
     if (!document.getElementById('q7-obj').value) { showErr('q7-err'); ok = false; }
-    // piliers : au moins 3 noms renseignés
     const names = [...document.querySelectorAll('.pilier-name')].filter(i => i.value.trim());
     const total = parseInt(document.getElementById('pct-total').textContent) || 0;
     if (names.length < 3 || total !== 100) { showErr('q8-err'); ok = false; }
-    if (!getVal('q11')) { showErr('q11-err'); ok = false; }
+    const q9 = getVal('q9');
+    if (!q9 || q9.length < 50) { showErr('q9-err'); ok = false; }
+    const q11 = getVal('q11');
+    if (!q11 || q11.length < 50) { showErr('q11-err'); ok = false; }
   }
   if (current === 3) {
-    if (!document.getElementById('q13-ta').value.trim()) { showErr('q13-err'); ok = false; }
+    const corpusTa = document.getElementById('q13-ta');
+    if (!corpusTa || !corpusTa.value.trim()) { showErr('q13-err'); ok = false; }
+    else {
+      const blocs = corpusTa.value.split(/\n---\n/);
+      let count = 0;
+      blocs.forEach(bloc => {
+        const clean = bloc.trim()
+          .replace(/^Texte \d+$/m, '')
+          .replace(/\[Collez votre texte ici.*?\]/g, '')
+          .trim();
+        if (clean.length > 20) count++;
+      });
+      if (count < 20) {
+        const errEl = document.getElementById('q13-err');
+        if (errEl) {
+          errEl.textContent = 'Minimum 20 textes requis. Vous en avez ' + count + ' rempli(s). Complétez encore ' + (20 - count) + ' bloc(s).';
+          errEl.classList.add('on');
+        }
+        ok = false;
+      }
+    }
     if (!consentOk) { showErr('consent-err'); ok = false; }
   }
   if (!ok) {
     const firstErr = document.querySelector('.q-err.on');
-    if (firstErr) {
-      firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   return ok;
 }
